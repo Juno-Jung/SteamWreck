@@ -1,6 +1,6 @@
 'use strict';
 
-const UserModel = require('../models/user');
+const { UserModel, GameModel } = require('../models/user');
 
 const getAll = async (_, res) => {
   try {
