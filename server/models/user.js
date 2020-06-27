@@ -6,19 +6,19 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   steamid: Number,
-  recommendations: Array,
-  favourites: Array,
+  recommendations: [Number], // Appid
+  favourites: [Number], // Appid
   owned: {
     game_count: Number,
-    games_owned: Array,
-    games_unplayed: Array,
+    games_owned: [Number], // Appid
+    games_unplayed: [Number], // Appid
   },
 });
 
 const gameSchema = new Schema({
   appid: Number,
-  genres: Array,
-  tags: Array,
+  genres: [String],
+  tags: [String],
   ratings: {
     gamespot: Number,
     ign: Number,
