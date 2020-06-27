@@ -5,22 +5,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  steam_id: Number,
+  steamid: Number,
+  personname: String,
+  avatar: URL,
+  avatarmedium: URL,
+  avatarfull: URL,
+  recommendations: [Number], // Appid
+  favourites: [Number], // Appid
   owned: {
     game_count: Number,
-    games: Array,
+    games_owned: [Number], // Appid
+    games_unplayed: [Number], // Appid
   },
 });
 
-const gameSchema = new Schema({
-  game_id: Number,
-  tags: Array,
-});
-
 const UserModel = mongoose.model('Users', userSchema);
-const GameModel = mongoose.model('Games', gameSchema);
 
-module.exports = {
-  UserModel,
-  GameModel,
-};
+module.exports = UserModel;
