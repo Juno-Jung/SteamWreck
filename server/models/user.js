@@ -7,9 +7,9 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   steamid: Number,
   personname: String,
-  avatar: URL,
-  avatarmedium: URL,
-  avatarfull: URL,
+  avatar: String,
+  avatarmedium: String,
+  avatarfull: String,
   recommendations: [Number], // Appid
   favourites: [Number], // Appid
   owned: {

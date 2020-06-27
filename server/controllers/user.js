@@ -1,10 +1,14 @@
 'use strict';
 
-const { UserModel, GameModel } = require('../models/user');
+const UserModel = require('../models/user');
+const { steamApi } = require('../services/steam-api');
+const { processUserData } = require('./user-helpers');
 
-const getAll = async (_, res) => {
+const getUser = async (req, res) => {
   try {
-    res.body = await UserModel.find({});
+    res.body = await UserModel.find({
+      steamid: req.body.steamid,
+    });
     res.status(200).json(res.body);
   } catch (error) {
     console.log(error);
@@ -12,28 +16,25 @@ const getAll = async (_, res) => {
   }
 };
 
-const deleteAll = async (req, res) => {
+const putUser = async (req, res) => {
   try {
-    res.body = await UserModel.deleteMany({});
-    res.status(201).json(res.body);
-  } catch (error) {
-    console.log(error);
-    res.status(500);
-  }
-};
+    console.log('Put User: ', req.body);
 
-const deleteAllGames = async (req, res) => {
-  try {
-    res.body = await GameModel.deleteMany({});
-    res.status(201).json(res.body);
+    const steamId = req.body.steamId; // Not exactly sure where the steamId is coming after authentiation.
+    const userSummaryData = await steamApi.getUserSummary(steamId);
+    const userData = processUserData(userSummaryData);
+
+    await UserModel.replaceOne(userData);
+
+    res.body = userData;
+    res.status(200).json(res.body);
   } catch (error) {
     console.log(error);
-    res.status(500);
+    res.status(500)
   }
 };
 
 module.exports = {
-  getAll,
-  deleteAll,
-  deleteAllGames,
+  getUser,
+  putUser
 };
