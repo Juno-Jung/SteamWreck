@@ -4,6 +4,8 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+const { ensureAuthenticated } = require('./router-helpers');
+
 const UserController = require('./../controllers/user');
 
 router.get('/', function (req, res) {
@@ -24,15 +26,11 @@ router.get('/auth/steam',
   });
 router.get('/auth/steam/return',
   passport.authenticate('steam', { failureRedirect: '/' }),
-  function (req, res) {
-    console.log(req.body);
-    res.redirect('/');
+  async function (req, res) {
+    console.log(req);
+    await UserController.putUser(req)
   });
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  res.redirect('/');
-}
 
 // At some point, we're going to have to make routes for authorization, and a route for processing data after receiving the Steam ID from the redirected route from authorization.
 
