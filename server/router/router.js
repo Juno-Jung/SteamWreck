@@ -9,10 +9,7 @@ const { ensureAuthenticated } = require('./router-helpers');
 const UserController = require('./../controllers/user');
 
 router.get('/', function (req, res) {
-  res.status(200).json('Hi Postman');
-});
-router.get('/account/:steamid', ensureAuthenticated, function (req, res) {
-  res.status(201).json('Hi Postman2');
+  res.redirect('/auth/steam');
 });
 router.get('/recommendations/:steamid', ensureAuthenticated, UserController.getRecommendations);
 router.get('/auth/steam',
