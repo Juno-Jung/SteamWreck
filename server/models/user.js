@@ -15,21 +15,6 @@ const userSchema = new Schema({
   },
 });
 
-const gameSchema = new Schema({
-  appid: Number,
-  genres: [String],
-  tags: [String],
-  ratings: {
-    gamespot: Number,
-    ign: Number,
-    metacritic: Number,
-  },
-});
-
 const UserModel = mongoose.model('Users', userSchema);
-const GameModel = mongoose.model('Games', gameSchema);
 
-module.exports = {
-  UserModel,
-  GameModel,
-};
+module.exports = UserModel;
