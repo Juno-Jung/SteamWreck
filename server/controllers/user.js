@@ -5,7 +5,7 @@ const UserModel = require('../models/user');
 const getUser = async (req, res) => {
   try {
     res.body = await UserModel.find({
-      steamid: req.steamid,
+      steamid: req.body.steamid,
     });
     res.status(200).json(res.body);
   } catch (error) {
