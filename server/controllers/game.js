@@ -1,11 +1,11 @@
 'use strict';
 
-const UserModel = require('../models/user');
+const GameModel = require('../models/game');
 
-const getUser = async (req, res) => {
+const getGame = async (req, res) => {
   try {
-    res.body = await UserModel.find({
-      steamid: req.steamid,
+    res.body = await GameModel.find({
+      appid: req.appid,
     });
     res.status(200).json(res.body);
   } catch (error) {
@@ -15,5 +15,5 @@ const getUser = async (req, res) => {
 };
 
 module.exports = {
-  getUser,
+  getGame,
 };
