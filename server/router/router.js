@@ -34,8 +34,6 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/');
 }
 
-
-
 // At some point, we're going to have to make routes for authorization, and a route for processing data after receiving the Steam ID from the redirected route from authorization.
 
 // router.get('/auth', Authorization);
