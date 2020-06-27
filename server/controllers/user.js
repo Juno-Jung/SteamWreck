@@ -16,6 +16,16 @@ const getUser = async (req, res) => {
   }
 };
 
+const getRecommendations = async (req, res) => {
+  try {
+    // Get recommendations
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+};
+
 const putUser = async (req, res) => {
   try {
     console.log('Put User: ', req.body);
@@ -36,5 +46,6 @@ const putUser = async (req, res) => {
 
 module.exports = {
   getUser,
-  putUser
+  getRecommendations,
+  putUser,
 };
