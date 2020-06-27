@@ -4,7 +4,6 @@
 
 const getUserRecommendations = async (req, res) => {
   try {
-
     const user = await UserModel.find({
       steamid: req.body.steamid,
     });
