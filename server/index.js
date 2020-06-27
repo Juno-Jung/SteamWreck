@@ -10,7 +10,7 @@ const cors = require('cors');
 const app = new express();
 
 const router = require('./router/router');
-const { HOST, PORT } = require('./config');
+const { HOST, PORT, STEAM_API_KEY } = require('./config');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -23,7 +23,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new SteamStrategy({
   returnURL: 'http://localhost:3001/auth/steam/return',
   realm: 'http://localhost:3001/',
-  apiKey: ''
+  apiKey: STEAM_API_KEY,
 },
   function (identifier, profile, done) {
     // asynchronous verification, for effect...
