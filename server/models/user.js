@@ -5,16 +5,25 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  steam_id: Number,
+  steamid: Number,
+  recommendations: Array,
+  favourites: Array,
   owned: {
     game_count: Number,
-    games: Array,
+    games_owned: Array,
+    games_unplayed: Array,
   },
 });
 
 const gameSchema = new Schema({
-  game_id: Number,
+  appid: Number,
+  genres: Array,
   tags: Array,
+  ratings: {
+    gamespot: Number,
+    ign: Number,
+    metacritic: Number,
+  },
 });
 
 const UserModel = mongoose.model('Users', userSchema);
