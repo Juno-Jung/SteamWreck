@@ -9,15 +9,19 @@ const { ensureAuthenticated } = require('./router-helpers');
 const UserController = require('./../controllers/user');
 
 router.get('/', function (req, res) {
-  res.status(200).json('Hi Postman');
+  res.redirect('/auth/steam');
 });
-router.get('/account', ensureAuthenticated, function (req, res) {
-  res.status(201).json('Hi Postman2');
-});
+router.get('/user/:steamid', UserController.getUserSummary); // Needs ensureAuthenticated
+router.get('/recommendations/:steamid', UserController.getRecommendations); // Needs ensureAuthenticated
 router.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
+
+router.get('/allusers', UserController.getUsers); // Also needs to be deleted once done testing.
+router.delete('/users/delete', UserController.deleteAll); // This needs to be deleted at some point past testing.
+router.put('/user/store/:steamid', UserController.putUserSummary); // This should have ensureAuthenticated
+
 router.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
   function (req, res) {
@@ -28,15 +32,8 @@ router.get('/auth/steam/return',
   passport.authenticate('steam', { failureRedirect: '/' }),
   async function (req, res) {
     console.log(req);
-    await UserController.putUser(req)
-  });
-
-
-// At some point, we're going to have to make routes for authorization, and a route for processing data after receiving the Steam ID from the redirected route from authorization.
-
-// router.get('/auth', Authorization);
-// router.get('/authcallback', Authorization);
-// router.get('/dashboard/:steamid', UserController);
-// router.get('/recommendation/:steamid', UserController);
+    await UserController.putUserSummary(req, res)
+  }
+);
 
 module.exports = router;
