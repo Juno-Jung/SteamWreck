@@ -11,6 +11,8 @@ const UserController = require('./../controllers/user');
 router.get('/', function (req, res) {
   res.redirect('/auth/steam');
 });
+router.get('/library/:steamid'), UserController.getGames);
+router.get('/user/:steamid'), UserController.getUserSummary);
 router.get('/recommendations/:steamid', ensureAuthenticated, UserController.getRecommendations);
 router.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
