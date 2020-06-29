@@ -83,7 +83,9 @@ const rateGames = async (games, tags, genres) => {
       console.log(error);
     }
   }
-
+  ratedGames.sort((a, b) => {
+    return b.rating - a.rating;
+  });
   return ratedGames;
 };
 
