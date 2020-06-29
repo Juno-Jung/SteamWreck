@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type GameCardLargeProps = {
   //
 };
 
-class GameCardLarge extends Component<GameCardLargeProps, any> {
-  public render() {
-    return <div>GameCardLarge</div>;
-  }
-}
+const GameCardLarge: React.FC<any> = () => {
+  return <div>GameCardLarge</div>;
+};
 
 export default GameCardLarge;

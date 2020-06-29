@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type LoginProps = {
   //
 };
 
-class Login extends Component<LoginProps, any> {
-  public render() {
-    return <div>Login</div>;
-  }
-}
+const Login: React.FC<any> = () => {
+  return <div>Login</div>;
+};
 
 export default Login;

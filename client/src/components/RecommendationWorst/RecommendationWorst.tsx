@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type RecommendationWorstProps = {
   //
 };
 
-class RecommendationWorst extends Component<RecommendationWorstProps, any> {
-  public render() {
-    return <div>RecommendationWorst</div>;
-  }
-}
+const RecommendationWorst: React.FC<any> = () => {
+  return <div>RecommendationWorst</div>;
+};
 
 export default RecommendationWorst;

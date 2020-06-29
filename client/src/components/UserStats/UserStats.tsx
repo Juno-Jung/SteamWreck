@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type UserStatsProps = {
   //
 };
 
-class UserStats extends Component<UserStatsProps, any> {
-  public render() {
-    return <div>UserStats</div>;
-  }
-}
+const UserStats: React.FC<any> = () => {
+  return <div>UserStats</div>;
+};
 
 export default UserStats;

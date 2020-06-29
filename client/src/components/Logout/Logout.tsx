@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type LogoutProps = {
   //
 };
 
-class Logout extends Component<LogoutProps, any> {
-  public render() {
-    return <div>Logout</div>;
-  }
-}
+const Logout: React.FC<any> = () => {
+  return <div>Logout</div>;
+};
 
 export default Logout;

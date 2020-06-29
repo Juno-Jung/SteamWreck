@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type UserSummaryProps = {
   //
 };
 
-class UserSummary extends Component<UserSummaryProps, any> {
-  public render() {
-    return <div>UserSummary</div>;
-  }
-}
+const UserSummary: React.FC<any> = () => {
+  return <div>UserSummary</div>;
+};
 
 export default UserSummary;

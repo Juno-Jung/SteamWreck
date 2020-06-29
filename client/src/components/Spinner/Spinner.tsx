@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type SpinnerProps = {
   //
 };
 
-class Spinner extends Component<SpinnerProps, any> {
-  public render() {
-    return <div>Spinner</div>;
-  }
-}
+const Spinner: React.FC<any> = () => {
+  return <div>Spinner</div>;
+};
 
 export default Spinner;

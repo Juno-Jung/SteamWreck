@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type UserImageProps = {
   //
 };
 
-class UserImage extends Component<UserImageProps, any> {
-  public render() {
-    return <div>UserImage</div>;
-  }
-}
+const UserImage: React.FC<any> = () => {
+  return <div>UserImage</div>;
+};
 
 export default UserImage;

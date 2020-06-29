@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type GameInfoProps = {
   //
 };
 
-class GameInfo extends Component<GameInfoProps, any> {
-  public render() {
-    return <div>GameInfo</div>;
-  }
-}
+const GameInfo: React.FC<any> = () => {
+  return <div>GameInfo</div>;
+};
 
 export default GameInfo;

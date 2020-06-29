@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type AboutProps = {
   //
 };
 
-class About extends Component<AboutProps, any> {
-  public render() {
-    return <div>About</div>;
-  }
-}
+const About: React.FC<any> = () => {
+  return <div>About</div>;
+};
 
 export default About;
