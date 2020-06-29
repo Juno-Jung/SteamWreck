@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type GameCardMediumProps = {
   //
 };
 
-class GameCardMedium extends Component<GameCardMediumProps, any> {
-  public render() {
-    return <div>GameCardMedium</div>;
-  }
-}
+const GameCardMedium: React.FC<any> = () => {
+  return <div>GameCardMedium</div>;
+};
 
 export default GameCardMedium;

@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type GameDetailProps = {
   //
 };
 
-class GameDetail extends Component<GameDetailProps, any> {
-  public render() {
-    return <div>GameDetail</div>;
-  }
-}
+const GameDetail: React.FC<any> = () => {
+  return <div>GameDetail</div>;
+};
 
 export default GameDetail;

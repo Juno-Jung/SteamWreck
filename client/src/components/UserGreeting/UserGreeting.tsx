@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type UserGreetingProps = {
   //
 };
 
-class UserGreeting extends Component<UserGreetingProps, any> {
-  public render() {
-    return <div>UserGreeting</div>;
-  }
-}
+const UserGreeting: React.FC<any> = () => {
+  return <div>UserGreeting</div>;
+};
 
 export default UserGreeting;

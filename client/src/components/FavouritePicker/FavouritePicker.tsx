@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type FavouritePickerProps = {
   //
 };
 
-class FavouritePicker extends Component<FavouritePickerProps, any> {
-  public render() {
-    return <div>FavouritePicker</div>;
-  }
-}
+const FavouritePicker: React.FC<any> = () => {
+  return <div>FavouritePicker</div>;
+};
 
 export default FavouritePicker;

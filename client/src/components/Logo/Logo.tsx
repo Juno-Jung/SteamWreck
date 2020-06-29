@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type LogoProps = {
   //
 };
 
-class Logo extends Component<LogoProps, any> {
-  public render() {
-    return <div>Logo</div>;
-  }
-}
+const Logo: React.FC<any> = () => {
+  return <div>Logo</div>;
+};
 
 export default Logo;

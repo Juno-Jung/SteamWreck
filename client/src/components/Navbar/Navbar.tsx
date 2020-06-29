@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type NavbarProps = {
   //
 };
 
-class Navbar extends Component<NavbarProps, any> {
-  public render() {
-    return <div>Navbar</div>;
-  }
-}
+const Navbar: React.FC<any> = () => {
+  return <div>Navbar</div>;
+};
 
 export default Navbar;

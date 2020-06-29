@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type FavouritesProps = {
   //
 };
 
-class Favourites extends Component<FavouritesProps, any> {
-  public render() {
-    return <div>Favourites</div>;
-  }
-}
+const Favourites: React.FC<any> = () => {
+  return <div>Favourites</div>;
+};
 
 export default Favourites;
