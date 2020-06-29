@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type NavbarProps = {
   //
 };
 
-const Navbar: React.FC<any> = () => {
+const Navbar: FunctionComponent = () => {
   return <div>Navbar</div>;
 };
 

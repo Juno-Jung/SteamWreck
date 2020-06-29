@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type UserSummaryProps = {
   //
 };
 
-const UserSummary: React.FC<any> = () => {
+const UserSummary: FunctionComponent = () => {
   return <div>UserSummary</div>;
 };
 
