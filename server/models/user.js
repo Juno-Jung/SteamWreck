@@ -11,12 +11,25 @@ const userSchema = new Schema({
   avatarmedium: String,
   avatarfull: String,
   countrycode: String,
-  recommendations: [Number], // Appid
+  recommendations: {
+    total: [Object],
+    recent: [Object],
+  },
   favourites: [Number], // Appid
   owned: {
     game_count: Number,
-    games_owned: [Object], // Appid
-    games_unplayed: [Object], // Appid
+    games_owned: [{
+      appid: Number,
+      name: String,
+      playtime_forever: Number,
+      playtime_2weeks: Number,
+    }],
+    games_unplayed: [{
+      appid: Number,
+      name: String,
+      playtime_forever: Number,
+      playtime_2weeks: Number,
+    }],
   },
 });
 
