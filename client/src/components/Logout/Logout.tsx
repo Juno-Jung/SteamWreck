@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type LogoutProps = {
   //
 };
 
-const Logout: React.FC<any> = () => {
+const Logout: FunctionComponent = () => {
   return <div>Logout</div>;
 };
 

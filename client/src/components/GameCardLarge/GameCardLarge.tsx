@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type GameCardLargeProps = {
   //
 };
 
-const GameCardLarge: React.FC<any> = () => {
+const GameCardLarge: FunctionComponent = () => {
   return <div>GameCardLarge</div>;
 };
 

@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type AboutProps = {
   //
 };
 
-const About: React.FC<any> = () => {
+const About: FunctionComponent = () => {
   return <div>About</div>;
 };
 

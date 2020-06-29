@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type GameInfoProps = {
   //
 };
 
-const GameInfo: React.FC<any> = () => {
+const GameInfo: FunctionComponent = () => {
   return <div>GameInfo</div>;
 };
 

@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type SpinnerProps = {
   //
 };
 
-const Spinner: React.FC<any> = () => {
+const Spinner: FunctionComponent = () => {
   return <div>Spinner</div>;
 };
 

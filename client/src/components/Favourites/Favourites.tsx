@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type FavouritesProps = {
   //
 };
 
-const Favourites: React.FC<any> = () => {
+const Favourites: FunctionComponent = () => {
   return <div>Favourites</div>;
 };
 
