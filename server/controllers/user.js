@@ -17,7 +17,7 @@ const getUsers = async (req, res) => {
 const getUserSummary = async (req, res) => {
   try {
     res.body = await UserModel.find({
-      steamid: req.body.steamid,
+      steamid: req.params.steamid,
     });
     res.status(200).json(res.body);
   } catch (error) {
