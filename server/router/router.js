@@ -11,9 +11,17 @@ const UserController = require('./../controllers/user');
 router.get('/', function (req, res) {
   res.redirect('/auth/steam');
 });
-router.get('/library/:steamid', UserController.getUserSummary);
-router.get('/user/:steamid', UserController.getUserSummary);
-router.get('/recommendations/:steamid', ensureAuthenticated, UserController.getRecommendations);
+router.get('/user/:steamid', UserController.getUserSummary); // Needs ensureAuthenticated
+router.get('/recommendations/:steamid', UserController.getRecommendations); // Needs ensureAuthenticated
+router.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
+router.get('/allusers', UserController.getUsers); // Also needs to be deleted once done testing.
+router.delete('/users/delete', UserController.deleteAll); // This needs to be deleted at some point past testing.
+router.put('/user/store/:steamid', UserController.putUserSummary); // This should have ensureAuthenticated
+
 router.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
   function (req, res) {
@@ -27,16 +35,5 @@ router.get('/auth/steam/return',
     await UserController.putUserSummary(req, res)
   }
 );
-router.get('/logout', function (req, res) {
-  req.logout();
-  res.redirect('/');
-});
-
-
-router.get('/allusers', UserController.getUsers);
-router.delete('/users/delete', UserController.deleteAll);
-router.put('/user/store/:steamid', UserController.putUserSummary);
-
-
 
 module.exports = router;

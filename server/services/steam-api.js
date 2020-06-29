@@ -4,6 +4,11 @@ const fetch = require('node-fetch');
 const { STEAM_API_KEY, STEAM_GET_USER_SUMMARY_URL, STEAM_GET_USER_LIBRARY_URL } = require('./../config');
 
 const steamApi = {
+  getRecommendations: async function (user) {
+
+    return [5050];
+  },
+
   getUserSummary: async function (steamId) {
     return this.fetchRequest(`${STEAM_GET_USER_SUMMARY_URL}/?key=${STEAM_API_KEY}&steamids=${steamId}`)
   },

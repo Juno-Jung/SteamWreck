@@ -28,7 +28,24 @@ const getUserSummary = async (req, res) => {
 
 const getRecommendations = async (req, res) => {
   try {
-    // Get recommendations
+    const steamId = req.params.steamid;
+
+    const user = await UserModel.find({
+      steamid: req.params.steamid,
+    });
+
+    const recommendations = await steamApi.getRecommendations(user);
+
+    // Returns updated document with new recommendations
+    res.body = await UserModel.findOneAndUpdate({
+      steamid: steamId
+    }, {
+      recommendations,
+    }, {
+      new: true,
+      upsert: true,
+    });
+
     res.status(200).json(res.body);
   } catch (error) {
     console.log(error);
@@ -40,7 +57,7 @@ const putUserSummary = async (req, res) => {
   try {
     console.log('Put User: ', req.body);
 
-    const steamId = req.body.steamid; // Not exactly sure where the steamId is coming after authentiation.
+    const steamId = req.body.steamid; // Not exactly sure where the steamId is coming after authentiation. Could make it into req.params.steamid
     const userSummaryData = await steamApi.getUserSummary(steamId);
     const user = processUserData(userSummaryData.response.players[0]);
     const userLibraryData = await steamApi.getUserLibrary(steamId);
@@ -48,8 +65,10 @@ const putUserSummary = async (req, res) => {
 
     user.owned = userGames;
 
-
-    await UserModel.replaceOne(user, user, {
+    await UserModel.replaceOne({
+      steamid: steamId,
+    },
+      user, {
       upsert: true,
     });
 

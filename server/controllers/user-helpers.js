@@ -9,6 +9,7 @@ const processUserData = (userData) => {
     avatar: userData.avatar,
     avatarmedium: userData.avatarmedium,
     avatarfull: userData.avatarfull,
+    countrycode: userData.loccountrycode,
   };
 
   return user;
@@ -20,8 +21,6 @@ const processUserLibraryData = (libraryData) => {
 
   const library = {
     game_count: libraryData.game_count
-    // games_owned: [Number], // Appid
-    // games_unplayed: [Number], // Appid
   }
 
   // Adds all games owned to library object. Also adds all unplayed games that are owned to library object.
@@ -29,9 +28,19 @@ const processUserLibraryData = (libraryData) => {
   const gamesOwned = [];
   const gamesUnplayed = [];
   for (let i = 0; i < games.length; i++) {
-    gamesOwned.push(games[i].appid);
+    gamesOwned.push({
+      appid: games[i].appid,
+      name: games[i].name,
+      playtime_forever: games[i].playtime_forever,
+      playtime_2weeks: games[i].playtime_2weeks,
+    });
     if (!games[i].playtime_forever > 0) {
-      gamesUnplayed.push(games[i].appid);
+      gamesUnplayed.push({
+        appid: games[i].appid,
+        name: games[i].name,
+        playtime_forever: games[i].playtime_forever,
+        playtime_2weeks: games[i].playtime_2weeks,
+      });
     }
   }
   library.games_owned = gamesOwned;
