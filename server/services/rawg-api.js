@@ -9,10 +9,8 @@ const rawgApi = {
     'User-Agent': 'SteamWrecks',
   },
 
-  getGameDetails: (gameId) => {
-    return this.fetchRequest(`${RAWG_BASE_URL}/game/${gameId}`, {
-      ...this.options,
-    });
+  getGameDetails: function (gameSlug) {
+    return this.fetchRequest(`${RAWG_BASE_URL}/games/${gameSlug}`);
   },
 
   fetchRequest: (path, options) => {

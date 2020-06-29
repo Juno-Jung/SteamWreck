@@ -31,10 +31,14 @@ const getRecommendations = async (req, res) => {
     const steamId = req.params.steamid;
 
     const user = await UserModel.find({
-      steamid: req.params.steamid,
+      steamid: steamId,
     });
 
-    const recommendations = await steamApi.getRecommendations(user);
+
+    const recommendations = {
+      total: await steamApi.getTotalRecommendations(user[0]),
+      recent: [],
+    };
 
     // Returns updated document with new recommendations
     res.body = await UserModel.findOneAndUpdate({
