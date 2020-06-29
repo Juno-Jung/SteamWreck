@@ -39,24 +39,25 @@ const rateGames = async (games, tags, genres) => {
   for (let i = 0; i < games.length; i++) {
     try {
       const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').toLowerCase());
+
       const gameTags = game.tags;
       const gameGenres = game.genres;
 
       // Compare game tags to given list of tags.
-
       let overlappingTags = 0;
       let overlappingGenres = 0;
       for (let j = 0; j < gameTags.length; j++) {
-        if (tags.includes(gameTags[j])) {
+        if (tags.includes(gameTags[j].name)) {
           overlappingTags++;
         }
       }
       for (let j = 0; j < gameGenres.length; j++) {
-        if (genres.includes(gameGenres[j])) {
+        if (genres.includes(gameGenres[j].name)) {
           overlappingGenres++;
         }
       }
 
+      // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
       const tag_score = overlappingTags / gameTags.length;
       const genre_score = overlappingGenres / gameGenres.length;
       const metacritic_score = game.metacritic / 100;
