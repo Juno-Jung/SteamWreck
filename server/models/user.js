@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   steamid: Number,
-  personname: String,
+  personaname: String,
   avatar: String,
   avatarmedium: String,
   avatarfull: String,

@@ -1,5 +1,5 @@
 'use strict';
-// See if fetch works like this. If it fails, npm install node-fetch and const fetch = require('node-fetch'); in this file.
+const fetch = require('node-fetch');
 
 const { STEAM_API_KEY, STEAM_GET_USER_SUMMARY_URL, STEAM_GET_USER_LIBRARY_URL } = require('./../config');
 

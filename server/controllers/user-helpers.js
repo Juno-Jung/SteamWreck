@@ -1,11 +1,46 @@
 'use strict';
 
-const processUserData = async () => {
+// Takes in Steam User Summary API Data for the first user returned from the call (ideally the only user) and returns an object that follows User Schema.
+const processUserData = (userData) => {
 
+  const user = {
+    steamid: userData.steamid,
+    personaname: userData.personaname,
+    avatar: userData.avatar,
+    avatarmedium: userData.avatarmedium,
+    avatarfull: userData.avatarfull,
+  };
 
-  return; // processed data
+  return user;
+};
+
+// Takes in Steam User Owned Games API Data and returns an object that follows the 'owned' property in User Schema.
+
+const processUserLibraryData = (libraryData) => {
+
+  const library = {
+    game_count: libraryData.game_count
+    // games_owned: [Number], // Appid
+    // games_unplayed: [Number], // Appid
+  }
+
+  // Adds all games owned to library object. Also adds all unplayed games that are owned to library object.
+  const games = libraryData.games;
+  const gamesOwned = [];
+  const gamesUnplayed = [];
+  for (let i = 0; i < games.length; i++) {
+    gamesOwned.push(games[i].appid);
+    if (!games[i].playtime_forever > 0) {
+      gamesUnplayed.push(games[i].appid);
+    }
+  }
+  library.games_owned = gamesOwned;
+  library.games_unplayed = gamesUnplayed;
+
+  return library;
 };
 
 module.exports = {
   processUserData,
+  processUserLibraryData,
 }

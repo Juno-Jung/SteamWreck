@@ -1,10 +1,20 @@
 'use strict';
 
 const UserModel = require('../models/user');
-const { steamApi } = require('../services/steam-api');
-const { processUserData } = require('./user-helpers');
+const steamApi = require('../services/steam-api');
+const { processUserData, processUserLibraryData } = require('./user-helpers');
 
-const getUser = async (req, res) => {
+const getUsers = async (req, res) => {
+  try {
+    res.body = await UserModel.find({});
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+};
+
+const getUserSummary = async (req, res) => {
   try {
     res.body = await UserModel.find({
       steamid: req.body.steamid,
@@ -26,17 +36,24 @@ const getRecommendations = async (req, res) => {
   }
 };
 
-const putUser = async (req, res) => {
+const putUserSummary = async (req, res) => {
   try {
     console.log('Put User: ', req.body);
 
-    const steamId = req.body.steamId; // Not exactly sure where the steamId is coming after authentiation.
+    const steamId = req.body.steamid; // Not exactly sure where the steamId is coming after authentiation.
     const userSummaryData = await steamApi.getUserSummary(steamId);
-    const userData = processUserData(userSummaryData);
+    const user = processUserData(userSummaryData.response.players[0]);
+    const userLibraryData = await steamApi.getUserLibrary(steamId);
+    const userGames = processUserLibraryData(userLibraryData.response);
 
-    await UserModel.replaceOne(userData);
+    user.owned = userGames;
 
-    res.body = userData;
+
+    await UserModel.replaceOne(user, user, {
+      upsert: true,
+    });
+
+    res.body = user;
     res.status(200).json(res.body);
   } catch (error) {
     console.log(error);
@@ -44,8 +61,21 @@ const putUser = async (req, res) => {
   }
 };
 
+const deleteAll = async (req, res) => {
+  try {
+    await UserModel.deleteMany({});
+    res.body = 'Deleted';
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+};
+
 module.exports = {
-  getUser,
+  getUsers,
+  getUserSummary,
   getRecommendations,
-  putUser,
+  putUserSummary,
+  deleteAll,
 };
