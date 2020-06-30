@@ -51,4 +51,8 @@ describe('processUserLibraryData', () => {
       processUserLibraryData();
     }).to.throw();
   });
+
+  it('returns an object given appropriate data', () => {
+
+  });
 });

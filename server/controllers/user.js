@@ -57,29 +57,29 @@ const getRecommendations = async (req, res) => {
   }
 };
 
-// This function does not send - it only returns the user object.
-const putUserSteam = async (req, _) => {
-  try {
-    const steamId = req.user.id;
-    const userSummaryData = await steamApi.getUserSummary(steamId);
-    const user = processUserData(userSummaryData.response.players[0]);
-    const userLibraryData = await steamApi.getUserLibrary(steamId);
-    const userGames = processUserLibraryData(userLibraryData.response);
+// // This function does not send - it only returns the user object.
+// const putUserSteam = async (req, _) => {
+//   try {
+//     const steamId = req.user.id;
+//     const userSummaryData = await steamApi.getUserSummary(steamId);
+//     const user = processUserData(userSummaryData.response.players[0]);
+//     const userLibraryData = await steamApi.getUserLibrary(steamId);
+//     const userGames = processUserLibraryData(userLibraryData.response);
 
-    user.owned = userGames;
+//     user.owned = userGames;
 
-    await UserModel.replaceOne({
-      steamid: steamId,
-    },
-      user, {
-      upsert: true,
-    });
+//     await UserModel.replaceOne({
+//       steamid: steamId,
+//     },
+//       user, {
+//       upsert: true,
+//     });
 
-    return steamId;
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     return steamId;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 // This function does not send - it only returns the user object.
 const putUserSummary = async (req, res) => {
