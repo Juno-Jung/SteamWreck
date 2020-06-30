@@ -98,6 +98,7 @@ describe('Steam API functions used by the server', () => {
     });
 
     it("returns an array with the top three (or fewer) rated games based on total playtime out of user's unplayed games", () => {
+      console.log(this.total);
       expect(this.total[0].rating).to.be.above(this.total[1].rating);
       expect(this.total[1].rating).to.be.above(this.total[2].rating);
       for (let i = 0; i < this.total.length; i++) {

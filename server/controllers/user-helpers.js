@@ -27,6 +27,7 @@ const processUserLibraryData = (libraryData) => {
   const games = libraryData.games;
   const gamesOwned = [];
   const gamesUnplayed = [];
+  const gameIds = [];
   for (let i = 0; i < games.length; i++) {
     gamesOwned.push({
       appid: games[i].appid,
@@ -34,6 +35,7 @@ const processUserLibraryData = (libraryData) => {
       playtime_forever: games[i].playtime_forever,
       playtime_2weeks: games[i].playtime_2weeks,
     });
+    gameIds.push(games[i].appid);
     if (!games[i].playtime_forever > 0) {
       gamesUnplayed.push({
         appid: games[i].appid,
@@ -43,6 +45,7 @@ const processUserLibraryData = (libraryData) => {
       });
     }
   }
+  library.game_ids = gameIds;
   library.games_owned = gamesOwned;
   library.games_unplayed = gamesUnplayed;
 

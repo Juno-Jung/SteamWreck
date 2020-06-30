@@ -7,6 +7,7 @@ const passport = require('passport');
 const { ensureAuthenticated } = require('./router-helpers');
 
 const UserController = require('./../controllers/user');
+const GameController = require('./../controllers/game');
 
 router.get('/user/:steamid', UserController.getUserSummary); // Needs ensureAuthenticated
 router.get('/recommendations/:steamid', UserController.getRecommendations); // Needs ensureAuthenticated
@@ -15,6 +16,8 @@ router.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
+router.get('/games', GameController.getAllGames);
+router.delete('/games/delete', GameController.deleteGames); // This needs to be deleted past testing
 router.get('/allusers', UserController.getUsers); // Also needs to be deleted once done testing.
 router.delete('/users/delete', UserController.deleteAll); // This needs to be deleted at some point past testing.
 router.put('/user/store/:steamid', UserController.putUserSummary); // This should have ensureAuthenticated

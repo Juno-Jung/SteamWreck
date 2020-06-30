@@ -29,11 +29,9 @@ const getUserSummary = async (req, res) => {
 const getRecommendations = async (req, res) => {
   try {
     const steamId = req.params.steamid;
-
     const user = await UserModel.find({
       steamid: steamId,
     });
-
 
     const recommendations = {
       total: await steamApi.getRecommendations(user[0], 'total'),
@@ -46,8 +44,7 @@ const getRecommendations = async (req, res) => {
     }, {
       recommendations,
     }, {
-      new: true,
-      upsert: true,
+      new: true
     });
 
     res.status(200).json(res.body);

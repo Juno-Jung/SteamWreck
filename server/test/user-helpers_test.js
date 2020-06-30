@@ -63,6 +63,7 @@ describe('Controller functions for the User Model', () => {
       const library = processUserLibraryData(mocks.library);
 
       expect(library).to.have.property('game_count');
+      expect(library).to.have.property('game_ids');
       expect(library).to.have.property('games_owned');
       expect(library).to.have.property('games_unplayed');
     });
@@ -71,11 +72,20 @@ describe('Controller functions for the User Model', () => {
       const library = processUserLibraryData(mocks.library);
 
       expect(library.game_count).to.be.a('number');
-      expect(library.games_owned).to.be.a('array');
-      expect(library.games_unplayed).to.be.a('array');
+      expect(library.game_ids).to.be.an('array');
+      expect(library.games_owned).to.be.an('array');
+      expect(library.games_unplayed).to.be.an('array');
     });
 
-    it('returns an object whose array properties contain an object at each index, given appropriate data', () => {
+    it('returns an object where game_ids is a property that contains an array of numbers', () => {
+      const library = processUserLibraryData(mocks.library);
+
+      for (let i = 0; i < library.game_ids.length; i++) {
+        expect(library.game_ids[i]).to.be.a('number');
+      }
+    });
+
+    it('returns an object whose games_owned and games_unplayed properties contain an object at each index, given appropriate data', () => {
       const library = processUserLibraryData(mocks.library);
       const games_owned = library.games_owned;
       const games_unplayed = library.games_unplayed;
@@ -87,7 +97,7 @@ describe('Controller functions for the User Model', () => {
       }
     });
 
-    it('returns an object whose array properties contain games with id, name, and playtimes of user at each index, given appropriate data', () => {
+    it('returns an object whose games_owned and games_unplayed properties contain games with id, name, and playtimes of user at each index, given appropriate data', () => {
       const library = processUserLibraryData(mocks.library);
       const games_owned = library.games_owned;
       const games_unplayed = library.games_unplayed;
@@ -105,7 +115,7 @@ describe('Controller functions for the User Model', () => {
       }
     });
 
-    it('returns an object whose array properties contains games with id, name and playtimes of user that are of the correct type at each index, given appropriate data', () => {
+    it('returns an object whose games_owned and games_unplayed properties contains games with id, name and playtimes of user that are of the correct type at each index, given appropriate data', () => {
       const library = processUserLibraryData(mocks.library);
       const games_owned = library.games_owned;
       const games_unplayed = library.games_unplayed;
