@@ -12,24 +12,34 @@ const userSchema = new Schema({
   avatarfull: String,
   countrycode: String,
   recommendations: {
-    total: [Object],
-    recent: [Object],
+    type: {
+      total: [Object],
+      recent: [Object],
+    },
+    required: false,
   },
-  favourites: [Number], // Appid
+  favourites: {
+    type: [Number], // Appid
+    default: undefined,
+    required: false,
+  },
   owned: {
-    game_count: Number,
-    games_owned: [{
-      appid: Number,
-      name: String,
-      playtime_forever: Number,
-      playtime_2weeks: Number,
-    }],
-    games_unplayed: [{
-      appid: Number,
-      name: String,
-      playtime_forever: Number,
-      playtime_2weeks: Number,
-    }],
+    type: {
+      game_count: Number,
+      games_owned: [{
+        appid: Number,
+        name: String,
+        playtime_forever: Number,
+        playtime_2weeks: Number,
+      }],
+      games_unplayed: [{
+        appid: Number,
+        name: String,
+        playtime_forever: Number,
+        playtime_2weeks: Number,
+      }],
+    },
+    required: false,
   },
 });
 
