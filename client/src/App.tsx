@@ -14,19 +14,21 @@ import UserSummary from './components/UserSummary';
 import serverService from './services/ServerService'
 import hash from "./hash";
 
-import './App.css';
+import './App.scss';
 
 
 function App() {
-  const [steamid,setSteamid]= useState('')
-  const [info,setInfo]= useState([])
-  useEffect(() => {
-    let steam:any = hash
-    console.log(hash)
-    setSteamid(steam.steamid)
-    setInfo(serverService.getUserInfo(steam.steamid));
-  }, [])
- 
+
+  // Pat:: COMMENTED THIS OUT FOR NOW, Until it's working.
+  // const [steamid,setSteamid]= useState('')
+  // const [info,setInfo]= useState([])
+  // useEffect(() => {
+  //   let steam:any = hash
+  //   console.log(hash)
+  //   setSteamid(steam.steamid)
+  //   setInfo(serverService.getUserInfo(steam.steamid));
+  // }, [])
+
   return (
 /*
     <div className="App">
