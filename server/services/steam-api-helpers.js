@@ -37,15 +37,17 @@ const getTagsAndGenres = async (games, steamIds) => {
         const gameMetacritic = game.metacritic
 
         // Put the game in the database
-        // await GameModel.create({
-        //   steamid: games[i].appid,
-        //   name: games[i].name,
-        //   genres: gameGenres,
-        //   tags: gamesTags,
-        //   ratings: {
-        //     metacritic: gameMetacritic,
-        //   },
-        // });
+        const dbGame = {
+          steamid: games[i].appid,
+          name: games[i].name,
+          genres: gameGenres,
+          tags: gameTags,
+          ratings: {
+            metacritic: gameMetacritic,
+          },
+        };
+
+        // await GameModel.create(dbGame);
 
         for (let j = 0; j < gameTags.length; j++) {
           if (!tags.includes(gameTags[j].name)) {
@@ -89,6 +91,7 @@ const rateGame = (game, tags, genres) => {
   const genre_score = overlappingGenres / game.genres.length;
   const metacritic_score = game.ratings.metacritic / 100;
 
+  // if the metacritic score is null, then exclude it from the weight entirely and reweight.
   const rating = tag_score * TAG_WEIGHT + genre_score * GENRE_WEIGHT + metacritic_score * METACRITIC_WEIGHT;
 
   let rating_reason;
@@ -135,16 +138,6 @@ const rateGames = async (games, tags, genres, steamIds) => {
         const gameMetacritic = game.metacritic
 
         // Put the game in the database
-        // const dbGame = await GameModel.create({
-        //   steamid: games[i].appid,
-        //   name: games[i].name,
-        //   genres: gameGenres,
-        //   tags: gameTags,
-        //   ratings: {
-        //     metacritic: gameMetacritic,
-        //   },
-        // });
-
         const dbGame = {
           steamid: games[i].appid,
           name: games[i].name,
@@ -154,6 +147,9 @@ const rateGames = async (games, tags, genres, steamIds) => {
             metacritic: gameMetacritic,
           },
         };
+
+        // await GameModel.create(dbGame);
+
         const ratedGame = rateGame(dbGame, tags, genres);
 
         ratedGames.push(ratedGame);
