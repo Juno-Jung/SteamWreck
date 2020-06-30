@@ -29,7 +29,7 @@ router.get('/auth/steam/return',
   passport.authenticate('steam', { failureRedirect: '/' }),
   async function (req, res) {
     const user = await UserController.putUserSteam(req, res);
-    res.redirect(`/user/${user.steamid}`);
+    res.redirect(`http://localhost:3000/login?steamid=${user.steamid}`);
   }
 );
 
