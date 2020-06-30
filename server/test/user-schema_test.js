@@ -3,7 +3,6 @@ const UserModel = require('../models/user');
 const expect = require('chai').expect;
 
 describe('Creating documents', () => {
-
   after(async () => {
     await UserModel.deleteMany({
       steamid: 123,
