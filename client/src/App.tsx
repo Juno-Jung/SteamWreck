@@ -10,18 +10,19 @@ import UserSummary from './components/UserSummary';
 
 function App() {
   const [steamid,setSteamid]= useState('')
-
+  const [info,setInfo]= useState([])
   useEffect(() => {
     let steam:any = hash
     console.log(hash)
     setSteamid(steam.steamid)
-
+    setInfo(serverService.getUserInfo(steam.steamid));
   }, [])
  
   return (
     <div className="App">
       steamWreck app here!
       {!steamid &&<Login />}
+      {info}
       <Navbar />
       <UserSummary />
       <RecommendationList />
