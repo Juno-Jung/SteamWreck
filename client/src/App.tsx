@@ -4,6 +4,9 @@ import Login from './components/Login/Login'
 import serverService from './services/ServerService'
 import hash from "./hash";
 import './App.css';
+import Navbar from './components/Navbar';
+import RecommendationList from './components/RecommendationList';
+import UserSummary from './components/UserSummary';
 
 function App() {
   const [steamid,setSteamid]= useState('')
@@ -14,11 +17,14 @@ function App() {
     setSteamid(steam.steamid)
 
   }, [])
-
+ 
   return (
     <div className="App">
       steamWreck app here!
-      {!steamid &&<Login></Login>}
+      {!steamid &&<Login />}
+      <Navbar />
+      <UserSummary />
+      <RecommendationList />
     </div>
   );
 }
