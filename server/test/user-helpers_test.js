@@ -53,6 +53,81 @@ describe('processUserLibraryData', () => {
   });
 
   it('returns an object given appropriate data', () => {
+    const library = processUserLibraryData(mocks.library);
+
+    expect(library).to.be.an('object');
+  });
+
+  it('returns an object with the expected schema given appropriate data', () => {
+    const library = processUserLibraryData(mocks.library);
+
+    expect(library).to.have.property('game_count');
+    expect(library).to.have.property('games_owned');
+    expect(library).to.have.property('games_unplayed');
+  });
+
+  it('returns an object whose properties contain types according to UserSchema, given appropriate data', () => {
+    const library = processUserLibraryData(mocks.library);
+
+    expect(library.game_count).to.be.a('number');
+    expect(library.games_owned).to.be.a('array');
+    expect(library.games_unplayed).to.be.a('array');
+  });
+
+  it('returns an object whose array properties contain an object at each index, given appropriate data', () => {
+    const library = processUserLibraryData(mocks.library);
+    const games_owned = library.games_owned;
+    const games_unplayed = library.games_unplayed;
+    for (let i = 0; i < games_owned.length; i++) {
+      expect(games_owned[i]).to.be.an('object');
+    }
+    for (let i = 0; i < games_unplayed.length; i++) {
+      expect(games_unplayed[i]).to.be.an('object');
+    }
+  });
+
+  it('returns an object whose array properties contain games with id, name, and playtimes of user at each index, given appropriate data', () => {
+    const library = processUserLibraryData(mocks.library);
+    const games_owned = library.games_owned;
+    const games_unplayed = library.games_unplayed;
+    for (let i = 0; i < games_owned.length; i++) {
+      expect(games_owned[i]).to.have.property('appid');
+      expect(games_owned[i]).to.have.property('name');
+      expect(games_owned[i]).to.have.property('playtime_forever');
+      expect(games_owned[i]).to.have.property('playtime_2weeks');
+    }
+    for (let i = 0; i < games_unplayed.length; i++) {
+      expect(games_unplayed[i]).to.have.property('appid');
+      expect(games_unplayed[i]).to.have.property('name');
+      expect(games_unplayed[i]).to.have.property('playtime_forever');
+      expect(games_unplayed[i]).to.have.property('playtime_2weeks');
+    }
+  });
+
+  it('returns an object whose array properties contains games with id, name and playtimes of user that are of the correct type at each index, given appropriate data', () => {
+    const library = processUserLibraryData(mocks.library);
+    const games_owned = library.games_owned;
+    const games_unplayed = library.games_unplayed;
+    for (let i = 0; i < games_owned.length; i++) {
+      expect(games_owned[i].appid).to.be.a('number');
+      expect(games_owned[i].name).to.be.a('string');
+      expect(games_owned[i].playtime_forever).to.be.a('number');
+      if (games_owned[i].playtime_2weeks) {
+        expect(games_owned[i].playtime_2weeks).to.be.a('number')
+      } else {
+        expect(games_owned[i].playtime_2weeks).to.be.undefined;
+      }
+    }
+    for (let i = 0; i < games_unplayed.length; i++) {
+      expect(games_unplayed[i].appid).to.be.a('number');
+      expect(games_unplayed[i].name).to.be.a('string');
+      expect(games_unplayed[i].playtime_forever).to.be.a('number');
+      if (games_unplayed[i].playtime_2weeks) {
+        expect(games_unplayed[i].playtime_2weeks).to.be.a('number')
+      } else {
+        expect(games_unplayed[i].playtime_2weeks).to.be.undefined;
+      }
+    }
 
   });
 });

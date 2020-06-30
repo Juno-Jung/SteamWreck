@@ -123,6 +123,5 @@ module.exports = {
   getUserSummary,
   getRecommendations,
   putUserSummary,
-  putUserSteam,
   deleteAll,
 };
