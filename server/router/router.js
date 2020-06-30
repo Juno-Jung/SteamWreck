@@ -8,9 +8,6 @@ const { ensureAuthenticated } = require('./router-helpers');
 
 const UserController = require('./../controllers/user');
 
-router.get('/', function (req, res) {
-  res.redirect('/auth/steam');
-});
 router.get('/user/:steamid', UserController.getUserSummary); // Needs ensureAuthenticated
 router.get('/recommendations/:steamid', UserController.getRecommendations); // Needs ensureAuthenticated
 router.get('/logout', function (req, res) {
@@ -31,8 +28,8 @@ router.get('/auth/steam',
 router.get('/auth/steam/return',
   passport.authenticate('steam', { failureRedirect: '/' }),
   async function (req, res) {
-    console.log(req);
-    await UserController.putUserSummary(req, res)
+    const user = await UserController.putUserSteam(req, res);
+    res.redirect(`/user/${user.steamid}`);
   }
 );
 
