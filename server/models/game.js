@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 
 const gameSchema = new Schema({
   appid: Number,
+  name: String,
   genres: [String],
   tags: [String],
   ratings: {
