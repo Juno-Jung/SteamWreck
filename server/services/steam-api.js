@@ -31,7 +31,7 @@ const steamApi = {
       // Returns top three recommendations
       return ratedUnplayed.slice(0, 3);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       throw error;
     }
   },
