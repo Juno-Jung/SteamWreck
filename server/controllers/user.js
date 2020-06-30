@@ -36,8 +36,8 @@ const getRecommendations = async (req, res) => {
 
 
     const recommendations = {
-      total: await steamApi.getTotalRecommendations(user[0]),
-      recent: await steamApi.getRecentRecommendations(user[0]),
+      total: await steamApi.getRecommendations(user[0], 'total'),
+      recent: await steamApi.getRecommendations(user[0], 'recent'),
     };
 
     // Returns updated document with new recommendations
