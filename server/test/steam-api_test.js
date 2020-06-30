@@ -79,6 +79,40 @@ describe('Steam API functions used by the server', () => {
 
   describe('getRecommendations', () => {
 
-  });
+    before(async () => {
+      this.total = await steamApi.getRecommendations(mocks.user, 'total');
+      this.recent = await steamApi.getRecommendations(mocks.user, 'recent');
+    });
 
+    it('returns an unresolved promise that is undefined given an invalid user', async () => {
+      const res = await steamApi.getRecommendations(undefined, 'total');
+
+      expect(res).to.be.undefined;
+    });
+
+    it('returns an array with at most three unsorted games given an invalid recommendation type', async () => {
+      const res = await steamApi.getRecommendations(mocks.user, '');
+
+      expect(res).to.be.an('array');
+      expect(res.length).to.be.below(4);
+    });
+
+    it("returns an array with the top three (or fewer) rated games based on total playtime out of user's unplayed games", () => {
+      expect(this.total[0].rating).to.be.above(this.total[1].rating);
+      expect(this.total[1].rating).to.be.above(this.total[2].rating);
+      for (let i = 0; i < this.total.length; i++) {
+        expect(this.total[i].name).to.be.a('string');
+        expect(this.total[i].rating_reason).to.be.a('string');
+      }
+    });
+
+    it("returns an array with the top three (or fewer) rated games based on recent playtime out of user's unplayed games", () => {
+      expect(this.recent[0].rating).to.be.above(this.recent[1].rating);
+      expect(this.recent[1].rating).to.be.above(this.recent[2].rating);
+      for (let i = 0; i < this.recent.length; i++) {
+        expect(this.recent[i].name).to.be.a('string');
+        expect(this.recent[i].rating_reason).to.be.a('string');
+      }
+    });
+  });
 });

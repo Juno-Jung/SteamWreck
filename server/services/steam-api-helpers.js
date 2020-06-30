@@ -26,7 +26,7 @@ const getTagsAndGenres = async (games) => {
         }
       }
     } catch (error) {
-      console.log(error); // All errors are usually 404 Not Found errors.
+      // console.log(error); // All errors are usually 404 Not Found errors.
     }
   }
 
@@ -80,7 +80,7 @@ const rateGames = async (games, tags, genres) => {
         rating_reason,
       });
     } catch (error) {
-      console.log(error); // All errors are usually 404 Not Found errors.
+      // console.log(error); // All errors are usually 404 Not Found errors.
     }
   }
   ratedGames.sort((a, b) => {
