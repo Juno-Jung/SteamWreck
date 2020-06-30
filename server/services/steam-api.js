@@ -49,8 +49,9 @@ const steamApi = {
       .then((res) => (res.ok ? res : Promise.reject(res)))
       .then((res) => (res.status !== 204 ? res.json() : res))
       .catch(
-        (err) =>
-          console.log(`Error fetching [${options ? options.method : `GET`}]`, err) // eslint-disable-line
+        (err) => {
+          // console.log(`Error fetching [${options ? options.method : `GET`}]`, err)
+        }
       );
   },
 };
