@@ -75,7 +75,7 @@ const putUserSteam = async (req, _) => {
       upsert: true,
     });
 
-    return user;
+    return steamId;
   } catch (error) {
     console.log(error);
   }
