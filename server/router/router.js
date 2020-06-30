@@ -21,8 +21,7 @@ router.put('/user/store/:steamid', UserController.putUserSummary); // This shoul
 
 router.get('/auth/steam',
   passport.authenticate('steam', { failureRedirect: '/' }),
-  function (req, res) {
-    console.log(res.body);
+  function (_, res) {
     res.redirect('/');
   });
 router.get('/auth/steam/return',
