@@ -10,7 +10,7 @@ const getTagsAndGenres = async (games) => {
 
   for (let i = 0; i < games.length; i++) {
     try {
-      const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').toLowerCase());
+      const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
 
       const gameTags = game.tags;
       const gameGenres = game.genres;
@@ -26,7 +26,7 @@ const getTagsAndGenres = async (games) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error); // All errors are usually 404 Not Found errors.
     }
   }
 
@@ -38,7 +38,7 @@ const rateGames = async (games, tags, genres) => {
 
   for (let i = 0; i < games.length; i++) {
     try {
-      const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').toLowerCase());
+      const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
 
       const gameTags = game.tags;
       const gameGenres = game.genres;
@@ -66,12 +66,12 @@ const rateGames = async (games, tags, genres) => {
 
       let rating_reason;
       // Sets rating reason based on which category scored the highest.
-      if ((tag_score > genre_score) && (tag_score > metacritic_score)) {
+      if ((tag_score >= genre_score) && (tag_score >= metacritic_score)) {
         rating_reason = 'This game has similar tags to games that you have already played before.';
-      } else if ((genre_score > tag_score) && (genre_score > metacritic_score)) {
-        rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
-      } else if ((metacritic_score > tag_score) && (metacritic_score > genre_score)) {
+      } else if ((metacritic_score >= tag_score) && (metacritic_score >= genre_score)) {
         rating_reason = 'The metacritic score for this game is high among similar games that you have enjoyed.';
+      } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score)) {
+        rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
       }
 
       ratedGames.push({
@@ -80,7 +80,7 @@ const rateGames = async (games, tags, genres) => {
         rating_reason,
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error); // All errors are usually 404 Not Found errors.
     }
   }
   ratedGames.sort((a, b) => {

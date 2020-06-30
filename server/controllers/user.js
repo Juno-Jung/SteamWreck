@@ -36,8 +36,8 @@ const getRecommendations = async (req, res) => {
 
 
     const recommendations = {
-      total: await steamApi.getTotalRecommendations(user[0]),
-      recent: await steamApi.getRecentRecommendations(user[0]),
+      total: await steamApi.getRecommendations(user[0], 'total'),
+      recent: await steamApi.getRecommendations(user[0], 'recent'),
     };
 
     // Returns updated document with new recommendations
@@ -57,11 +57,34 @@ const getRecommendations = async (req, res) => {
   }
 };
 
+// // This function does not send - it only returns the user object.
+// const putUserSteam = async (req, _) => {
+//   try {
+//     const steamId = req.user.id;
+//     const userSummaryData = await steamApi.getUserSummary(steamId);
+//     const user = processUserData(userSummaryData.response.players[0]);
+//     const userLibraryData = await steamApi.getUserLibrary(steamId);
+//     const userGames = processUserLibraryData(userLibraryData.response);
+
+//     user.owned = userGames;
+
+//     await UserModel.replaceOne({
+//       steamid: steamId,
+//     },
+//       user, {
+//       upsert: true,
+//     });
+
+//     return steamId;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// This function does not send - it only returns the user object.
 const putUserSummary = async (req, res) => {
   try {
-    console.log('Put User: ', req.body);
-
-    const steamId = req.body.steamid; // Not exactly sure where the steamId is coming after authentiation. Could make it into req.params.steamid
+    const steamId = req.body.steamid;
     const userSummaryData = await steamApi.getUserSummary(steamId);
     const user = processUserData(userSummaryData.response.players[0]);
     const userLibraryData = await steamApi.getUserLibrary(steamId);
@@ -80,7 +103,7 @@ const putUserSummary = async (req, res) => {
     res.status(200).json(res.body);
   } catch (error) {
     console.log(error);
-    res.status(500)
+    res.status(500);
   }
 };
 
