@@ -1,0 +1,5 @@
+mocks = {
+
+};
+
+module.exports = mocks;
