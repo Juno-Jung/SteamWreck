@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type UserImageProps = {
   //
 };
 
-const UserImage: React.FC<any> = () => {
+const UserImage: FunctionComponent = () => {
   return <div>UserImage</div>;
 };
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 import { shallow } from 'enzyme';
 import GameCardLarge from './GameCardLarge';
 

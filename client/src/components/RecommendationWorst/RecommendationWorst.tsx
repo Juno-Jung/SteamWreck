@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FunctionComponent  } from 'react';
 
 type RecommendationWorstProps = {
   //
 };
 
-const RecommendationWorst: React.FC<any> = () => {
+const RecommendationWorst: FunctionComponent = () => {
   return <div>RecommendationWorst</div>;
 };
 
