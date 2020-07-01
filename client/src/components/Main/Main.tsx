@@ -19,23 +19,23 @@ const navigation = {
     { name: "Logout", to: "/logout" },
   ]
 };
-interface userObj {
-  favourites: [];
-  personaname: string;
-  avatarfull: string;
-  countrycode: string;
-}
-const user: userObj = JSON.parse('{ "personaname": "Test", "countrycode": "CA", "avatarfull": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ecd7f7410cb1c7f59b62bf2355df6269ab8b14e1_full.jpg" }');
+
 
 
 const Main: FunctionComponent = () => {
   const [steamid,setSteamid]= useState('')
-  const [userInfo,setUserInfo]=useState(user);
+  const [username,setUsername] = useState('')
+  const [avatarfull,setAvatarfull]=useState('')
+  const [countrycode,setCountrycode]=useState('')
   useEffect(() => {
     let steam:any = hash
     console.log(hash)
     setSteamid(steam.steamid)
-    serverService.getUserInfo(steam.steamid).then(user=>setUserInfo(user[0]))
+    serverService.getUserInfo(steam.steamid).then(user=>{
+      setUsername(user[0].personaname)
+      setAvatarfull(user[0].avatarfull)
+      setCountrycode(user[0].countrycode)
+    })
   
   }, [])
 
@@ -43,7 +43,7 @@ const Main: FunctionComponent = () => {
     return (
       <div className="Main">
         <Navbar company={company} links={links} />
-        <UserSummary user={userInfo} steamid={steamid}/>
+        <UserSummary  username={username} avatarfull={avatarfull} countrycode={countrycode} />
         <RecommendationList />
       </div>
     )
