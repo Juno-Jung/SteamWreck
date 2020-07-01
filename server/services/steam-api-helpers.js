@@ -58,13 +58,15 @@ const rateGame = (game, tags, genres) => {
   let overlappingTags = 0;
   let overlappingGenres = 0;
 
+  // console.log('Genres: ', genres);
+  // console.log('Game: ', game);
   for (let j = 0; j < game.tags.length; j++) {
-    if (tags.includes(game.tags[j].name)) {
+    if (tags.includes(game.tags[j])) {
       overlappingTags++;
     }
   }
   for (let j = 0; j < game.genres.length; j++) {
-    if (genres.includes(game.genres[j].name)) {
+    if (genres.includes(game.genres[j])) {
       overlappingGenres++;
     }
   }
@@ -73,6 +75,8 @@ const rateGame = (game, tags, genres) => {
   const tag_score = overlappingTags / game.tags.length;
   const genre_score = overlappingGenres / game.genres.length;
   const metacritic_score = game.ratings.metacritic / 100;
+
+  console.log(`Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}`);
 
   // if the metacritic score is null, then exclude it from the weight entirely and reweight.
   const rating = tag_score * TAG_WEIGHT + genre_score * GENRE_WEIGHT + metacritic_score * METACRITIC_WEIGHT;
