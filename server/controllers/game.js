@@ -2,7 +2,7 @@
 
 const GameModel = require('../models/game');
 
-const getGameBySteamId = async (req, res) => {
+const getGameByAppId = async (req, res) => {
   try {
     res.body = await GameModel.find({
       steamid: req.body.steamid,
@@ -14,7 +14,7 @@ const getGameBySteamId = async (req, res) => {
   }
 };
 
-const getGamesBySteamId = async (req, res) => {
+const getGamesByAppId = async (req, res) => {
   try {
     const steamids = req.body.steamids;
 
@@ -64,8 +64,8 @@ const deleteGames = async (req, res) => {
 }
 
 module.exports = {
-  getGameBySteamId,
-  getGamesBySteamId,
+  getGameByAppId,
+  getGamesByAppId,
   getAllGames,
   putGame,
   deleteGames

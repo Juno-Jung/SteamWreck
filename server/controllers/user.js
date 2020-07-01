@@ -2,7 +2,7 @@
 
 const UserModel = require('../models/user');
 const steamApi = require('../services/steam-api');
-const { processUserData, processUserLibraryData } = require('./user-helpers');
+const { createUserProfile } = require('./user-helpers');
 
 const getUsers = async (req, res) => {
   try {
@@ -16,10 +16,16 @@ const getUsers = async (req, res) => {
 
 const getUserSummary = async (req, res) => {
   try {
-    res.body = await UserModel.find({
-      steamid: req.params.steamid,
+    const steamId = req.params.steamid;
+    let user = await UserModel.find({
+      steamid: steamId,
     });
-    res.status(200).json(res.body);
+
+    if (!user.length) {
+      user = await createUserProfile(steamId);
+    }
+
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.status(500);
@@ -54,47 +60,12 @@ const getRecommendations = async (req, res) => {
   }
 };
 
-// // This function does not send - it only returns the user object.
-// const putUserSteam = async (req, _) => {
-//   try {
-//     const steamId = req.user.id;
-//     const userSummaryData = await steamApi.getUserSummary(steamId);
-//     const user = processUserData(userSummaryData.response.players[0]);
-//     const userLibraryData = await steamApi.getUserLibrary(steamId);
-//     const userGames = processUserLibraryData(userLibraryData.response);
-
-//     user.owned = userGames;
-
-//     await UserModel.replaceOne({
-//       steamid: steamId,
-//     },
-//       user, {
-//       upsert: true,
-//     });
-
-//     return steamId;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 // This function does not send - it only returns the user object.
 const putUserSummary = async (req, res) => {
   try {
     const steamId = req.body.steamid;
-    const userSummaryData = await steamApi.getUserSummary(steamId);
-    const user = processUserData(userSummaryData.response.players[0]);
-    const userLibraryData = await steamApi.getUserLibrary(steamId);
-    const userGames = processUserLibraryData(userLibraryData.response);
 
-    user.owned = userGames;
-
-    await UserModel.replaceOne({
-      steamid: steamId,
-    },
-      user, {
-      upsert: true,
-    });
+    const user = await createUserProfile(steamId);
 
     res.body = user;
     res.status(200).json(res.body);

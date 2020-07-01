@@ -30,33 +30,19 @@ const getTagsAndGenres = async (games, steamIds) => {
       }
     } else {
       try {
+        const steamId = games[i].appid;
         const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
 
-        const gameTags = game.tags;
-        const gameGenres = game.genres;
-        const gameMetacritic = game.metacritic
+        await saveGame(steamId, game);
 
-        // Put the game in the database
-        const dbGame = {
-          steamid: games[i].appid,
-          name: games[i].name,
-          genres: gameGenres,
-          tags: gameTags,
-          ratings: {
-            metacritic: gameMetacritic,
-          },
-        };
-
-        // await GameModel.create(dbGame);
-
-        for (let j = 0; j < gameTags.length; j++) {
-          if (!tags.includes(gameTags[j].name)) {
-            tags.push(gameTags[j].name);
+        for (let j = 0; j < game.tags.length; j++) {
+          if (!tags.includes(game.tags[j].name)) {
+            tags.push(game.tags[j].name);
           }
         }
-        for (let j = 0; j < gameGenres.length; j++) {
-          if (!genres.includes(gameGenres[j].name)) {
-            genres.push(gameGenres[j].name);
+        for (let j = 0; j < game.genres.length; j++) {
+          if (!genres.includes(game.genres[j].name)) {
+            genres.push(game.genres[j].name);
           }
         }
       } catch (error) {
@@ -64,13 +50,10 @@ const getTagsAndGenres = async (games, steamIds) => {
       }
     }
   }
-
   return [tags, genres];
 };
 
-
 const rateGame = (game, tags, genres) => {
-
   // Compare game tags to given list of tags.
   let overlappingTags = 0;
   let overlappingGenres = 0;
@@ -105,7 +88,10 @@ const rateGame = (game, tags, genres) => {
   }
 
   const ratedGame = {
+    steamid: game.steamid,
     name: game.name,
+    description: game.description,
+    background_image: game.background_image,
     rating,
     rating_reason,
   };
@@ -126,31 +112,26 @@ const rateGames = async (games, tags, genres, steamIds) => {
 
     // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
     if (game) {
-      console.log(game);
       const ratedGame = rateGame(game, tags, genres);
       ratedGames.push(ratedGame);
     } else {
       try {
+        const steamId = games[i].appid;
         const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
 
-        const gameTags = game.tags;
-        const gameGenres = game.genres;
-        const gameMetacritic = game.metacritic
-
-        // Put the game in the database
-        const dbGame = {
-          steamid: games[i].appid,
-          name: games[i].name,
-          genres: gameGenres,
-          tags: gameTags,
-          ratings: {
-            metacritic: gameMetacritic,
-          },
-        };
-
-        // await GameModel.create(dbGame);
+        // Saves a game object into our db since it doesn't already exist.
+        const dbGame = await saveGame(steamId, game);
 
         const ratedGame = rateGame(dbGame, tags, genres);
+
+        // Update game with most relevant SteamWrecks rating
+        await GameModel.findOneAndUpdate({
+          steamid: steamId,
+        }, {
+          $set: {
+            'ratings.steamwreck': ratedGame.rating,
+          }
+        });
 
         ratedGames.push(ratedGame);
       } catch (error) {
@@ -163,6 +144,42 @@ const rateGames = async (games, tags, genres, steamIds) => {
   });
   return ratedGames;
 };
+
+const saveGame = async (steamId, game) => {
+  const gameTags = [];
+  const gameGenres = [];
+  const gameMetacritic = game.metacritic
+
+  // Extracting Tag names from game.tags object into gameTags array.
+  for (let j = 0; j < game.tags.length; j++) {
+    gameTags.push(game.tags[j].name);
+  }
+  for (let j = 0; j < game.genres.length; j++) {
+    gameGenres.push(game.genres[j].name);
+  }
+
+  // Put the game in the database
+  const dbGame = {
+    steamid: steamId,
+    name: game.name,
+    background_image: game.background_image,
+    description: game.description,
+    genres: gameGenres,
+    tags: gameTags,
+    ratings: {
+      metacritic: gameMetacritic,
+    },
+  };
+
+  await GameModel.replaceOne({
+    steamid: steamId,
+  },
+    dbGame, {
+    upsert: true,
+  });
+
+  return dbGame;
+}
 
 module.exports = {
   getTagsAndGenres,
