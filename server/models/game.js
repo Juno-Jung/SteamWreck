@@ -5,14 +5,30 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const gameSchema = new Schema({
-  appid: Number,
+  steamid: {
+    type: Number,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  background_image: String,
   genres: [String],
   tags: [String],
   ratings: {
-    gamespot: Number,
-    ign: Number,
-    metacritic: Number,
-  },
+    type: {
+      steamwreck: Number,
+      gamespot: Number,
+      ign: Number,
+      metacritic: Number,
+    },
+    required: false,
+  }
 });
 
 const GameModel = mongoose.model('Games', gameSchema);

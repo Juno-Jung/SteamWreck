@@ -26,6 +26,10 @@ const userSchema = new Schema({
   owned: {
     type: {
       game_count: Number,
+      game_ids: {
+        type: [Number],
+        required: true,
+      },
       games_owned: [{
         appid: Number,
         name: String,
