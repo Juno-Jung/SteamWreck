@@ -58,13 +58,15 @@ const rateGame = (game, tags, genres) => {
   let overlappingTags = 0;
   let overlappingGenres = 0;
 
+  // console.log('Genres: ', genres);
+  // console.log('Game: ', game);
   for (let j = 0; j < game.tags.length; j++) {
-    if (tags.includes(game.tags[j].name)) {
+    if (tags.includes(game.tags[j])) {
       overlappingTags++;
     }
   }
   for (let j = 0; j < game.genres.length; j++) {
-    if (genres.includes(game.genres[j].name)) {
+    if (genres.includes(game.genres[j])) {
       overlappingGenres++;
     }
   }
@@ -74,8 +76,15 @@ const rateGame = (game, tags, genres) => {
   const genre_score = overlappingGenres / game.genres.length;
   const metacritic_score = game.ratings.metacritic / 100;
 
-  // if the metacritic score is null, then exclude it from the weight entirely and reweight.
-  const rating = tag_score * TAG_WEIGHT + genre_score * GENRE_WEIGHT + metacritic_score * METACRITIC_WEIGHT;
+  let rating;
+  // If the metacritic score is null/0, exclude it from the score.
+  if (metacritic_score) {
+    rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT);
+  } else {
+    rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
+  }
+
+  console.log(`Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
 
   let rating_reason;
   // Sets rating reason based on which category scored the highest.
@@ -123,15 +132,6 @@ const rateGames = async (games, tags, genres, steamIds) => {
         const dbGame = await saveGame(steamId, game);
 
         const ratedGame = rateGame(dbGame, tags, genres);
-
-        // Update game with most relevant SteamWrecks rating
-        await GameModel.findOneAndUpdate({
-          steamid: steamId,
-        }, {
-          $set: {
-            'ratings.steamwreck': ratedGame.rating,
-          }
-        });
 
         ratedGames.push(ratedGame);
       } catch (error) {

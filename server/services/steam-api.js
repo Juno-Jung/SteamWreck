@@ -8,16 +8,20 @@ const { getTagsAndGenres, rateGames } = require('./steam-api-helpers');
 const steamApi = {
   getRecommendations: async function (user, type) {
     try {
-      const userGames = user.owned.games_owned.slice();
+      let userGames;
 
       if (type === 'total') {
+        // For logging purposes        
+        console.log('Recommendation Type: Total');
         // Sort games by total playtime from increasing to decreasing
-        userGames.sort((a, b) => {
+        userGames = user.owned.games_owned.slice().sort((a, b) => {
           return b.playtime_forever - a.playtime_forever;
         });
       } else if (type === 'recent') {
+        // For logging purposes
+        console.log('Recommendation Type: Recent');
         // Sort games by total playtime from increasing to decreasing (can also do this by recently played).
-        userGames.sort((a, b) => {
+        userGames = user.owned.games_owned.filter((game) => game.playtime_2weeks).sort((a, b) => {
           return b.playtime_2weeks - a.playtime_2weeks;
         });
       }
