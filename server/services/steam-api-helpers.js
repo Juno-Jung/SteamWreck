@@ -72,8 +72,8 @@ const rateGame = (game, tags, genres) => {
   }
 
   // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
-  const tag_score = overlappingTags / game.tags.length;
-  const genre_score = overlappingGenres / game.genres.length;
+  const tag_score = overlappingTags / game.tags.length ? overlappingTags / game.tags.length : 0;
+  const genre_score = overlappingGenres / game.genres.length ? overlappingGenres / game.genres.length : 0;
   const metacritic_score = game.ratings.metacritic / 100;
 
   let rating;
@@ -128,7 +128,7 @@ const rateGames = async (games, tags, genres, steamIds) => {
         const steamId = games[i].appid;
         const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
 
-        // Saves a game object into our db since it doesn't already exist.
+        // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
         const dbGame = await saveGame(steamId, game);
 
         const ratedGame = rateGame(dbGame, tags, genres);

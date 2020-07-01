@@ -30,6 +30,10 @@ const userSchema = new Schema({
         type: [Number],
         required: true,
       },
+      game_unplayed_ids: {
+        type: [Number],
+        required: true,
+      },
       games_owned: [{
         appid: Number,
         name: String,
