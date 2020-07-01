@@ -22,7 +22,6 @@ const gameSchema = new Schema({
   tags: [String],
   ratings: {
     type: {
-      steamwreck: Number,
       gamespot: Number,
       ign: Number,
       metacritic: Number,
