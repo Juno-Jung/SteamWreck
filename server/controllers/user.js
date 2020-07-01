@@ -1,8 +1,10 @@
 'use strict';
 
-const { UserModel, GameModel } = require('../models/user');
+const UserModel = require('../models/user');
+const steamApi = require('../services/steam-api');
+const { createUserProfile } = require('./user-helpers');
 
-const getAll = async (_, res) => {
+const getUsers = async (req, res) => {
   try {
     res.body = await UserModel.find({});
     res.status(200).json(res.body);
@@ -12,20 +14,72 @@ const getAll = async (_, res) => {
   }
 };
 
-const deleteAll = async (req, res) => {
+const getUserSummary = async (req, res) => {
   try {
-    res.body = await UserModel.deleteMany({});
-    res.status(201).json(res.body);
+    const steamId = req.params.steamid;
+    let user = await UserModel.find({
+      steamid: steamId,
+    });
+
+    if (!user.length) {
+      user = await createUserProfile(steamId);
+    }
+
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.status(500);
   }
 };
 
-const deleteAllGames = async (req, res) => {
+const getRecommendations = async (req, res) => {
   try {
-    res.body = await GameModel.deleteMany({});
-    res.status(201).json(res.body);
+    const steamId = req.params.steamid;
+    const user = await UserModel.find({
+      steamid: steamId,
+    });
+
+    const recommendations = {
+      total: await steamApi.getRecommendations(user[0], 'total'),
+      recent: await steamApi.getRecommendations(user[0], 'recent'),
+    };
+
+    // Returns updated document with new recommendations
+    res.body = await UserModel.findOneAndUpdate({
+      steamid: steamId
+    }, {
+      recommendations,
+    }, {
+      new: true
+    });
+
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+};
+
+// This function does not send - it only returns the user object.
+const putUserSummary = async (req, res) => {
+  try {
+    const steamId = req.body.steamid;
+
+    const user = await createUserProfile(steamId);
+
+    res.body = user;
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+  }
+};
+
+const deleteAll = async (req, res) => {
+  try {
+    await UserModel.deleteMany({});
+    res.body = 'Deleted';
+    res.status(200).json(res.body);
   } catch (error) {
     console.log(error);
     res.status(500);
@@ -33,7 +87,9 @@ const deleteAllGames = async (req, res) => {
 };
 
 module.exports = {
-  getAll,
+  getUsers,
+  getUserSummary,
+  getRecommendations,
+  putUserSummary,
   deleteAll,
-  deleteAllGames,
 };

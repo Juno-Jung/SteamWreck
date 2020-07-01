@@ -5,22 +5,52 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  steam_id: Number,
+  steamid: Number,
+  personaname: String,
+  avatar: String,
+  avatarmedium: String,
+  avatarfull: String,
+  countrycode: String,
+  recommendations: {
+    type: {
+      total: [Object],
+      recent: [Object],
+    },
+    required: false,
+  },
+  favourites: {
+    type: [Number], // Appid
+    default: undefined,
+    required: false,
+  },
   owned: {
-    game_count: Number,
-    games: Array,
+    type: {
+      game_count: Number,
+      game_ids: {
+        type: [Number],
+        required: true,
+      },
+      game_unplayed_ids: {
+        type: [Number],
+        required: true,
+      },
+      games_owned: [{
+        appid: Number,
+        name: String,
+        playtime_forever: Number,
+        playtime_2weeks: Number,
+      }],
+      games_unplayed: [{
+        appid: Number,
+        name: String,
+        playtime_forever: Number,
+        playtime_2weeks: Number,
+      }],
+    },
+    required: false,
   },
 });
 
-const gameSchema = new Schema({
-  game_id: Number,
-  tags: Array,
-});
-
 const UserModel = mongoose.model('Users', userSchema);
-const GameModel = mongoose.model('Games', gameSchema);
 
-module.exports = {
-  UserModel,
-  GameModel,
-};
+module.exports = UserModel;
