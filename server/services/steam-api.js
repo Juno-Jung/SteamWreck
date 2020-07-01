@@ -28,10 +28,8 @@ const steamApi = {
 
       // Gets all tags and genres of top three games as arrays. topTagsAndGenres returns an array with two entries, first is an array of tags, second is an array of genres.
       const [tags, genres] = await getTagsAndGenres(userGames.slice(0, 3), user.owned.game_ids);
-
       // Rates unplayed games by recommendation algorithm. Returns array of unplayed games in the order of the highest rating to lowest rating. (Rating is not added to objects);
       const ratedUnplayed = await rateGames(user.owned.games_unplayed, tags, genres, user.owned.game_unplayed_ids);
-
       // Returns top three recommendations
       return ratedUnplayed.slice(0, 3);
     } catch (error) {

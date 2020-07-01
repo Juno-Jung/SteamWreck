@@ -31,19 +31,33 @@ const getTagsAndGenres = async (games, steamIds) => {
     } else {
       try {
         const steamId = games[i].appid;
-        const game = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
+        const rawgGame = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
 
-        await saveGame(steamId, game);
+        if (rawgGame) {
+          await saveGame(steamId, game);
 
-        for (let j = 0; j < game.tags.length; j++) {
-          if (!tags.includes(game.tags[j].name)) {
-            tags.push(game.tags[j].name);
+          for (let j = 0; j < game.tags.length; j++) {
+            if (!tags.includes(game.tags[j].name)) {
+              tags.push(game.tags[j].name);
+            }
           }
-        }
-        for (let j = 0; j < game.genres.length; j++) {
-          if (!genres.includes(game.genres[j].name)) {
-            genres.push(game.genres[j].name);
+          for (let j = 0; j < game.genres.length; j++) {
+            if (!genres.includes(game.genres[j].name)) {
+              genres.push(game.genres[j].name);
+            }
           }
+        } else {
+          // Put the game in the database and flag that it has no rawg information.
+          const dbGame = {
+            steamid: steamId,
+            rawg: false,
+          };
+          const test = await GameModel.replaceOne({
+            steamid: steamId,
+          },
+            dbGame, {
+            upsert: true,
+          });
         }
       } catch (error) {
         // console.log(error); // All errors are usually 404 Not Found errors.
