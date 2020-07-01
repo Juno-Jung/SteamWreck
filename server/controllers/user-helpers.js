@@ -50,7 +50,6 @@ const processUserLibraryData = (libraryData) => {
   const gamesUnplayed = [];
   const gameIds = [];
   const gameUnplayedIds = [];
-
   for (let i = 0; i < games.length; i++) {
     gameIds.push(games[i].appid);
     gamesOwned.push({
