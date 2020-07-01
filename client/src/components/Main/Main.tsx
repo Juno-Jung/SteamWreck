@@ -19,18 +19,31 @@ const navigation = {
     { name: "Logout", to: "/logout" },
   ]
 };
+interface userObj {
+  favourites: [];
+  personaname: string;
+  avatarfull: string;
+  countrycode: string;
+}
+const user: userObj = JSON.parse('{ "personaname": "Test", "countrycode": "CA", "avatarfull": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ecd7f7410cb1c7f59b62bf2355df6269ab8b14e1_full.jpg" }');
+
 
 const Main: FunctionComponent = () => {
-  const [userInfo,setUserInfo]=useState(String);
+  const [steamid,setSteamid]= useState('')
+  const [userInfo,setUserInfo]=useState(user);
   useEffect(() => {
-   
+    let steam:any = hash
+    console.log(hash)
+    setSteamid(steam.steamid)
+    serverService.getUserInfo(steam.steamid).then(user=>setUserInfo(user[0]))
+  
   }, [])
 
     const { company, links } = navigation;
     return (
       <div className="Main">
         <Navbar company={company} links={links} />
-        <UserSummary />
+        <UserSummary user={userInfo} steamid={steamid}/>
         <RecommendationList />
       </div>
     )
