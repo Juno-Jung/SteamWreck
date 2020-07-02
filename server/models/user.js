@@ -23,7 +23,7 @@ const userSchema = new Schema({
   },
   favourites: {
     type: [Number], // Appid
-    default: undefined,
+    default: null,
     required: false,
   },
   owned: {
@@ -46,8 +46,6 @@ const userSchema = new Schema({
       games_unplayed: [{
         appid: Number,
         name: String,
-        playtime_forever: Number,
-        playtime_2weeks: Number,
       }],
     },
     required: false,

@@ -5,7 +5,7 @@ const GameModel = require('../models/game');
 const getGameByAppId = async (req, res) => {
   try {
     res.body = await GameModel.find({
-      steamid: req.body.steamid,
+      gameid: req.body.gameid,
     });
     res.status(200).json(res.body);
   } catch (error) {
@@ -16,9 +16,9 @@ const getGameByAppId = async (req, res) => {
 
 const getGamesByAppId = async (req, res) => {
   try {
-    const steamids = req.body.steamids;
+    const gameids = req.body.gameids;
 
-    const games = await GameModel.find({ steamid: { $in: steamids } });
+    const games = await GameModel.find({ gameid: { $in: gameids } });
 
     res.body = games;
     res.status(200).json(res.body);
@@ -41,7 +41,7 @@ const getAllGames = async (_, res) => {
 const putGame = async (req, res) => {
   try {
     await GameModel.replaceOne({
-      steamid: req.body.steamid,
+      gameid: req.body.gameid,
     },
       req.body, {
       upsert: true,

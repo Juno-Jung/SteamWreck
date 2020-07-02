@@ -21,9 +21,10 @@ const steamApi = {
         // For logging purposes
         console.log('\n', 'Recommendation Type: Recent');
         // Sort games by total playtime from increasing to decreasing (can also do this by recently played).
-        userGames = user.owned.games_owned.filter((game) => game.playtime_2weeks).sort((a, b) => {
-          return b.playtime_2weeks - a.playtime_2weeks;
-        });
+        userGames = user.owned.games_owned.filter((game) => game.playtime_2weeks)
+          .sort((a, b) => {
+            return b.playtime_2weeks - a.playtime_2weeks;
+          });
       }
 
       // Gets all tags and genres of top three games as arrays. topTagsAndGenres returns an array with two entries, first is an array of tags, second is an array of genres.
