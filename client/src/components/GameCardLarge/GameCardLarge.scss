@@ -9,23 +9,24 @@ $imgLargeDim: 100px;
 $fontOrbiton: 'Orbitron', sans-serif;
 $fontPlexSans: 'IBM Plex Sans', sans-serif;
 
-.name {
+.nameLarge {
   font-family: $fontOrbiton;
   margin-left: 15px;
 }
 
-h1.name {
-  margin-top: 0;
-  margin-bottom: 0;
+h1.nameLarge {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-bottom: 17px;
 }
 
-.allDetails {
+.allDetailsLarge {
   display: flex;
   margin-left: 15px;
   margin-right: 15px;
   flex-direction: row;
 
-  .mainDetails {
+  .mainDetailsLarge {
     width: 60%;
     font-family: $fontOrbiton;
     display: flex;
@@ -46,16 +47,19 @@ h1.name {
     }
   }
 
-  .subDetails {
+  .subDetailsLarge {
 
     .description {
       padding: 15px;
+      font-family: $fontPlexSans;
     }
 
-    .rating, .reason {
+
+    .rating, .reason, .purchased, .tags {
       text-transform: uppercase;
       font-family: $fontOrbiton;
       padding: 5px;
+
 
       .ratingNumber {
         font-weight: 900;
