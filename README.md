@@ -45,7 +45,7 @@ Create an .env file in the server folder with the following variables:
 
 ## Populate your database
 
-In order to reduce loading times when asking for game information, we store the data received from API calls into our database with a background worker during off-hours.
+In order to reduce loading times when asking for game information, we want to have the details of a game stored in our database instead of making an API call. The app avoids storing all user games into the database and only does so for the necessary ones in order to reduce loading times. We use a background worker to store the game details of all other user games during off hours to speed up loading times in the future.
 
 1. Set a time for the background worker to run in schedule.js of background_workers. Hour is based off of a 24 hour cycle.
 2. Run schedule.js.
