@@ -35,7 +35,7 @@ const Main: FunctionComponent = () => {
     console.log(hash)
     setSteamid(steam.steamid)
 
-    const fakeSteamId: string = '76561198056384406';
+
 
     serverService.getUserInfo(steam.steamid).then(user=>{
       setUsername(user[0].personaname)
@@ -43,17 +43,11 @@ const Main: FunctionComponent = () => {
       setCountrycode(user[0].countrycode)
     })
 
+    const fakeSteamId: string = '76561198056384406';  // FIX ME - remove this.
     serverService.getRecommendations(fakeSteamId)
-
-      .then ( responseData => {
-        console.log('hi')
-        console.log(responseData.recommendations.total);
-        return responseData;
-      })
       .then( responseData =>
         setRecommendations(responseData.recommendations.total)
       )
-
   }, [])
 
 
