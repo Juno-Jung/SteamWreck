@@ -2,14 +2,14 @@
 
 const UserModel = require('../models/user');
 const steamApi = require('../services/steam-api');
-const { createUserProfile } = require('./user-helpers');
+const { createUserProfile } = require('../helpers/user-helpers');
 
 const getUsers = async (req, res) => {
   try {
     res.body = await UserModel.find({});
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -27,7 +27,7 @@ const getUserSummary = async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -35,13 +35,14 @@ const getUserSummary = async (req, res) => {
 const getRecommendations = async (req, res) => {
   try {
     const steamId = req.params.steamid;
+    const max = req.query.max // Need to change the router when frontend knows how many recommendations they want total/initially.
     const user = await UserModel.find({
       steamid: steamId,
     });
 
     const recommendations = {
-      total: await steamApi.getRecommendations(user[0], 'total'),
-      recent: await steamApi.getRecommendations(user[0], 'recent'),
+      total: await steamApi.getRecommendations(user[0], 'total', max),
+      recent: await steamApi.getRecommendations(user[0], 'recent', max),
     };
 
     // Returns updated document with new recommendations
@@ -55,7 +56,7 @@ const getRecommendations = async (req, res) => {
 
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -70,7 +71,7 @@ const putUserSummary = async (req, res) => {
     res.body = user;
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -81,7 +82,7 @@ const deleteAll = async (req, res) => {
     res.body = 'Deleted';
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };

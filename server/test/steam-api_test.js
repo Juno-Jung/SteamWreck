@@ -22,11 +22,8 @@ describe('Steam API functions used by the server', () => {
         expect(user).to.have.property('avatar');
         expect(user).to.have.property('avatarmedium');
         expect(user).to.have.property('avatarfull');
-        expect(user).to.have.property('loccountrycode');
-        expect(user).to.have.property('locstatecode');
-        expect(user).to.have.property('loccityid');
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     });
   });
@@ -43,7 +40,7 @@ describe('Steam API functions used by the server', () => {
 
         expect(res).to.be.undefined;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       };
     });
 
@@ -92,7 +89,6 @@ describe('Steam API functions used by the server', () => {
 
     it('returns an array with at most three unsorted games given an invalid recommendation type', async () => {
       const res = await steamApi.getRecommendations(mocks.user, '');
-
       expect(res).to.be.an('array');
       expect(res.length).to.be.below(4);
     });

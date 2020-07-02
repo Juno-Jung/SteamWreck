@@ -5,7 +5,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  steamid: Number,
+  steamid: {
+    type: String,
+    required: true,
+  },
   personaname: String,
   avatar: String,
   avatarmedium: String,
@@ -20,7 +23,7 @@ const userSchema = new Schema({
   },
   favourites: {
     type: [Number], // Appid
-    default: undefined,
+    default: null,
     required: false,
   },
   owned: {
@@ -43,8 +46,6 @@ const userSchema = new Schema({
       games_unplayed: [{
         appid: Number,
         name: String,
-        playtime_forever: Number,
-        playtime_2weeks: Number,
       }],
     },
     required: false,

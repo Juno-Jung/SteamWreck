@@ -1,9 +1,9 @@
 const mocks = {
-  steamid: "76561198056384406",
+  steamid: "76561198120415168",
 
   user: {
-    "_id": "5efb8da3b5a4909e54a4943d",
-    "steamid": "76561198120415170",
+    "_id": "5efcd523b5a4909e54fc6ac8",
+    "steamid": "76561198120415168",
     "personaname": "Not Shark",
     "avatar": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/c9e3e12bbe0ac7ffee5721e17f99f4e111e6afce.jpg",
     "avatarmedium": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c9/c9e3e12bbe0ac7ffee5721e17f99f4e111e6afce_medium.jpg",
@@ -133,6 +133,38 @@ const mocks = {
         1281930,
         1113000
       ],
+      "game_unplayed_ids": [
+        2100,
+        2130,
+        15380,
+        1083500,
+        208610,
+        269250,
+        286260,
+        261640,
+        333600,
+        344770,
+        407530,
+        348950,
+        358750,
+        368160,
+        377710,
+        377720,
+        383460,
+        385800,
+        386970,
+        420110,
+        426690,
+        438130,
+        444090,
+        596350,
+        487430,
+        527190,
+        555640,
+        427460,
+        813780,
+        462770
+      ],
       "games_owned": [
         {
           "appid": 2100,
@@ -238,8 +270,8 @@ const mocks = {
         {
           "appid": 238960,
           "name": "Path of Exile",
-          "playtime_forever": 38238,
-          "playtime_2weeks": 3557
+          "playtime_forever": 38662,
+          "playtime_2weeks": 3980
         },
         {
           "appid": 215100,
@@ -647,8 +679,8 @@ const mocks = {
         {
           "appid": 594570,
           "name": "Total War: WARHAMMER II",
-          "playtime_forever": 37186,
-          "playtime_2weeks": 1134
+          "playtime_forever": 37519,
+          "playtime_2weeks": 1231
         },
         {
           "appid": 751780,
@@ -674,7 +706,7 @@ const mocks = {
           "appid": 801630,
           "name": "UNDER NIGHT IN-BIRTH Exe:Late[cl-r]",
           "playtime_forever": 2234,
-          "playtime_2weeks": 344
+          "playtime_2weeks": 276
         },
         {
           "appid": 803600,
@@ -747,8 +779,7 @@ const mocks = {
         {
           "appid": 1113000,
           "name": "Persona 4 Golden",
-          "playtime_forever": 635,
-          "playtime_2weeks": 186
+          "playtime_forever": 635
         }
       ],
       "games_unplayed": [
@@ -908,35 +939,53 @@ const mocks = {
     "recommendations": {
       "total": [
         {
+          "appid": 261640,
           "name": "Borderlands: The Pre-Sequel",
+          "description": "<p>The game belongs to the Borderlands game line, its action takes place between the events of Borderlands and Borderlands 2.<br />\nEverything happens on the moon of Pandora - Elpis. The story tells about the formation of Hyperion Corporation and the fate of its head - Handsome Jack, whom we meet while in the role of a simple programmer who dreams to find some valuable artifact. In the game there are various innovations - in the plot, in the characters, in the scenarios of missions and in the setting. For example, on the Pandora satellite, gravity is much weaker, but there is no oxygen at all. Therefore, the task of obtaining oxygen becomes very important for everyone. Moreover, oxygen is needed not only for breathing, but also for the functioning of personal jetpacks and long high jumps. In the game there is another additional story and downloadable content, including new characters and story campaigns.</p>",
+          "background_image": "https://media.rawg.io/media/games/530/5302dd22a190e664531236ca724e8726.jpg",
           "rating": 0.6693181818181817,
           "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
         },
         {
-          "name": "Pyre",
-          "rating": 0.6026470588235294,
-          "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
+          "appid": 407530,
+          "name": "ARK: Survival Of The Fittest",
+          "description": "<p>Welcome to ARK: Survival of the Fittest, the first ever M.O.S.A. - a Multiplayer Online Survival Arena - that Studio Wildcard designed for the burgeoning wild west of eSports. A spin-off from the most popular open-world Early Access game on Steam ARK: Survival Evolved, ARK: Survival of the Fittest (SotF) pits up to 72 combatants in an action-packed struggle for survival where players are ultimately pushed into an epic final showdown where only one “Tribe” will make it out alive.</p>\n<p>Survivors can form one- to six-person Tribes with the options to choose Unofficial and Official (Ranked) servers, and a variety of game-lengths and sizes in which to play. Players will start in the base forest environment introduced in the original ARK: Survival Evolved, with new environments and creatures introduced as the game evolves. Dedicated eSport ranking, matchmaking, reward, and tournament features make ARK: SotF readily accessible to all players.</p>\n<p>Balanced for intense competition, contestants begin in a neutral staging area where they can communicate pre-game, strategize, or talk trash. After a count-down, they dramatically descend from the sky onto the ARK in a circular formation via beams of light. There is a cache of valuable items in the center – do survivors dash for the goods and fight it out, do they run into the forest and hide, search for Dinosaurs to rapidly build their army, or do they freeze up from the sheer terror of death? A continually shrinking “ring of death” forces contestants ever closer together over time. The hunt is on!<br />\nKEY FEATURES<br />\nAction-Packed Core Survival Gameplay<br />\n30+ Creatures to Tame and Ride at Early Access Start, Many more planned at full launch<br />\nMultiple game modes (1v1, 2v2, 4v4, and 6v6)<br />\nOne-to-Six Player Tribes<br />\nVariable game configurations ranging from 30-minute “instant action” to three-hour long “epic wars”<br />\nTop-ranked players are listed dynamically on SurviveTheArk.com and are provided monthly prize packages!<br />\nGame-Changing Tameable Super Creatures (Dragon, Giant Ape, Brood Mother)<br />\nRandom “Evolution Events”<br />\nArsenal of Weapons, Traps, Armor, Structures and other Items from Primitive to Modern Tech Tiers<br />\nRobust Ranking, Tournament &amp; Spectator Features<br />\nExclusive SotF Cosmetic Items that can also be used in ARK: Survival Evolved<br />\nCustom-Painted “War Banners” enable Tribes to show off their team spirit on Flags across their army of Dinosaurs, and are also broadcast on the gigantic billboards during game events. Just don’t draw anything offensive!<br />\nA custom soundtrack written by award-winning composer Gareth Coker of Ori and the Blind Forest!</p>",
+          "background_image": "https://media.rawg.io/media/screenshots/654/6540928602af293014efa90d75c420b7.jpg",
+          "rating": 0.6190476190476191,
+          "rating_reason": "The genre of this game is similar to other genres you have played in the past."
         },
         {
-          "name": "Paladins",
-          "rating": 0.5842857142857143,
+          "appid": 462770,
+          "name": "Pyre",
+          "description": "<p>Pyre is an action-adventure game developed by Supergiant games. </p>\n<h3>Setting</h3>\n<p>The game is set in some purgatory. After getting banished by the society, the main character finds himself all alone. Three exiles soon approach him and invite the protagonist to party with them and nickname him the Reader. The group sets out to cleanse their souls.</p>\n<h3>Gameplay</h3>\n<p>The gameplay of Pyre revolves around some sports game, which is connected with a ritual known as the Rites, which happens in a parallel world. The Protagonist controls his three newly found friends in battles against three opponents on a small arena. Each team has its own pyre. Both pyres oppose each other. The objective of the game is to defend your pyre while attacking the enemy one. The player can only destroy the pyre with the orb, that is spawned in the center of the arena and which has to be grabbed and thrown into the pyre.</p>\n<p>During a round, the Reader can switch between the character he wants to control and pass the orb from one to another. Each player has their own amount of endurance which is required for moving around the arena. If the players of a team come together, they create a zone that is dangerous for the player that carries the orb. If the player with the orb should get into that zone, they&#39;ll be temporarily removed from the game.</p>\n<p>While free from the Rites, the player can travel through the world of Pyre, train his teammates or try to learn more about the Rites.</p>",
+          "background_image": "https://media.rawg.io/media/games/e63/e635b8c7fbe3ffd69ad6c1c586cd250e.jpg",
+          "rating": 0.6026470588235294,
           "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
         }
       ],
       "recent": [
         {
-          "name": "Pyre",
-          "rating": 0.21,
-          "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
-        },
-        {
-          "name": "Paladins",
-          "rating": 0.195,
-          "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
-        },
-        {
+          "appid": 261640,
           "name": "Borderlands: The Pre-Sequel",
-          "rating": 0.1875,
+          "description": "<p>The game belongs to the Borderlands game line, its action takes place between the events of Borderlands and Borderlands 2.<br />\nEverything happens on the moon of Pandora - Elpis. The story tells about the formation of Hyperion Corporation and the fate of its head - Handsome Jack, whom we meet while in the role of a simple programmer who dreams to find some valuable artifact. In the game there are various innovations - in the plot, in the characters, in the scenarios of missions and in the setting. For example, on the Pandora satellite, gravity is much weaker, but there is no oxygen at all. Therefore, the task of obtaining oxygen becomes very important for everyone. Moreover, oxygen is needed not only for breathing, but also for the functioning of personal jetpacks and long high jumps. In the game there is another additional story and downloadable content, including new characters and story campaigns.</p>",
+          "background_image": "https://media.rawg.io/media/games/530/5302dd22a190e664531236ca724e8726.jpg",
+          "rating": 0.5874999999999999,
+          "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
+        },
+        {
+          "appid": 444090,
+          "name": "Paladins",
+          "description": "<p>Paladins (also known as Paladins: Champions of the Realm) is a free-to-play multiplayer first-person shooter. The game is, according to developers, influenced by Team Fortress 2 and is an example of hero shooter subgenre: a type of multiplayer shooter in which you choose to play as one of the pre-made characters with unique abilities and weapons¬.  <br />\nThe primary game mode in Paladins is the siege. Two teams are fighting for the capture point in the center of the map. When a team successfully seizes the capture point, it gets 1 Objective Point, and the Payload spawns for them. Now they must escort the Payload to the enemy’s base to get additional Objective Point. The hostile team can, however, steal the Payload to get Objective Point themselves. Once a team gets 4 Objective Points, it wins the match. <br />\nThere are more than 38 heroes (or “champions” as they are called in the game) available in Paladins. Initially, the player has access to 5 of them at any time, and 4 more are in a two-week rotation. To permanently get any other champion, the player has to buy the champion via in-game currency or buy the champions pack for real money.</p>",
+          "background_image": "https://media.rawg.io/media/screenshots/88b/88b5f27f07d6ca2f8a3cd0b36e03a670.jpg",
+          "rating": 0.5557142857142857,
+          "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
+        },
+        {
+          "appid": 462770,
+          "name": "Pyre",
+          "description": "<p>Pyre is an action-adventure game developed by Supergiant games. </p>\n<h3>Setting</h3>\n<p>The game is set in some purgatory. After getting banished by the society, the main character finds himself all alone. Three exiles soon approach him and invite the protagonist to party with them and nickname him the Reader. The group sets out to cleanse their souls.</p>\n<h3>Gameplay</h3>\n<p>The gameplay of Pyre revolves around some sports game, which is connected with a ritual known as the Rites, which happens in a parallel world. The Protagonist controls his three newly found friends in battles against three opponents on a small arena. Each team has its own pyre. Both pyres oppose each other. The objective of the game is to defend your pyre while attacking the enemy one. The player can only destroy the pyre with the orb, that is spawned in the center of the arena and which has to be grabbed and thrown into the pyre.</p>\n<p>During a round, the Reader can switch between the character he wants to control and pass the orb from one to another. Each player has their own amount of endurance which is required for moving around the arena. If the players of a team come together, they create a zone that is dangerous for the player that carries the orb. If the player with the orb should get into that zone, they&#39;ll be temporarily removed from the game.</p>\n<p>While free from the Rites, the player can travel through the world of Pyre, train his teammates or try to learn more about the Rites.</p>",
+          "background_image": "https://media.rawg.io/media/games/e63/e635b8c7fbe3ffd69ad6c1c586cd250e.jpg",
+          "rating": 0.5320588235294117,
           "rating_reason": "The metacritic score for this game is high among similar games that you have enjoyed."
         }
       ]
