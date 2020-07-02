@@ -6,33 +6,34 @@ const { STEAM_API_KEY, STEAM_GET_USER_SUMMARY_URL, STEAM_GET_USER_LIBRARY_URL } 
 const { getTagsAndGenres, rateGames } = require('./steam-api-helpers');
 
 const steamApi = {
-  getRecommendations: async function (user, type) {
+  getRecommendations: async function (user, type, max = 3) {
     try {
-      const userGames = user.owned.games_owned.slice();
+      let userGames;
 
       if (type === 'total') {
+        // For logging purposes        
+        console.log('\n', 'Recommendation Type: Total');
         // Sort games by total playtime from increasing to decreasing
-        userGames.sort((a, b) => {
+        userGames = user.owned.games_owned.slice().sort((a, b) => {
           return b.playtime_forever - a.playtime_forever;
         });
       } else if (type === 'recent') {
+        // For logging purposes
+        console.log('\n', 'Recommendation Type: Recent');
         // Sort games by total playtime from increasing to decreasing (can also do this by recently played).
-        userGames.sort((a, b) => {
+        userGames = user.owned.games_owned.filter((game) => game.playtime_2weeks).sort((a, b) => {
           return b.playtime_2weeks - a.playtime_2weeks;
         });
       }
 
       // Gets all tags and genres of top three games as arrays. topTagsAndGenres returns an array with two entries, first is an array of tags, second is an array of genres.
-      const [tags, genres] = await getTagsAndGenres(userGames.slice(0, 3));
-
+      const [tags, genres] = await getTagsAndGenres(userGames.slice(0, 3), user.owned.game_ids);
       // Rates unplayed games by recommendation algorithm. Returns array of unplayed games in the order of the highest rating to lowest rating. (Rating is not added to objects);
-      const ratedUnplayed = await rateGames(user.owned.games_unplayed, tags, genres);
-
+      const ratedUnplayed = await rateGames(user.owned.games_unplayed, tags, genres, user.owned.game_unplayed_ids);
       // Returns top three recommendations
-      return ratedUnplayed.slice(0, 3);
+      return ratedUnplayed.slice(0, max);
     } catch (error) {
-      console.log(error);
-      throw error;
+      // console.log(error);
     }
   },
 
@@ -49,8 +50,9 @@ const steamApi = {
       .then((res) => (res.ok ? res : Promise.reject(res)))
       .then((res) => (res.status !== 204 ? res.json() : res))
       .catch(
-        (err) =>
-          console.log(`Error fetching [${options ? options.method : `GET`}]`, err) // eslint-disable-line
+        (err) => {
+          console.log(`Error fetching [${options ? options.method : `GET`}]`, err)
+        }
       );
   },
 };
