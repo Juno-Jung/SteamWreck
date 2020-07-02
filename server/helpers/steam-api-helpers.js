@@ -5,16 +5,16 @@ const GameModel = require('../models/game');
 const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
-const getTagsAndGenres = async (games, gameIds) => {
+const getTagsAndGenres = async (games, appId) => {
   const tags = [];
   const genres = [];
 
   // Query DB for games by user game_ids array.
-  const dbGames = await GameModel.find({ gameid: { $in: gameIds } });
+  const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
   for (let i = 0; i < games.length; i++) {
     // Search dbGames for games[i].appid
-    const game = dbGames.filter((dbGame) => dbGame.gameid === games[i].appid)[0];
+    const game = dbGames.filter((dbGame) => dbGame.appid === games[i].appid)[0];
 
     // If the game is in dbGames, then push all the tags and genres of the game into the tags and genres array. Otherwise, call the rawg API
     if (game) {
@@ -30,10 +30,10 @@ const getTagsAndGenres = async (games, gameIds) => {
       }
     } else {
       try {
-        const gameId = games[i].appid;
+        const appId = games[i].appid;
 
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
-        const dbGame = await saveGame(gameId, games[i].name);
+        const dbGame = await saveGame(appId, games[i].name);
 
         if (dbGame.rawg) {
           for (let j = 0; j < game.tags.length; j++) {
@@ -55,16 +55,16 @@ const getTagsAndGenres = async (games, gameIds) => {
   return [tags, genres];
 };
 
-const rateGames = async (games, tags, genres, gameIds) => {
+const rateGames = async (games, tags, genres, appIds) => {
   const ratedGames = [];
 
   // Query DB for games by user game_ids array.
-  const dbGames = await GameModel.find({ gameid: { $in: gameIds } });
+  const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
   for (let i = 0; i < games.length; i++) {
 
     // Search dbGames for games[i].appid
-    const game = dbGames.filter((dbGame) => dbGame.gameid === games[i].appid)[0];
+    const game = dbGames.filter((dbGame) => dbGame.appid === games[i].appid)[0];
 
     // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
     if (game && game.rawg) {
@@ -72,10 +72,10 @@ const rateGames = async (games, tags, genres, gameIds) => {
       ratedGames.push(ratedGame);
     } else if (!game) {
       try {
-        const gameId = games[i].appid;
+        const appId = games[i].appid;
 
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
-        const dbGame = await saveGame(gameId, games[i].name);
+        const dbGame = await saveGame(appId, games[i].name);
 
         if (dbGame.rawg) {
           const ratedGame = rateGame(dbGame, tags, genres);
@@ -135,7 +135,7 @@ const rateGame = (game, tags, genres) => {
   }
 
   const ratedGame = {
-    gameid: game.gameid,
+    appid: game.appid,
     name: game.name,
     description: game.description,
     background_image: game.background_image,
@@ -146,7 +146,7 @@ const rateGame = (game, tags, genres) => {
   return ratedGame;
 };
 
-const saveGame = async (gameId, name) => {
+const saveGame = async (appId, name) => {
   const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase();
   const game = await rawgApi.getGameDetails(gameStub)
 
@@ -165,7 +165,7 @@ const saveGame = async (gameId, name) => {
     }
 
     // Save game properties
-    dbGame.gameid = gameId;
+    dbGame.appid = appId;
     dbGame.rawg = true;
     dbGame.name = game.name;
     dbGame.background_image = game.background_image;
@@ -178,12 +178,12 @@ const saveGame = async (gameId, name) => {
 
   } else {
     // Flag that the game has no rawg information.
-    dbGame.gameid = gameId;
+    dbGame.appid = appId;
     dbGame.rawg = false;
   }
 
   await GameModel.replaceOne({
-    gameid: gameId,
+    appid: appId,
   },
     dbGame, {
     upsert: true,
