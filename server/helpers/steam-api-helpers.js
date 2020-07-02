@@ -144,7 +144,7 @@ const rateGame = (game, tags, genres) => {
 };
 
 const saveGame = async (appId, name) => {
-  const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase();
+  const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').replace(/!/g, '').toLowerCase();
   const game = await rawgApi.getGameDetails(gameStub)
 
   let dbGame = {};

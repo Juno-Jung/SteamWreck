@@ -47,7 +47,7 @@ const updateGames = async () => {
     console.log('DB Updater: All games updated!');
     process.exit(-1);
   } catch (error) {
-    console.error('Error: Problems saving games to database.');
+    console.error(`Error: Problems saving games to database.`);
   }
 }
 
