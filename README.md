@@ -6,18 +6,18 @@ Create an application that will authenticate a Steam user, and respond with feat
 
 ### Front End
 
-React-Redux
-SASS
-Jest
-TypeScript
+React-Redux  
+SASS  
+Jest  
+TypeScript  
 
 ### Back End
 
-Express
-Mocha
-Chai
-MongoDB
-Mongoose
+Express  
+Mocha  
+Chai  
+MongoDB  
+Mongoose  
 
 ## Installation
 
