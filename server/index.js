@@ -56,7 +56,7 @@ app.use(router);
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);
-  console.log(`App (v0.94) listening on http://${HOST}:${PORT}`);
+  console.log(`SteamWreck (v0.95) listening on http://${HOST}:${PORT}`);
 });
 
 module.exports = {
