@@ -1,5 +1,8 @@
 'use strict';
 
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, './../.env') });
+
 const UserModel = require('../models/user');
 const GameModel = require('./../models/game');
 
@@ -20,21 +23,26 @@ const updateGames = async () => {
     }
   }
 
+  // Find all games in db and return an array of appids (game id from Steam).
   const dbGames = await GameModel.find({});
   const gameIds = dbGames.map((dbGame) => {
     return dbGame.appid;
   });
 
+  // From user games, find the games that are not in the db.
   const gamesMissing = userGames.filter((userGame) => {
-    return gameIds.includes(userGame.appid);
+    return !gameIds.includes(userGame.appid);
   });
 
+  // Save all games that are not in the database already.
   for (let i = 0; i < gamesMissing.length; i++) {
-    saveGame(appid, name);
+    const game = gamesMissing[i];
+    await saveGame(game.appid, game.name);
   }
+
+  console.log('DB Updater: All games updated!');
+  process.exit(-1);
 }
-
-
 
 module.exports = {
   updateGames,

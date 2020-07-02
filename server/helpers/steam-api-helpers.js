@@ -154,11 +154,15 @@ const saveGame = async (appId, name) => {
     const gameMetacritic = game.metacritic
 
     // Extracting Tag names from game.tags object into gameTags array.
-    for (let j = 0; j < game.tags.length; j++) {
-      gameTags.push(game.tags[j].name);
+    if (game.tags) {
+      for (let j = 0; j < game.tags.length; j++) {
+        gameTags.push(game.tags[j].name);
+      }
     }
-    for (let j = 0; j < game.genres.length; j++) {
-      gameGenres.push(game.genres[j].name);
+    if (game.genres) {
+      for (let j = 0; j < game.genres.length; j++) {
+        gameGenres.push(game.genres[j].name);
+      }
     }
 
     // Save game properties
