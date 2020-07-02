@@ -33,9 +33,10 @@ const getTagsAndGenres = async (games, steamIds) => {
         const steamId = games[i].appid;
         const rawgGame = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
 
-        if (rawgGame) {
-          await saveGame(steamId, game);
+        // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
+        const dbGame = await saveGame(steamId, rawgGame);
 
+        if (dbGame.rawg) {
           for (let j = 0; j < game.tags.length; j++) {
             if (!tags.includes(game.tags[j].name)) {
               tags.push(game.tags[j].name);
@@ -46,18 +47,6 @@ const getTagsAndGenres = async (games, steamIds) => {
               genres.push(game.genres[j].name);
             }
           }
-        } else {
-          // Put the game in the database and flag that it has no rawg information.
-          const dbGame = {
-            steamid: steamId,
-            rawg: false,
-          };
-          const test = await GameModel.replaceOne({
-            steamid: steamId,
-          },
-            dbGame, {
-            upsert: true,
-          });
         }
       } catch (error) {
         // console.log(error); // All errors are usually 404 Not Found errors.
@@ -65,6 +54,45 @@ const getTagsAndGenres = async (games, steamIds) => {
     }
   }
   return [tags, genres];
+};
+
+const rateGames = async (games, tags, genres, steamIds) => {
+  const ratedGames = [];
+
+  // Query DB for games by user game_ids/steamIds array.
+  const dbGames = await GameModel.find({ steamid: { $in: steamIds } });
+
+  for (let i = 0; i < games.length; i++) {
+
+    // Search dbGames for games[i].appid
+    const game = dbGames.filter((dbGame) => dbGame.steamid === games[i].appid)[0];
+
+    // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
+    if (game && game.rawg) {
+      const ratedGame = rateGame(game, tags, genres);
+      ratedGames.push(ratedGame);
+    } else if (!game) {
+      try {
+        const steamId = games[i].appid;
+        const rawgGame = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
+
+        // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
+        const dbGame = await saveGame(steamId, rawgGame);
+
+        if (dbGame.rawg) {
+          const ratedGame = rateGame(dbGame, tags, genres);
+
+          ratedGames.push(ratedGame);
+        }
+      } catch (error) {
+        // console.log(error); // All errors are usually 404 Not Found errors.
+      }
+    }
+  };
+  ratedGames.sort((a, b) => {
+    return b.rating - a.rating;
+  });
+  return ratedGames;
 };
 
 const rateGame = (game, tags, genres) => {
@@ -122,82 +150,38 @@ const rateGame = (game, tags, genres) => {
   return ratedGame;
 };
 
-const rateGames = async (games, tags, genres, steamIds) => {
-  const ratedGames = [];
-
-  // Query DB for games by user game_ids/steamIds array.
-  const dbGames = await GameModel.find({ steamid: { $in: steamIds } });
-
-  for (let i = 0; i < games.length; i++) {
-
-    // Search dbGames for games[i].appid
-    const game = dbGames.filter((dbGame) => dbGame.steamid === games[i].appid)[0];
-
-    // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
-    if (game && game.rawg) {
-      const ratedGame = rateGame(game, tags, genres);
-      ratedGames.push(ratedGame);
-    } else if (!game) {
-      try {
-        const steamId = games[i].appid;
-        const rawgGame = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
-        // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
-        if (rawgGame) {
-          const dbGame = await saveGame(steamId, rawgGame);
-
-          const ratedGame = rateGame(dbGame, tags, genres);
-
-          ratedGames.push(ratedGame);
-        } else {
-          // Put the game in the database and flag that it has no rawg information.
-          const dbGame = {
-            steamid: steamId,
-            rawg: false,
-          };
-          const test = await GameModel.replaceOne({
-            steamid: steamId,
-          },
-            dbGame, {
-            upsert: true,
-          });
-        }
-      } catch (error) {
-        // console.log(error); // All errors are usually 404 Not Found errors.
-      }
-    }
-  };
-  ratedGames.sort((a, b) => {
-    return b.rating - a.rating;
-  });
-  return ratedGames;
-};
-
 const saveGame = async (steamId, game) => {
-  const gameTags = [];
-  const gameGenres = [];
-  const gameMetacritic = game.metacritic
+  let dbGame = {};
+  if (game) {
+    const gameTags = [];
+    const gameGenres = [];
+    const gameMetacritic = game.metacritic
 
-  // Extracting Tag names from game.tags object into gameTags array.
-  for (let j = 0; j < game.tags.length; j++) {
-    gameTags.push(game.tags[j].name);
-  }
-  for (let j = 0; j < game.genres.length; j++) {
-    gameGenres.push(game.genres[j].name);
-  }
+    // Extracting Tag names from game.tags object into gameTags array.
+    for (let j = 0; j < game.tags.length; j++) {
+      gameTags.push(game.tags[j].name);
+    }
+    for (let j = 0; j < game.genres.length; j++) {
+      gameGenres.push(game.genres[j].name);
+    }
 
-  // Put the game in the database
-  const dbGame = {
-    steamid: steamId,
-    rawg: true,
-    name: game.name,
-    background_image: game.background_image,
-    description: game.description,
-    genres: gameGenres,
-    tags: gameTags,
-    ratings: {
+    // Save game properties
+    dbGame.steamid = steamId;
+    dbGame.rawg = true;
+    dbGame.name = game.name;
+    dbGame.background_image = game.background_image;
+    dbGame.description = game.description;
+    dbGame.genres = gameGenres;
+    dbGame.tags = gameTags;
+    dbGame.ratings = {
       metacritic: gameMetacritic,
-    },
-  };
+    };
+
+  } else {
+    // Flag that the game has no rawg information.
+    dbGame.steamid = steamId;
+    dbGame.rawg = false;
+  }
 
   await GameModel.replaceOne({
     steamid: steamId,

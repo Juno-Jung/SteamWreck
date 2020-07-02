@@ -6,7 +6,7 @@ const { STEAM_API_KEY, STEAM_GET_USER_SUMMARY_URL, STEAM_GET_USER_LIBRARY_URL } 
 const { getTagsAndGenres, rateGames } = require('./steam-api-helpers');
 
 const steamApi = {
-  getRecommendations: async function (user, type) {
+  getRecommendations: async function (user, type, max = 3) {
     try {
       let userGames;
 
@@ -31,7 +31,7 @@ const steamApi = {
       // Rates unplayed games by recommendation algorithm. Returns array of unplayed games in the order of the highest rating to lowest rating. (Rating is not added to objects);
       const ratedUnplayed = await rateGames(user.owned.games_unplayed, tags, genres, user.owned.game_unplayed_ids);
       // Returns top three recommendations
-      return ratedUnplayed.slice(0, 3);
+      return ratedUnplayed.slice(0, max);
     } catch (error) {
       // console.log(error);
     }

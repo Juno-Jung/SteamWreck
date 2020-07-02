@@ -35,13 +35,14 @@ const getUserSummary = async (req, res) => {
 const getRecommendations = async (req, res) => {
   try {
     const steamId = req.params.steamid;
+    const max = req.query.max // Need to change the router when frontend knows how many recommendations they want total/initially.
     const user = await UserModel.find({
       steamid: steamId,
     });
 
     const recommendations = {
-      total: await steamApi.getRecommendations(user[0], 'total'),
-      recent: await steamApi.getRecommendations(user[0], 'recent'),
+      total: await steamApi.getRecommendations(user[0], 'total', max),
+      recent: await steamApi.getRecommendations(user[0], 'recent', max),
     };
 
     // Returns updated document with new recommendations
