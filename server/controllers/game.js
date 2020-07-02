@@ -5,7 +5,7 @@ const GameModel = require('../models/game');
 const getGameByAppId = async (req, res) => {
   try {
     res.body = await GameModel.find({
-      gameid: req.body.gameid,
+      appid: req.body.appid,
     });
     res.status(200).json(res.body);
   } catch (error) {
@@ -16,9 +16,9 @@ const getGameByAppId = async (req, res) => {
 
 const getGamesByAppId = async (req, res) => {
   try {
-    const gameids = req.body.gameids;
+    const appids = req.body.appids;
 
-    const games = await GameModel.find({ gameid: { $in: gameids } });
+    const games = await GameModel.find({ appid: { $in: appids } });
 
     res.body = games;
     res.status(200).json(res.body);
@@ -41,7 +41,7 @@ const getAllGames = async (_, res) => {
 const putGame = async (req, res) => {
   try {
     await GameModel.replaceOne({
-      gameid: req.body.gameid,
+      appid: req.body.appid,
     },
       req.body, {
       upsert: true,
@@ -63,10 +63,23 @@ const deleteGames = async (req, res) => {
   }
 }
 
+const deleteGame = async (req, res) => {
+  try {
+    await GameModel.deleteOne({
+      appid: req.params.appid
+    });
+    res.status(200).json(`${req.params.appid} deleted`);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+}
+
 module.exports = {
   getGameByAppId,
   getGamesByAppId,
   getAllGames,
   putGame,
-  deleteGames
+  deleteGames,
+  deleteGame
 };

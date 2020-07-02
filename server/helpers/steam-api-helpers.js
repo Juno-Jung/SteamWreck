@@ -148,7 +148,7 @@ const saveGame = async (appId, name) => {
   const game = await rawgApi.getGameDetails(gameStub)
 
   let dbGame = {};
-  if (game) {
+  if (game && game.tags && game.genres) {
     const gameTags = [];
     const gameGenres = [];
     const gameMetacritic = game.metacritic
