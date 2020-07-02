@@ -5,10 +5,9 @@ const GameModel = require('../models/game');
 const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
-const getTagsAndGenres = async (games, appId) => {
+const getTagsAndGenres = async (games, appIds) => {
   const tags = [];
   const genres = [];
-
   // Query DB for games by user game_ids array.
   const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
@@ -31,19 +30,17 @@ const getTagsAndGenres = async (games, appId) => {
     } else {
       try {
         const appId = games[i].appid;
-
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
         const dbGame = await saveGame(appId, games[i].name);
-
         if (dbGame.rawg) {
-          for (let j = 0; j < game.tags.length; j++) {
-            if (!tags.includes(game.tags[j].name)) {
-              tags.push(game.tags[j].name);
+          for (let j = 0; j < dbGame.tags.length; j++) {
+            if (!tags.includes(dbGame.tags[j])) {
+              tags.push(dbGame.tags[j]);
             }
           }
-          for (let j = 0; j < game.genres.length; j++) {
-            if (!genres.includes(game.genres[j].name)) {
-              genres.push(game.genres[j].name);
+          for (let j = 0; j < dbGame.genres.length; j++) {
+            if (!genres.includes(dbGame.genres[j])) {
+              genres.push(dbGame.genres[j]);
             }
           }
         }
