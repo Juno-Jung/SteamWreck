@@ -8,6 +8,9 @@ const GameModel = require('./../models/game');
 
 const { saveGame } = require('./../helpers/steam-api-helpers');
 
+// Uncomment the line before and run this file to update games immediately.
+// updateGames();
+
 const updateGames = async () => {
   const users = await UserModel.find({});
   const userGames = [];

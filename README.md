@@ -42,3 +42,12 @@ Create an .env file in the server folder with the following variables:
     TAG_WEIGHT=YOUR_TAG_WEIGHT_FOR_RATING_GAMES
     GENRE_WEIGHT=YOUR_GENRE_WEIGHT_FOR_RATING_GAMES
     METACRITIC_WEIGHT=YOUR_METACRITIC_WEIGHT_FOR_RATING_GAMES
+
+## Populate your database
+
+In order to reduce loading times when asking for game information, we store the data received from API calls into our database with a background worker during off-hours.
+
+1. Set a time for the background worker to run in schedule.js of background_workers. Hour is based off of a 24 hour cycle.
+2. Run schedule.js.
+
+Alternatively, you can uncomment line 12 of update-db.js and run the file to update the database with games immediately. Remember to comment the line afterwards if you plan to use the schedule to update the database afterwards.
