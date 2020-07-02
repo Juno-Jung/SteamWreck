@@ -32,7 +32,7 @@ passport.use(new SteamStrategy({
       // represent the logged-in user.  In a typical application, you would want
       // to associate the Steam account with a user record in your database,
       // and return that user instead.
-      console.log('Identifier: ', profile);
+      // console.log('Identifier: ', profile);
       profile.identifier = identifier;
       return done(null, profile);
     });
@@ -55,7 +55,7 @@ app.use(passport.session());
 app.use(router);
 
 app.listen(PORT, (err) => {
-  if (err) console.log(err);
+  if (err) console.error(err);
   console.log(`SteamWreck (v0.100) listening on http://${HOST}:${PORT}`);
 });
 

@@ -9,7 +9,7 @@ const getUsers = async (req, res) => {
     res.body = await UserModel.find({});
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -27,7 +27,7 @@ const getUserSummary = async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -56,7 +56,7 @@ const getRecommendations = async (req, res) => {
 
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -71,7 +71,7 @@ const putUserSummary = async (req, res) => {
     res.body = user;
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };
@@ -82,7 +82,7 @@ const deleteAll = async (req, res) => {
     res.body = 'Deleted';
     res.status(200).json(res.body);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500);
   }
 };

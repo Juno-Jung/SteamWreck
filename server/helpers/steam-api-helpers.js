@@ -48,7 +48,7 @@ const getTagsAndGenres = async (games, gameIds) => {
           }
         }
       } catch (error) {
-        // console.log(error); // All errors are usually 404 Not Found errors.
+        // console.error(error); // All errors are usually 404 Not Found errors.
       }
     }
   }
@@ -83,7 +83,7 @@ const rateGames = async (games, tags, genres, gameIds) => {
           ratedGames.push(ratedGame);
         }
       } catch (error) {
-        // console.log(error); // All errors are usually 404 Not Found errors.
+        // console.error(error); // All errors are usually 404 Not Found errors.
       }
     }
   };
@@ -98,8 +98,6 @@ const rateGame = (game, tags, genres) => {
   let overlappingTags = 0;
   let overlappingGenres = 0;
 
-  // console.log('Genres: ', genres);
-  // console.log('Game: ', game);
   for (let j = 0; j < game.tags.length; j++) {
     if (tags.includes(game.tags[j])) {
       overlappingTags++;

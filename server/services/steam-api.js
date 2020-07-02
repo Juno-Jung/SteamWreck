@@ -34,7 +34,7 @@ const steamApi = {
       // Returns top three recommendations
       return ratedUnplayed.slice(0, max);
     } catch (error) {
-      // console.log(error);
+      // console.error(error);
     }
   },
 
@@ -51,8 +51,8 @@ const steamApi = {
       .then((res) => (res.ok ? res : Promise.reject(res)))
       .then((res) => (res.status !== 204 ? res.json() : res))
       .catch(
-        (err) => {
-          console.log(`Error fetching [${options ? options.method : `GET`}]`, err)
+        (error) => {
+          console.error(`Error fetching [${options ? options.method : `GET`}]: ${error}`)
         }
       );
   },
