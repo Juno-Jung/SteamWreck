@@ -9,20 +9,17 @@ const gameSchema = new Schema({
     type: Number,
     required: true,
   },
-  name: {
-    type: String,
+  rawg: {
+    type: Boolean,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
+  name: String,
+  description: String,
   background_image: String,
   genres: [String],
   tags: [String],
   ratings: {
     type: {
-      steamwreck: Number,
       gamespot: Number,
       ign: Number,
       metacritic: Number,

@@ -5,7 +5,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  steamid: Number,
+  steamid: {
+    type: String,
+    required: true,
+  },
   personaname: String,
   avatar: String,
   avatarmedium: String,
