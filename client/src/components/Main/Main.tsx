@@ -27,24 +27,45 @@ const Main: FunctionComponent = () => {
   const [username,setUsername] = useState('')
   const [avatarfull,setAvatarfull]=useState('')
   const [countrycode,setCountrycode]=useState('')
+
+  const [ recommendations, setRecommendations ] = useState([]);
+
   useEffect(() => {
     let steam:any = hash
     console.log(hash)
     setSteamid(steam.steamid)
+
+    const fakeSteamId: string = '76561198056384406';
+
     serverService.getUserInfo(steam.steamid).then(user=>{
       setUsername(user[0].personaname)
       setAvatarfull(user[0].avatarfull)
       setCountrycode(user[0].countrycode)
     })
-  
+
+    serverService.getRecommendations(fakeSteamId)
+
+      .then ( responseData => {
+        console.log('hi')
+        console.log(responseData.recommendations.total);
+        return responseData;
+      })
+      .then( responseData =>
+        setRecommendations(responseData.recommendations.total)
+      )
+
   }, [])
+
+
+  useEffect(() => {console.log(recommendations)}, [recommendations]);
+
 
     const { company, links } = navigation;
     return (
       <div className="Main">
         <Navbar company={company} links={links} />
         <UserSummary  username={username} avatarfull={avatarfull} countrycode={countrycode} />
-        <RecommendationList />
+        <RecommendationList recommendations={recommendations} />
       </div>
     )
 };
