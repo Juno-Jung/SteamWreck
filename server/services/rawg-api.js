@@ -5,9 +5,9 @@ const fetch = require('node-fetch');
 const { RAWG_BASE_URL } = require('./../config');
 
 const rawgApi = {
-  options: {
-    'User-Agent': 'SteamWrecks',
-  },
+  // options: {
+  //   'User-Agent': 'SteamWrecks',
+  // },
 
   getGameDetails: function (gameSlug) {
     return this.fetchRequest(`${RAWG_BASE_URL}/games/${gameSlug}`);
