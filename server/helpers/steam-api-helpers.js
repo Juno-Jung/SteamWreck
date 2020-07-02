@@ -138,6 +138,8 @@ const rateGame = (game, tags, genres) => {
     background_image: game.background_image,
     rating,
     rating_reason,
+    tags: game.tags,
+    genres: game.genres,
   };
 
   return ratedGame;
