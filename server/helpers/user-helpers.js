@@ -1,7 +1,7 @@
 'use strict';
 
-const steamApi = require('./../services/steam-api');
-const UserModel = require('./../models/user');
+const steamApi = require('../services/steam-api');
+const UserModel = require('../models/user');
 
 const createUserProfile = async (steamId) => {
   const userSummaryData = await steamApi.getUserSummary(steamId);
@@ -48,10 +48,10 @@ const processUserLibraryData = (libraryData) => {
   const games = libraryData.games;
   const gamesOwned = [];
   const gamesUnplayed = [];
-  const gameIds = [];
+  const appIds = [];
   const gameUnplayedIds = [];
   for (let i = 0; i < games.length; i++) {
-    gameIds.push(games[i].appid);
+    appIds.push(games[i].appid);
     gamesOwned.push({
       appid: games[i].appid,
       name: games[i].name,
@@ -68,7 +68,7 @@ const processUserLibraryData = (libraryData) => {
       });
     }
   }
-  library.game_ids = gameIds;
+  library.game_ids = appIds;
   library.game_unplayed_ids = gameUnplayedIds;
   library.games_owned = gamesOwned;
   library.games_unplayed = gamesUnplayed;

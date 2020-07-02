@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const gameSchema = new Schema({
-  steamid: {
+  // appid refers specifically to the appid in the Steam Store.
+  appid: {
     type: Number,
     required: true,
   },
