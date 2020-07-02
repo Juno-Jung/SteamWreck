@@ -23,7 +23,7 @@ describe('Steam API functions used by the server', () => {
         expect(user).to.have.property('avatarmedium');
         expect(user).to.have.property('avatarfull');
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     });
   });
@@ -40,7 +40,7 @@ describe('Steam API functions used by the server', () => {
 
         expect(res).to.be.undefined;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       };
     });
 

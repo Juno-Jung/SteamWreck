@@ -1,7 +1,7 @@
 const {
   processUserData,
   processUserLibraryData,
-} = require('../controllers/user-helpers');
+} = require('../helpers/user-helpers');
 
 const mocks = require('./user-helpers_test.mocks');
 const expect = require('chai').expect;

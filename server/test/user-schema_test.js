@@ -18,7 +18,7 @@ describe('Creating documents', () => {
       expect(user).to.be.a('object');
       expect(user).to.have.property('steamid');
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   })
 
@@ -31,7 +31,7 @@ describe('Creating documents', () => {
 
       expect(user).to.not.have.property('appid');
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 });
