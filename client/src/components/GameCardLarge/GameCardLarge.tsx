@@ -1,19 +1,10 @@
 import React, { FunctionComponent  } from 'react';
 import './GameCardLarge.scss'
+import Game from './../../Game'
 
 type GameCardLargeProps = {
   //
 };
-
-interface Game {
-  appid: number,
-  name: string,
-  description: string,
-  background_image: string,
-  rating: number,
-  rating_reason: number,
-  tags: string,
-}
 
 interface Props {
   // Top Recommended Game.
