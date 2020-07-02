@@ -1,20 +1,19 @@
 'use strict';
 
-const rawgApi = require('./rawg-api');
-const GameModel = require('./../models/game');
-const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('./../config');
+const rawgApi = require('../services/rawg-api');
+const GameModel = require('../models/game');
+const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
-const getTagsAndGenres = async (games, steamIds) => {
+const getTagsAndGenres = async (games, appIds) => {
   const tags = [];
   const genres = [];
-
-  // Query DB for games by user game_ids/steamIds array.
-  const dbGames = await GameModel.find({ steamid: { $in: steamIds } });
+  // Query DB for games by user game_ids array.
+  const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
   for (let i = 0; i < games.length; i++) {
     // Search dbGames for games[i].appid
-    const game = dbGames.filter((dbGame) => dbGame.steamid === games[i].appid)[0];
+    const game = dbGames.filter((dbGame) => dbGame.appid === games[i].appid)[0];
 
     // If the game is in dbGames, then push all the tags and genres of the game into the tags and genres array. Otherwise, call the rawg API
     if (game) {
@@ -30,42 +29,39 @@ const getTagsAndGenres = async (games, steamIds) => {
       }
     } else {
       try {
-        const steamId = games[i].appid;
-        const rawgGame = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
-
+        const appId = games[i].appid;
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
-        const dbGame = await saveGame(steamId, rawgGame);
-
+        const dbGame = await saveGame(appId, games[i].name);
         if (dbGame.rawg) {
-          for (let j = 0; j < game.tags.length; j++) {
-            if (!tags.includes(game.tags[j].name)) {
-              tags.push(game.tags[j].name);
+          for (let j = 0; j < dbGame.tags.length; j++) {
+            if (!tags.includes(dbGame.tags[j])) {
+              tags.push(dbGame.tags[j]);
             }
           }
-          for (let j = 0; j < game.genres.length; j++) {
-            if (!genres.includes(game.genres[j].name)) {
-              genres.push(game.genres[j].name);
+          for (let j = 0; j < dbGame.genres.length; j++) {
+            if (!genres.includes(dbGame.genres[j])) {
+              genres.push(dbGame.genres[j]);
             }
           }
         }
       } catch (error) {
-        // console.log(error); // All errors are usually 404 Not Found errors.
+        // console.error(error); // All errors are usually 404 Not Found errors.
       }
     }
   }
   return [tags, genres];
 };
 
-const rateGames = async (games, tags, genres, steamIds) => {
+const rateGames = async (games, tags, genres, appIds) => {
   const ratedGames = [];
 
-  // Query DB for games by user game_ids/steamIds array.
-  const dbGames = await GameModel.find({ steamid: { $in: steamIds } });
+  // Query DB for games by user game_ids array.
+  const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
   for (let i = 0; i < games.length; i++) {
 
     // Search dbGames for games[i].appid
-    const game = dbGames.filter((dbGame) => dbGame.steamid === games[i].appid)[0];
+    const game = dbGames.filter((dbGame) => dbGame.appid === games[i].appid)[0];
 
     // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
     if (game && game.rawg) {
@@ -73,11 +69,10 @@ const rateGames = async (games, tags, genres, steamIds) => {
       ratedGames.push(ratedGame);
     } else if (!game) {
       try {
-        const steamId = games[i].appid;
-        const rawgGame = await rawgApi.getGameDetails(games[i].name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase());
+        const appId = games[i].appid;
 
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
-        const dbGame = await saveGame(steamId, rawgGame);
+        const dbGame = await saveGame(appId, games[i].name);
 
         if (dbGame.rawg) {
           const ratedGame = rateGame(dbGame, tags, genres);
@@ -85,7 +80,7 @@ const rateGames = async (games, tags, genres, steamIds) => {
           ratedGames.push(ratedGame);
         }
       } catch (error) {
-        // console.log(error); // All errors are usually 404 Not Found errors.
+        // console.error(error); // All errors are usually 404 Not Found errors.
       }
     }
   };
@@ -100,8 +95,6 @@ const rateGame = (game, tags, genres) => {
   let overlappingTags = 0;
   let overlappingGenres = 0;
 
-  // console.log('Genres: ', genres);
-  // console.log('Game: ', game);
   for (let j = 0; j < game.tags.length; j++) {
     if (tags.includes(game.tags[j])) {
       overlappingTags++;
@@ -139,7 +132,7 @@ const rateGame = (game, tags, genres) => {
   }
 
   const ratedGame = {
-    steamid: game.steamid,
+    appid: game.appid,
     name: game.name,
     description: game.description,
     background_image: game.background_image,
@@ -150,7 +143,10 @@ const rateGame = (game, tags, genres) => {
   return ratedGame;
 };
 
-const saveGame = async (steamId, game) => {
+const saveGame = async (appId, name) => {
+  const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase();
+  const game = await rawgApi.getGameDetails(gameStub)
+
   let dbGame = {};
   if (game) {
     const gameTags = [];
@@ -166,7 +162,7 @@ const saveGame = async (steamId, game) => {
     }
 
     // Save game properties
-    dbGame.steamid = steamId;
+    dbGame.appid = appId;
     dbGame.rawg = true;
     dbGame.name = game.name;
     dbGame.background_image = game.background_image;
@@ -179,12 +175,12 @@ const saveGame = async (steamId, game) => {
 
   } else {
     // Flag that the game has no rawg information.
-    dbGame.steamid = steamId;
+    dbGame.appid = appId;
     dbGame.rawg = false;
   }
 
   await GameModel.replaceOne({
-    steamid: steamId,
+    appid: appId,
   },
     dbGame, {
     upsert: true,
@@ -196,4 +192,5 @@ const saveGame = async (steamId, game) => {
 module.exports = {
   getTagsAndGenres,
   rateGames,
+  saveGame,
 };
