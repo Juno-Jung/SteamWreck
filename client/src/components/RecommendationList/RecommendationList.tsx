@@ -12,6 +12,7 @@ interface Recommendation { // FIX ME - move this to an interface file, and impor
   background_image: string,
   rating: number,
   rating_reason: number,
+  tags: string,
 }
 
 // Use an Interface (named Props) to define the props this component will take.
