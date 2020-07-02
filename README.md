@@ -9,7 +9,7 @@ Create an application that will authenticate a Steam user, and respond with feat
 React-Redux\
 SASS\
 Jest\
-TypeScript\
+TypeScript
 
 ### Back End
 
@@ -17,7 +17,7 @@ Express\
 Mocha\
 Chai\
 MongoDB\
-Mongoose\
+Mongoose
 
 ## Installation
 
