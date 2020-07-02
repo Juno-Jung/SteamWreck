@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-const { ensureAuthenticated } = require('./router-helpers');
+const { ensureAuthenticated } = require('../helpers/router-helpers');
 
 const UserController = require('./../controllers/user');
 const GameController = require('./../controllers/game');

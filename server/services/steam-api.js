@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 
 const { STEAM_API_KEY, STEAM_GET_USER_SUMMARY_URL, STEAM_GET_USER_LIBRARY_URL } = require('./../config');
 
-const { getTagsAndGenres, rateGames } = require('./steam-api-helpers');
+const { getTagsAndGenres, rateGames } = require('../helpers/steam-api-helpers');
 
 const steamApi = {
   getRecommendations: async function (user, type, max = 3) {

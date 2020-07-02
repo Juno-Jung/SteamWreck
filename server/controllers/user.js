@@ -2,7 +2,7 @@
 
 const UserModel = require('../models/user');
 const steamApi = require('../services/steam-api');
-const { createUserProfile } = require('./user-helpers');
+const { createUserProfile } = require('../helpers/user-helpers');
 
 const getUsers = async (req, res) => {
   try {

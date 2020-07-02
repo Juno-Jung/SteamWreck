@@ -1,8 +1,8 @@
 'use strict';
 
-const rawgApi = require('./rawg-api');
-const GameModel = require('./../models/game');
-const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('./../config');
+const rawgApi = require('../services/rawg-api');
+const GameModel = require('../models/game');
+const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
 const getTagsAndGenres = async (games, gameIds) => {

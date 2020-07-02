@@ -1,7 +1,7 @@
 'use strict';
 
-const steamApi = require('./../services/steam-api');
-const UserModel = require('./../models/user');
+const steamApi = require('../services/steam-api');
+const UserModel = require('../models/user');
 
 const createUserProfile = async (steamId) => {
   const userSummaryData = await steamApi.getUserSummary(steamId);
