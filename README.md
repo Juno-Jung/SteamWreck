@@ -15,6 +15,7 @@ TypeScript
 
 Express
 Mocha
+Chai
 MongoDB
 Mongoose
 
