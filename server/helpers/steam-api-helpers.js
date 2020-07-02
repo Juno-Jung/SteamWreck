@@ -192,4 +192,5 @@ const saveGame = async (appId, name) => {
 module.exports = {
   getTagsAndGenres,
   rateGames,
+  saveGame,
 };

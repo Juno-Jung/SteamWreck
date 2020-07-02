@@ -3,6 +3,8 @@
 const UserModel = require('../models/user');
 const GameModel = require('./../models/game');
 
+const { saveGame } = require('./../helpers/steam-api-helpers');
+
 const updateGames = async () => {
   const users = await UserModel.find({});
   const userGames = [];
@@ -18,16 +20,18 @@ const updateGames = async () => {
     }
   }
 
-  // games_owned: [{
-  //   appid: Number,
-  //   name: String,
-  //   playtime_forever: Number,
-  //   playtime_2weeks: Number,
-  // }],
-
-
   const dbGames = await GameModel.find({});
+  const gameIds = dbGames.map((dbGame) => {
+    return dbGame.appid;
+  });
 
+  const gamesMissing = userGames.filter((userGame) => {
+    return gameIds.includes(userGame.appid);
+  });
+
+  for (let i = 0; i < gamesMissing.length; i++) {
+    saveGame(appid, name);
+  }
 }
 
 
