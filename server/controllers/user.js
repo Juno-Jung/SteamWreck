@@ -25,7 +25,7 @@ const getUserSummary = async (req, res) => {
       user = await createUserProfile(steamId);
     }
 
-    res.status(200).json(user);
+    res.status(200).json(user[0]);
   } catch (error) {
     console.error(error);
     res.status(500);

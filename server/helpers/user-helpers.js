@@ -40,40 +40,52 @@ const processUserData = (userData) => {
 
 const processUserLibraryData = (libraryData) => {
 
-  const library = {
-    game_count: libraryData.game_count
-  }
+  // Make sure that libraryData is not empty. If it is, it returns an empty library
+  if (!Object.keys(libraryData).length === 0) {
+    const library = {
+      game_count: libraryData.game_count
+    }
 
-  // Adds all games owned to library object. Also adds all unplayed games that are owned to library object.
-  const games = libraryData.games;
-  const gamesOwned = [];
-  const gamesUnplayed = [];
-  const appIds = [];
-  const gameUnplayedIds = [];
-  for (let i = 0; i < games.length; i++) {
-    appIds.push(games[i].appid);
-    gamesOwned.push({
-      appid: games[i].appid,
-      name: games[i].name,
-      playtime_forever: games[i].playtime_forever,
-      playtime_2weeks: games[i].playtime_2weeks,
-    });
-    if (!games[i].playtime_forever > 0) {
-      gameUnplayedIds.push(games[i].appid);
-      gamesUnplayed.push({
+    // Adds all games owned to library object. Also adds all unplayed games that are owned to library object.
+    const games = libraryData.games;
+    const gamesOwned = [];
+    const gamesUnplayed = [];
+    const appIds = [];
+    const gameUnplayedIds = [];
+    for (let i = 0; i < games.length; i++) {
+      appIds.push(games[i].appid);
+      gamesOwned.push({
         appid: games[i].appid,
         name: games[i].name,
         playtime_forever: games[i].playtime_forever,
         playtime_2weeks: games[i].playtime_2weeks,
       });
+      if (!games[i].playtime_forever > 0) {
+        gameUnplayedIds.push(games[i].appid);
+        gamesUnplayed.push({
+          appid: games[i].appid,
+          name: games[i].name,
+          playtime_forever: games[i].playtime_forever,
+          playtime_2weeks: games[i].playtime_2weeks,
+        });
+      }
     }
-  }
-  library.game_ids = appIds;
-  library.game_unplayed_ids = gameUnplayedIds;
-  library.games_owned = gamesOwned;
-  library.games_unplayed = gamesUnplayed;
+    library.game_ids = appIds;
+    library.game_unplayed_ids = gameUnplayedIds;
+    library.games_owned = gamesOwned;
+    library.games_unplayed = gamesUnplayed;
 
-  return library;
+    return library;
+  } else {
+    // Empty library
+    return {
+      game_count: 0,
+      game_ids: [],
+      game_unplayed_ids: [],
+      games_owned: [],
+      games_unplayed: [],
+    };
+  }
 };
 
 module.exports = {
