@@ -5,7 +5,7 @@ const GameModel = require('../models/game');
 const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
-const getTagsAndGenres = async (games, appIds) => {
+const getTagsAndGenres = async (games, appIds, type) => {
   const tags = [];
   const genres = [];
   // Query DB for games by user game_ids array.
@@ -18,8 +18,15 @@ const getTagsAndGenres = async (games, appIds) => {
     // If the game is in dbGames, then push all the tags and genres of the game into the tags and genres array. Otherwise, call the rawg API
     if (game) {
       for (let j = 0; j < game.tags.length; j++) {
-        if (!tags.includes(game.tags[j])) {
-          tags.push(game.tags[j]);
+        if (tags.some((tag) => {
+
+        })) {
+          // Something
+        } else {
+          tags.push({
+            name: game.tags[j],
+            playtime: type === 'total' ? games.playtime_forever : games.playtime_2weeks,
+          })
         }
       }
       for (let j = 0; j < game.genres.length; j++) {
