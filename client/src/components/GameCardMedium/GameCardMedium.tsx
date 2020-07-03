@@ -1,5 +1,6 @@
 import React, { FunctionComponent  } from 'react';
 import RecommendationReason from './../RecommendationReason'
+import GameTags from '../GameTags'
 
 import './GameCardMedium.scss'
 import Game from './../../Game'
@@ -22,7 +23,7 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
           <div className="rating">Rating: <span className="ratingNumber">{props.recGame.rating * 100}</span></div>
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <div className="description">{htmlToText.fromString(props.recGame.description)}</div>
-          <div className="tags">{props.recGame.tags.join('--')}</div>
+          <GameTags tags={props.recGame.tags}/>
         </div>
       </div>
 

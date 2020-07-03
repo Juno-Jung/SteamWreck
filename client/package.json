@@ -44,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "create-react-component-folder": "^0.3.2",
     "tslint-config-prettier": "^1.18.0"
   }
 }
