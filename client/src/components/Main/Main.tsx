@@ -62,7 +62,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const { company, links } = navigation;
   return (
     <div className="Main">
-      <Navbar isAuth={props.isAuth} company={company} links={links} />
+      <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
       {props.isAuth && (
         <UserSummary
           username={username}

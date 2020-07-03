@@ -51,7 +51,9 @@ function App() {
         <Route exact path='/profile' component={UserProfile} />
         <Route path='/game/:gameId' component={GameDetail} />
         <Route exact path='/about' component={About} />
-        <Route exact path='/logout' component={Logout} />
+        <Route exact path='/logout' render={(props) => (
+          <Logout  setIsAuth={setIsAuth}/>
+        )}/>
       </Switch>
     </BrowserRouter>
 

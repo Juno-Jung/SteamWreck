@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components';
 
 const Navbar = (props: {
+  steamid:string,
   isAuth:boolean,
   company: { name: string; to: string },
   links: Array<{ name: string, to: string }>
@@ -13,7 +14,7 @@ const Navbar = (props: {
 
   return (
     <NavbarMenu>
-      <Company href={company.to}>{company.name}</Company>
+        <Company href={company.to+((props.steamid) ? `#steamid=${props.steamid}` : '')}>{company.name}</Company>
       <Ul>
         <NavLinks />
       </Ul>
