@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components';
+import './Navbar.scss';
 
 const Navbar = (props: {
   steamid:string,
@@ -13,12 +14,15 @@ const Navbar = (props: {
 
 
   return (
-    <NavbarMenu>
-        <Company href={company.to+((props.steamid) ? `#steamid=${props.steamid}` : '')}>{company.name}</Company>
-      <Ul>
-        <NavLinks />
-      </Ul>
-    </NavbarMenu >
+
+    <div className="main_h sticky">
+      <NavbarMenu>
+          <Company href={company.to+((props.steamid) ? `#steamid=${props.steamid}` : '')}>{company.name}</Company>
+        <Ul>
+          <NavLinks />
+        </Ul>
+      </NavbarMenu >
+    </div>
   )
 };
 
@@ -44,13 +48,13 @@ const NavbarMenu = styled.nav`
   align-items: center;
   justify-content: space-between;
   a { color: white; text-decoration: none; }`;
-  
+
   const Company = styled.a`
   font-weight: bold;
   font-style: italic;
   margin-left: 1rem;
   padding-right: 1rem;`;
-  
+
   const Ul = styled.ul`
   overflow-x:hidden;
   display: flex;
