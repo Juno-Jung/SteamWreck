@@ -1,6 +1,7 @@
 import React, { FunctionComponent  } from 'react';
 import './GameCardMedium.scss'
 import Game from './../../Game'
+const htmlToText = require("html-to-text");
 
 type GameCardMediumProps = {
   //
@@ -23,8 +24,7 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
         <div className ="subDetailsMedium">
           <div className="rating">Rating: <span className="ratingNumber">{props.recGame.rating * 100}</span></div>
           <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.recGame.rating_reason}</span></div>
-          <div className="purchased">X Days since purchase</div>
-          <div className="description">{props.recGame.description}</div>
+          <div className="description">{htmlToText.fromString(props.recGame.description)}</div>
           <div className="tags">{props.recGame.tags}</div>
         </div>
       </div>
@@ -38,9 +38,7 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
         <div className ="subDetailsMedium">
           <div className="rating">Rating: <span className="ratingNumber">{props.recGame.rating * 100}</span></div>
           <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.recGame.rating_reason}</span></div>
-          <div className="purchased">X Days since purchase</div>
-          <div className="description">{props.recGame.description}</div>
-          <div className="tags">{props.recGame.tags}</div>
+          <div className="description">{htmlToText.fromString(props.recGame.description)}</div>          <div className="tags">{props.recGame.tags}</div>
         </div>
       </div>
 
@@ -53,8 +51,7 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
         <div className ="subDetailsMedium">
           <div className="rating">Rating: <span className="ratingNumber">{props.recGame.rating * 100}</span></div>
           <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.recGame.rating_reason}</span></div>
-          <div className="purchased">X Days since purchase</div>
-          <div className="description">{props.recGame.description}</div>
+          <div className="description">{htmlToText.fromString(props.recGame.description)}</div>          <div className="tags">{props.recGame.tags}</div>
           <div className="tags">{props.recGame.tags}</div>
         </div>
       </div>
