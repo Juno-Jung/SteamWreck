@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
+import Sticky from 'react-sticky-el';
 
 import Navbar from "../Navbar/Navbar";
 import UserSummary from "../UserSummary/UserSummary";
@@ -57,7 +58,13 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const { company, links } = navigation;
   return (
     <div className="Main">
-      <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
+
+        <Sticky>
+          <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
+        </Sticky>
+
+
+
       {props.isAuth && (
         <UserSummary
           username={username}
