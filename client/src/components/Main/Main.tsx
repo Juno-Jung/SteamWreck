@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import UserSummary from "../UserSummary/UserSummary";
 import RecommendationList from "../RecommendationList/RecommendationList";
 import serverService from "../../services/ServerService";
+import Welcome from "../Welcome/Welcome"
 import hash from "../../hash";
 type MainProps = {
   setIsAuth: any;
@@ -63,6 +64,9 @@ const Main: FunctionComponent<MainProps> = (props) => {
           avatarfull={avatarfull}
           countrycode={countrycode}
         />
+      )}
+            {!props.isAuth && (
+ <Welcome></Welcome>
       )}
       {props.isAuth && <RecommendationList recommendations={recommendations} />}
     </div>
