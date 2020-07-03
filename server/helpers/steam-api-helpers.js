@@ -6,8 +6,8 @@ const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
 const getTagsAndGenres = async (games, appIds, type) => {
-  const tags = [];
-  const genres = [];
+  const tags = {};
+  const genres = {};
   // Query DB for games by user game_ids array.
   const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
@@ -15,23 +15,29 @@ const getTagsAndGenres = async (games, appIds, type) => {
     // Search dbGames for games[i].appid
     const game = dbGames.filter((dbGame) => dbGame.appid === games[i].appid)[0];
 
-    // If the game is in dbGames, then push all the tags and genres of the game into the tags and genres array. Otherwise, call the rawg API
+    // If the game is in dbGames, then save each tag as a property in tags and combine the playtime of each game that tag shows up in. Do the same for genres. Otherwise, call the rawg API.
     if (game) {
+      // Refactor these for loops here, and in rawg API call.
       for (let j = 0; j < game.tags.length; j++) {
-        if (tags.some((tag) => {
-
-        })) {
-          // Something
+        if (tags.hasOwnProperty(game.tags[j])) {
+          if (type === 'total') {
+            tags[game.tags[j]] += games[i].playtime_forever
+          } else if (type === 'recent') {
+            tags[game.tags[j]] += games[i].playtime_2weeks
+          }
         } else {
-          tags.push({
-            name: game.tags[j],
-            playtime: type === 'total' ? games.playtime_forever : games.playtime_2weeks,
-          })
+          tags[game.tags[j]] = type === 'total' ? games[i].playtime_forever : games[i].playtime_2weeks;
         }
       }
       for (let j = 0; j < game.genres.length; j++) {
-        if (!genres.includes(game.genres[j])) {
-          genres.push(game.genres[j]);
+        if (genres.hasOwnProperty(game.genres[j])) {
+          if (type === 'total') {
+            genres[game.genres[j]] += games[i].playtime_forever
+          } else if (type === 'recent') {
+            genres[game.genres[j]] += games[i].playtime_2weeks
+          }
+        } else {
+          genres[game.genres[j]] = type === 'total' ? games[i].playtime_forever : games[i].playtime_2weeks;
         }
       }
     } else {
@@ -41,13 +47,25 @@ const getTagsAndGenres = async (games, appIds, type) => {
         const dbGame = await saveGame(appId, games[i].name);
         if (dbGame.rawg) {
           for (let j = 0; j < dbGame.tags.length; j++) {
-            if (!tags.includes(dbGame.tags[j])) {
-              tags.push(dbGame.tags[j]);
+            if (tags.hasOwnProperty(game.tags[j])) {
+              if (type === 'total') {
+                tags[game.tags[j]] += games.playtime_forever
+              } else if (type === 'recent') {
+                tags[game.tags[j]] += games.playtime_2weeks
+              }
+            } else {
+              tags[game.tags[j]] = type === 'total' ? games.playtime_forever : games.playtime_2weeks;
             }
           }
           for (let j = 0; j < dbGame.genres.length; j++) {
-            if (!genres.includes(dbGame.genres[j])) {
-              genres.push(dbGame.genres[j]);
+            if (genres.hasOwnProperty(game.genres[j])) {
+              if (type === 'total') {
+                genres[game.genres[j]] += games.playtime_forever
+              } else if (type === 'recent') {
+                genres[game.genres[j]] += games.playtime_2weeks
+              }
+            } else {
+              genres[game.genres[j]] = type === 'total' ? games.playtime_forever : games.playtime_2weeks;
             }
           }
         }
@@ -98,24 +116,37 @@ const rateGames = async (games, tags, genres, appIds) => {
 };
 
 const rateGame = (game, tags, genres) => {
-  // Compare game tags to given list of tags.
   let overlappingTags = 0;
   let overlappingGenres = 0;
+  let totalTags = 0;
+  let totalGenres = 0;
 
+  // Compare game tags to given list of tags and adds up the playtime associated to each tag. Same for genre.
   for (let j = 0; j < game.tags.length; j++) {
-    if (tags.includes(game.tags[j])) {
-      overlappingTags++;
+    if (tags[game.tags[j]]) {
+      overlappingTags += tags[game.tags[j]];
     }
   }
   for (let j = 0; j < game.genres.length; j++) {
-    if (genres.includes(game.genres[j])) {
-      overlappingGenres++;
+    if (genres[game.genres[j]]) {
+      overlappingGenres += genres[game.genres[j]];
     }
   }
 
+  // Find the total time of all game tags and genres.
+  let tagNames = Object.keys(tags);
+  for (let i = 0; i < tagNames.length; i++) {
+    totalTags += tags[tagNames[i]];
+  }
+
+  let genreNames = Object.keys(genres);
+  for (let i = 0; i < genreNames.length; i++) {
+    totalGenres += tags[genreNames[i]];
+  }
+
   // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
-  const tag_score = overlappingTags / game.tags.length ? overlappingTags / game.tags.length : 0;
-  const genre_score = overlappingGenres / game.genres.length ? overlappingGenres / game.genres.length : 0;
+  const tag_score = overlappingTags / totalTags ? overlappingTags / totalTags : 0;
+  const genre_score = overlappingGenres / totalGenres ? overlappingGenres / totalGenres : 0;
   const metacritic_score = game.ratings.metacritic / 100;
 
   let rating;
