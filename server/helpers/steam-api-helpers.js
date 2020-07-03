@@ -138,27 +138,33 @@ const rateGame = (game, tags, genres) => {
     background_image: game.background_image,
     rating,
     rating_reason,
+    tags: game.tags,
+    genres: game.genres,
   };
 
   return ratedGame;
 };
 
 const saveGame = async (appId, name) => {
-  const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').toLowerCase();
+  const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').replace(/!/g, '').toLowerCase();
   const game = await rawgApi.getGameDetails(gameStub)
 
   let dbGame = {};
-  if (game) {
+  if (game && game.tags && game.genres) {
     const gameTags = [];
     const gameGenres = [];
     const gameMetacritic = game.metacritic
 
     // Extracting Tag names from game.tags object into gameTags array.
-    for (let j = 0; j < game.tags.length; j++) {
-      gameTags.push(game.tags[j].name);
+    if (game.tags) {
+      for (let j = 0; j < game.tags.length; j++) {
+        gameTags.push(game.tags[j].name);
+      }
     }
-    for (let j = 0; j < game.genres.length; j++) {
-      gameGenres.push(game.genres[j].name);
+    if (game.genres) {
+      for (let j = 0; j < game.genres.length; j++) {
+        gameGenres.push(game.genres[j].name);
+      }
     }
 
     // Save game properties
