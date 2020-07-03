@@ -6,8 +6,8 @@ const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
 const getTagsAndGenres = async (games, appIds, type) => {
-  let tags;
-  let genres;
+  let tags = {};
+  let genres = {};
   // Query DB for games by user game_ids array.
   const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
@@ -15,18 +15,19 @@ const getTagsAndGenres = async (games, appIds, type) => {
     // Search dbGames for games[i].appid
     const game = dbGames.filter((dbGame) => dbGame.appid === games[i].appid)[0];
 
-    // If the game is in dbGames, then save each tag as a property in tags and combine the playtime of each game that tag shows up in. Do the same for genres. Otherwise, call the rawg API.
+    /* If the game is in dbGames, then save each tag as a property in tags and combine the playtime 
+    of each game that tag shows up in. Do the same for genres. Otherwise, call the rawg API. */
     if (game) {
-      tags = getTagPlaytime(game, games[i], type);
-      genres = getGenrePlaytime(game, games[i], type);
+      tags = getTagPlaytime(tags, game, games[i], type);
+      genres = getGenrePlaytime(genres, game, games[i], type);
     } else {
       try {
         const appId = games[i].appid;
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
         const dbGame = await saveGame(appId, games[i].name);
         if (dbGame.rawg) {
-          tags = getTagPlaytime(dbGame, games[i], type);
-          genres = getGenrePlaytime(dbGame, games[i], type);
+          tags = getTagPlaytime(tags, dbGame, games[i], type);
+          genres = getGenrePlaytime(genres, dbGame, games[i], type);
         }
       } catch (error) {
         // console.error(error); // All errors are usually 404 Not Found errors.
@@ -77,6 +78,9 @@ const rateGames = async (games, tags, genres, appIds, ratingType = 'similarity')
 
 // Rating type switches between different rating styles. 
 const rateGame = (game, tags, genres, ratingType) => {
+  if (!game.name) {
+    throw new Error(`Error: ${game.appid} does not have the correct data.`);
+  }
   let overlappingTags = 0;
   let overlappingGenres = 0;
   let tagTime = 0;
@@ -223,8 +227,8 @@ const saveGame = async (appId, name) => {
   return dbGame;
 }
 
-const getTagPlaytime = (dbGame, userGame, type) => {
-  const tags = {};
+const getTagPlaytime = (oldTags, dbGame, userGame, type) => {
+  const tags = Object.assign({}, oldTags);
   for (let i = 0; i < dbGame.tags.length; i++) {
     if (tags.hasOwnProperty(dbGame.tags[i])) {
       if (type === 'total') {
@@ -239,8 +243,8 @@ const getTagPlaytime = (dbGame, userGame, type) => {
   return tags;
 }
 
-const getGenrePlaytime = (dbGame, userGame, type) => {
-  const genres = {};
+const getGenrePlaytime = (oldGenres, dbGame, userGame, type) => {
+  const genres = Object.assign({}, oldGenres);
   for (let i = 0; i < dbGame.genres.length; i++) {
     if (genres.hasOwnProperty(dbGame.genres[i])) {
       if (type === 'total') {
