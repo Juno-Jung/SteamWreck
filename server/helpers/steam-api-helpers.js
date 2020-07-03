@@ -112,6 +112,7 @@ const rateGames = async (games, tags, genres, appIds) => {
   ratedGames.sort((a, b) => {
     return b.rating - a.rating;
   });
+
   return ratedGames;
 };
 
