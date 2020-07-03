@@ -1,6 +1,7 @@
 import React, { FunctionComponent  } from 'react';
 import './GameCardLarge.scss'
 import Game from './../../Game'
+import Collapsible from 'react-collapsible';
 const htmlToText = require("html-to-text");
 
 interface Props {
@@ -22,7 +23,9 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
                 100 * props.recGame.rating
               ).toFixed(0)} / 100`}</span></div>
           <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.recGame.rating_reason}</span></div>
+          <Collapsible className="collapse" trigger="Description" >
           <div className="description">{htmlToText.fromString(props.recGame.description)}</div>
+          </Collapsible>
           <div className="tags">{props.recGame.tags}</div>
         </div>
       </div>

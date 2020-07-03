@@ -31,16 +31,17 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
       {(!props.recommendations.length)
       ? <div>Loading data....</div>
       :
-        <>
+        <div>
           <div>
             <GameCardLarge recGame={firstRecGame}/>
           </div>
+          <div className="others">Check these Games too!</div>
           <div>
             {allOtherRecGames.map( (game) => {
               return <GameCardMedium recGame={game}/>
             })}
           </div>
-        </>
+        </div>
       }
     </div>
   )
