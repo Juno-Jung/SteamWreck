@@ -20,7 +20,7 @@ const steamApi = {
       } else if (type === 'recent') {
         // For logging purposes
         console.log('\n', 'Recommendation Type: Recent');
-        // Sort games by total playtime from increasing to decreasing (can also do this by recently played).
+        // Sort games by recent playtime from increasing to decreasing
         userGames = user.owned.games_owned.filter((game) => game.playtime_2weeks)
           .sort((a, b) => {
             return b.playtime_2weeks - a.playtime_2weeks;

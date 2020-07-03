@@ -77,7 +77,7 @@ const getTagsAndGenres = async (games, appIds, type) => {
   return [tags, genres];
 };
 
-const rateGames = async (games, tags, genres, appIds) => {
+const rateGames = async (games, tags, genres, appIds, ratingType = 'similarity') => {
   const ratedGames = [];
 
   // Query DB for games by user game_ids array.
@@ -90,7 +90,7 @@ const rateGames = async (games, tags, genres, appIds) => {
 
     // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
     if (game && game.rawg) {
-      const ratedGame = rateGame(game, tags, genres);
+      const ratedGame = rateGame(game, tags, genres, ratingType);
       ratedGames.push(ratedGame);
     } else if (!game) {
       try {
@@ -100,7 +100,7 @@ const rateGames = async (games, tags, genres, appIds) => {
         const dbGame = await saveGame(appId, games[i].name);
 
         if (dbGame.rawg) {
-          const ratedGame = rateGame(dbGame, tags, genres);
+          const ratedGame = rateGame(dbGame, tags, genres, ratingType);
 
           ratedGames.push(ratedGame);
         }
@@ -116,7 +116,8 @@ const rateGames = async (games, tags, genres, appIds) => {
   return ratedGames;
 };
 
-const rateGame = (game, tags, genres, ratingType = 'similarity') => {
+// Rating type switches between different rating styles. 
+const rateGame = (game, tags, genres, ratingType) => {
   let overlappingTags = 0;
   let overlappingGenres = 0;
   let tagTime = 0;
@@ -150,13 +151,13 @@ const rateGame = (game, tags, genres, ratingType = 'similarity') => {
   }
 
   let rating;
+  let rating_reason;
 
   // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
   if (ratingType === 'similarity') {
-    const tag_score = overlappingTags / tags.length ? tags.length / tags.length : 0;
-    const genre_score = overlappingGenres / genres.length ? overlappingGenres / genres.length : 0;
+    const tag_score = overlappingTags / game.tags.length ? overlappingTags / game.tags.length : 0;
+    const genre_score = overlappingGenres / game.genres.length ? overlappingGenres / game.genres.length : 0;
     const metacritic_score = game.ratings.metacritic / 100;
-
 
     // If the metacritic score is null/0, exclude it from the score.
     if (metacritic_score) {
@@ -167,7 +168,7 @@ const rateGame = (game, tags, genres, ratingType = 'similarity') => {
 
     console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
     console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
-    let rating_reason;
+
     // Sets rating reason based on which category scored the highest.
     if ((tag_score >= genre_score) && (tag_score >= metacritic_score)) {
       rating_reason = 'This game has similar tags to games that you have already played before.';
@@ -176,11 +177,12 @@ const rateGame = (game, tags, genres, ratingType = 'similarity') => {
     } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score)) {
       rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
     }
-  } else if (ratingType === 'timespent') {
-    const tag_score = overlappingTags / totalTags ? overlappingTags / totalTags : 0;
-    const genre_score = overlappingGenres / totalGenres ? overlappingGenres / totalGenres : 0;
-    const metacritic_score = game.ratings.metacritic / 100;
 
+    // This rating style emphasizes the amount of time you spent on a particular tag or genre type, weighting more heavily played tags and genres higher.
+  } else if (ratingType === 'timespent') {
+    const tag_score = tagTime / totalTagTime ? tagTime / totalTagTime : 0;
+    const genre_score = genreTime / totalGenreTime ? genreTime / totalGenreTime : 0;
+    const metacritic_score = game.ratings.metacritic / 100;
 
     // If the metacritic score is null/0, exclude it from the score.
     if (metacritic_score) {
@@ -191,7 +193,7 @@ const rateGame = (game, tags, genres, ratingType = 'similarity') => {
 
     console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
     console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
-    let rating_reason;
+
     // Sets rating reason based on which category scored the highest.
     if ((tag_score >= genre_score) && (tag_score >= metacritic_score)) {
       rating_reason = 'This game has similar tags to games that you have already played before.';
