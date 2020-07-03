@@ -34,7 +34,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
 
         <div className ="subDetails">
           <div className="rating">Rating: <span className="ratingNumber">{props.recGame.rating * 100}</span></div>
-          <div className="reason">Wreak Reasoning: <span className="reasonTxt">{props.recGame.rating_reason}</span></div>
+          <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.recGame.rating_reason}</span></div>
           <div className="description">{htmlToText.fromString(props.recGame.description)}</div>
         </div>
       </div>
