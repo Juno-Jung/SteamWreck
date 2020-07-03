@@ -1,13 +1,4 @@
-/*
-  @use "../../_variables";
-  This doesn't work yet- but found out how to use variables
-*/
-
-$imgSmallDim: 35px;
-$imgMediumDim: 45px;
-$imgLargeDim: 100px;
-$fontOrbiton: 'Orbitron', sans-serif;
-$fontPlexSans: 'IBM Plex Sans', sans-serif;
+@import "../../_variables";
 
 .nameMedium {
   font-family: $fontOrbiton;
@@ -57,7 +48,7 @@ h1.nameMedium {
     }
 
 
-    .rating, .reason, .purchased, .tags {
+    .rating, .reason, .purchased {
       text-transform: uppercase;
       font-family: $fontOrbiton;
       padding: 5px;
