@@ -38,13 +38,14 @@ const Main: FunctionComponent<MainProps> = (props) => {
     let steam: any = hash;
     console.log(hash);
     setSteamid(steam.steamid);
-
-    serverService.getUserInfo(steam.steamid).then((user) => {
-      props.setIsAuth(true);
-      setUsername(user[0].personaname);
-      setAvatarfull(user[0].avatarfull);
-      setCountrycode(user[0].countrycode);
-    });
+      serverService.getUserInfo(steam.steamid).then((user) => {
+        props.setIsAuth(true);
+        if(user[0]){
+        setUsername(user[0].personaname);
+        setAvatarfull(user[0].avatarfull);
+        setCountrycode(user[0].countrycode);
+        }
+      });
 
     serverService
       .getRecommendations(steam.steamid)
