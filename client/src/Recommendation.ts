@@ -1,4 +1,4 @@
-interface Game {
+interface Recommendation {
   appid: number,
   name: string,
   description: string,
@@ -6,6 +6,6 @@ interface Game {
   rating: number,
   rating_reason: string,
   tags: [string],
-};
+}
 
-export default Game;
+export default Recommendation;

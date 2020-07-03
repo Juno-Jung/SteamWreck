@@ -1,19 +1,7 @@
 import React, { FunctionComponent  } from 'react';
 import GameCardLarge from '../GameCardLarge/GameCardLarge';
 import GameCardMedium from '../GameCardMedium/GameCardMedium';
-
-type RecommendationListProps = {
-};
-
-interface Recommendation { // FIX ME - move this to an interface file, and import here.
-  appid: number,
-  name: string,
-  description: string,
-  background_image: string,
-  rating: number,
-  rating_reason: number,
-  tags: string,
-}
+import Recommendation from './../../Recommendation'
 
 // Use an Interface (named Props) to define the props this component will take.
 interface Props {

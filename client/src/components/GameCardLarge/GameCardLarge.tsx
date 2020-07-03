@@ -1,4 +1,5 @@
 import React, { FunctionComponent  } from 'react';
+import RecommendationReason from '../RecommendationReason'
 import './GameCardLarge.scss'
 import Game from './../../Game'
 const htmlToText = require("html-to-text");
@@ -21,7 +22,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
           <div className="rating">Rating: <span className="ratingNumber">{`${(
                 100 * props.recGame.rating
               ).toFixed(0)} / 100`}</span></div>
-          <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.recGame.rating_reason}</span></div>
+          <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <div className="description">{htmlToText.fromString(props.recGame.description)}</div>
           <div className="tags">{props.recGame.tags}</div>
         </div>
