@@ -54,12 +54,10 @@ h1.nameLarge {
       font-family: $fontPlexSans;
     }
 
-
     .rating, .reason, .purchased, .tags {
       text-transform: uppercase;
       font-family: $fontOrbiton;
       padding: 5px;
-
 
       .ratingNumber {
         font-weight: 900;

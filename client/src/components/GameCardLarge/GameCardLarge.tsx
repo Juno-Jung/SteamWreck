@@ -18,9 +18,9 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
     <div>
       {props.recGame && (
         <div>
-          <h1 className="name">{props.recGame.name}</h1>
-          <div className="allDetails">
-            <div className="mainDetails">
+          <h1 className="nameLarge">{props.recGame.name}</h1>
+          <div className="allDetailsLarge">
+            <div className="mainDetailsLarge">
               <img
                 className="gameImg"
                 src={`${props.recGame.background_image}`}
@@ -29,7 +29,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
             </div>
           </div>
 
-          <div className="subDetails">
+          <div className="subDetailsLarge">
             <div className="rating">
               Rating:{" "}
               <span className="ratingNumber">{`${(
