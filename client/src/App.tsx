@@ -18,6 +18,7 @@ import './App.scss';
 
 
 function App() {
+  const [isAuth,setIsAuth]=useState(false)
 
   // Pat:: COMMENTED THIS OUT FOR NOW, Until it's working.
   // const [steamid,setSteamid]= useState('')
@@ -43,8 +44,10 @@ function App() {
 
     <BrowserRouter>
       <Switch>
-        <Route exact path='/' component={Main} />
-        <Route path='/login' component={Login} />
+        <Route exact path='/' render={(props) => (
+          <Main isAuth={isAuth} setIsAuth={setIsAuth}/>
+        )}/>
+        <Route path='/login' component={Login} /> 
         <Route exact path='/profile' component={UserProfile} />
         <Route path='/game/:gameId' component={GameDetail} />
         <Route exact path='/about' component={About} />

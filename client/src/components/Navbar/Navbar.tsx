@@ -2,11 +2,14 @@ import * as React from 'react'
 import styled from 'styled-components';
 
 const Navbar = (props: {
+  isAuth:boolean,
   company: { name: string; to: string },
   links: Array<{ name: string, to: string }>
 }) => {
-  const { company, links } = props;
-  const NavLinks: any = () => links.map((link: { name: string, to: string }) => <Li key={link.name}><a href={link.to}>{link.name}</a></Li>);
+  const { company, links, isAuth } = props;
+  const NavLinks: any = () => isAuth ? links.slice(1).map((link: { name: string, to: string }) => <Li key={link.name}><a href={link.to}>{link.name}</a></Li>)
+  : links.slice(0,2).map((link: { name: string, to: string }) => <Li key={link.name}><a href={link.to}>{link.name}</a></Li>)
+
 
   return (
     <NavbarMenu>
@@ -40,17 +43,17 @@ const NavbarMenu = styled.nav`
   align-items: center;
   justify-content: space-between;
   a { color: white; text-decoration: none; }`;
-
-const Company = styled.a`
+  
+  const Company = styled.a`
   font-weight: bold;
   font-style: italic;
   margin-left: 1rem;
   padding-right: 1rem;`;
-
-const Ul = styled.ul`
+  
+  const Ul = styled.ul`
+  overflow-x:hidden;
   display: flex;
   flex-wrap: nowrap;
-  overflow: scroll;
   /* overflow-x: hidden; */
   -webkit-overflow-scrolling: touch;`;
 
