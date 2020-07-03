@@ -116,58 +116,90 @@ const rateGames = async (games, tags, genres, appIds) => {
   return ratedGames;
 };
 
-const rateGame = (game, tags, genres) => {
+const rateGame = (game, tags, genres, ratingType = 'similarity') => {
   let overlappingTags = 0;
   let overlappingGenres = 0;
-  let totalTags = 0;
-  let totalGenres = 0;
+  let tagTime = 0;
+  let genreTime = 0;
+  let totalTagTime = 0;
+  let totalGenreTime = 0;
 
   // Compare game tags to given list of tags and adds up the playtime associated to each tag. Same for genre.
   for (let j = 0; j < game.tags.length; j++) {
     if (tags[game.tags[j]]) {
-      overlappingTags += tags[game.tags[j]];
+      tagTime += tags[game.tags[j]];
+      overlappingTags++;
     }
   }
   for (let j = 0; j < game.genres.length; j++) {
     if (genres[game.genres[j]]) {
-      overlappingGenres += genres[game.genres[j]];
+      genreTime += genres[game.genres[j]];
+      overlappingGenres++;
     }
   }
 
   // Find the total time of all game tags and genres.
   let tagNames = Object.keys(tags);
   for (let i = 0; i < tagNames.length; i++) {
-    totalTags += tags[tagNames[i]];
+    totalTagTime += tags[tagNames[i]];
   }
 
   let genreNames = Object.keys(genres);
   for (let i = 0; i < genreNames.length; i++) {
-    totalGenres += tags[genreNames[i]];
+    totalGenreTime += tags[genreNames[i]];
   }
-
-  // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
-  const tag_score = overlappingTags / totalTags ? overlappingTags / totalTags : 0;
-  const genre_score = overlappingGenres / totalGenres ? overlappingGenres / totalGenres : 0;
-  const metacritic_score = game.ratings.metacritic / 100;
 
   let rating;
-  // If the metacritic score is null/0, exclude it from the score.
-  if (metacritic_score) {
-    rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT);
-  } else {
-    rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
-  }
 
-  console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
-  console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
-  let rating_reason;
-  // Sets rating reason based on which category scored the highest.
-  if ((tag_score >= genre_score) && (tag_score >= metacritic_score)) {
-    rating_reason = 'This game has similar tags to games that you have already played before.';
-  } else if ((metacritic_score >= tag_score) && (metacritic_score >= genre_score)) {
-    rating_reason = 'The metacritic score for this game is high among similar games that you have enjoyed.';
-  } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score)) {
-    rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
+  // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
+  if (ratingType === 'similarity') {
+    const tag_score = overlappingTags / tags.length ? tags.length / tags.length : 0;
+    const genre_score = overlappingGenres / genres.length ? overlappingGenres / genres.length : 0;
+    const metacritic_score = game.ratings.metacritic / 100;
+
+
+    // If the metacritic score is null/0, exclude it from the score.
+    if (metacritic_score) {
+      rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT);
+    } else {
+      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
+    }
+
+    console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
+    console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
+    let rating_reason;
+    // Sets rating reason based on which category scored the highest.
+    if ((tag_score >= genre_score) && (tag_score >= metacritic_score)) {
+      rating_reason = 'This game has similar tags to games that you have already played before.';
+    } else if ((metacritic_score >= tag_score) && (metacritic_score >= genre_score)) {
+      rating_reason = 'The metacritic score for this game is high among similar games that you have enjoyed.';
+    } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score)) {
+      rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
+    }
+  } else if (ratingType === 'timespent') {
+    const tag_score = overlappingTags / totalTags ? overlappingTags / totalTags : 0;
+    const genre_score = overlappingGenres / totalGenres ? overlappingGenres / totalGenres : 0;
+    const metacritic_score = game.ratings.metacritic / 100;
+
+
+    // If the metacritic score is null/0, exclude it from the score.
+    if (metacritic_score) {
+      rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT);
+    } else {
+      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
+    }
+
+    console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
+    console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
+    let rating_reason;
+    // Sets rating reason based on which category scored the highest.
+    if ((tag_score >= genre_score) && (tag_score >= metacritic_score)) {
+      rating_reason = 'This game has similar tags to games that you have already played before.';
+    } else if ((metacritic_score >= tag_score) && (metacritic_score >= genre_score)) {
+      rating_reason = 'The metacritic score for this game is high among similar games that you have enjoyed.';
+    } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score)) {
+      rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
+    }
   }
 
   const ratedGame = {
