@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled from 'styled-components';
-import './Navbar.scss';
 
 const Navbar = (props: {
   steamid:string,
@@ -14,8 +13,7 @@ const Navbar = (props: {
 
 
   return (
-
-    <div className="main_h sticky">
+    <div>
       <NavbarMenu>
           <Company href={company.to+((props.steamid) ? `#steamid=${props.steamid}` : '')}>{company.name}</Company>
         <Ul>
