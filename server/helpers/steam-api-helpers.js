@@ -25,28 +25,8 @@ const getTagsAndGenres = async (games, appIds, type) => {
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
         const dbGame = await saveGame(appId, games[i].name);
         if (dbGame.rawg) {
-          for (let j = 0; j < dbGame.tags.length; j++) {
-            if (tags.hasOwnProperty(game.tags[j])) {
-              if (type === 'total') {
-                tags[game.tags[j]] += games.playtime_forever
-              } else if (type === 'recent') {
-                tags[game.tags[j]] += games.playtime_2weeks
-              }
-            } else {
-              tags[game.tags[j]] = type === 'total' ? games.playtime_forever : games.playtime_2weeks;
-            }
-          }
-          for (let j = 0; j < dbGame.genres.length; j++) {
-            if (genres.hasOwnProperty(game.genres[j])) {
-              if (type === 'total') {
-                genres[game.genres[j]] += games.playtime_forever
-              } else if (type === 'recent') {
-                genres[game.genres[j]] += games.playtime_2weeks
-              }
-            } else {
-              genres[game.genres[j]] = type === 'total' ? games.playtime_forever : games.playtime_2weeks;
-            }
-          }
+          tags = getTagPlaytime(dbGame, games[i], type);
+          genres = getGenrePlaytime(dbGame, games[i], type);
         }
       } catch (error) {
         // console.error(error); // All errors are usually 404 Not Found errors.
@@ -208,15 +188,11 @@ const saveGame = async (appId, name) => {
     const gameMetacritic = game.metacritic
 
     // Extracting Tag names from game.tags object into gameTags array.
-    if (game.tags) {
-      for (let j = 0; j < game.tags.length; j++) {
-        gameTags.push(game.tags[j].name);
-      }
+    for (let j = 0; j < game.tags.length; j++) {
+      gameTags.push(game.tags[j].name);
     }
-    if (game.genres) {
-      for (let j = 0; j < game.genres.length; j++) {
-        gameGenres.push(game.genres[j].name);
-      }
+    for (let j = 0; j < game.genres.length; j++) {
+      gameGenres.push(game.genres[j].name);
     }
 
     // Save game properties
