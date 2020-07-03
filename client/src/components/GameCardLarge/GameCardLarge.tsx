@@ -1,19 +1,12 @@
-import React, { FunctionComponent } from "react";
-import "./GameCardLarge.scss";
+import React, { FunctionComponent  } from 'react';
+import './GameCardLarge.scss'
+import Game from './../../Game'
 const htmlToText = require("html-to-text");
 
 type GameCardLargeProps = {
   //
 };
 
-interface Game {
-  appid: number;
-  name: string;
-  description: string;
-  background_image: string;
-  rating: number;
-  rating_reason: number;
-}
 
 interface Props {
   // Top Recommended Game.
@@ -50,6 +43,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
             <div className="description">
               {htmlToText.fromString(props.recGame.description)}
             </div>
+            <div className="tags">{props.recGame.tags}</div>
           </div>
         </div>
       )}

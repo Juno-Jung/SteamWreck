@@ -20,11 +20,6 @@ const navigation = {
     { name: "Logout", to: "/logout" },
   ],
 };
-interface User {
-  usename: string;
-  avatarfull: string;
-  countrycode: string;
-}
 
 const Main: FunctionComponent<MainProps> = (props) => {
   const [steamid, setSteamid] = useState("");

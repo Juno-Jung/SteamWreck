@@ -12,6 +12,7 @@ interface Recommendation { // FIX ME - move this to an interface file, and impor
   background_image: string,
   rating: number,
   rating_reason: number,
+  tags: string,
 }
 
 // Use an Interface (named Props) to define the props this component will take.
@@ -22,16 +23,24 @@ interface Props {
 // FIX ME- we need a global spinner component & use below in "loading data"
 const RecommendationList: FunctionComponent<Props> = (props) => {
 
-  const recGame = props.recommendations[0];
+  const firstRecGame = props.recommendations[0];
+  const allOtherRecGames = props.recommendations.slice(1, props.recommendations.length);
+
   return (
     <div>
       {(!props.recommendations.length)
       ? <div>Loading data....</div>
       :
-        <div>
-          <GameCardLarge recGame={recGame}/>
-          <GameCardMedium />
-        </div>
+        <>
+          <div>
+            <GameCardLarge recGame={firstRecGame}/>
+          </div>
+          <div>
+            {allOtherRecGames.map( (game) => {
+              return <GameCardMedium recGame={game}/>
+            })}
+          </div>
+        </>
       }
     </div>
   )
