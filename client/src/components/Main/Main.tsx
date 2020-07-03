@@ -24,9 +24,6 @@ interface User {
   avatarfull:string,
   countrycode:string
 }
-interface currentstate {
-  currentuser:User
-}
 
 
 const Main: FunctionComponent = () => {
@@ -63,7 +60,7 @@ const Main: FunctionComponent = () => {
     const { company, links } = navigation;
     return (
       <div className="Main">
-        <Navbar company={company} links={links} />
+        <Navbar  company={company} links={links} />
         <UserSummary  username={username} avatarfull={avatarfull} countrycode={countrycode} />
         <RecommendationList recommendations={recommendations} />
       </div>
