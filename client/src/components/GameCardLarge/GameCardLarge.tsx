@@ -22,7 +22,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
           <div className="allDetails">
             <div className="mainDetails">
               <img
-                className="gameImg"
+                className="gameImgLarge"
                 src={`${props.recGame.background_image}`}
               ></img>
               {/*           <h4 className="purchased">X Days since purchase</h4> */}

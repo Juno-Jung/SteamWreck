@@ -26,7 +26,6 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [username, setUsername] = useState("");
   const [avatarfull, setAvatarfull] = useState("");
   const [countrycode, setCountrycode] = useState("");
-
   const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
