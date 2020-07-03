@@ -6,8 +6,8 @@ const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
 const getTagsAndGenres = async (games, appIds, type) => {
-  const tags = {};
-  const genres = {};
+  let tags;
+  let genres;
   // Query DB for games by user game_ids array.
   const dbGames = await GameModel.find({ appid: { $in: appIds } });
 
@@ -17,29 +17,8 @@ const getTagsAndGenres = async (games, appIds, type) => {
 
     // If the game is in dbGames, then save each tag as a property in tags and combine the playtime of each game that tag shows up in. Do the same for genres. Otherwise, call the rawg API.
     if (game) {
-      // Refactor these for loops here, and in rawg API call.
-      for (let j = 0; j < game.tags.length; j++) {
-        if (tags.hasOwnProperty(game.tags[j])) {
-          if (type === 'total') {
-            tags[game.tags[j]] += games[i].playtime_forever
-          } else if (type === 'recent') {
-            tags[game.tags[j]] += games[i].playtime_2weeks
-          }
-        } else {
-          tags[game.tags[j]] = type === 'total' ? games[i].playtime_forever : games[i].playtime_2weeks;
-        }
-      }
-      for (let j = 0; j < game.genres.length; j++) {
-        if (genres.hasOwnProperty(game.genres[j])) {
-          if (type === 'total') {
-            genres[game.genres[j]] += games[i].playtime_forever
-          } else if (type === 'recent') {
-            genres[game.genres[j]] += games[i].playtime_2weeks
-          }
-        } else {
-          genres[game.genres[j]] = type === 'total' ? games[i].playtime_forever : games[i].playtime_2weeks;
-        }
-      }
+      tags = getTagPlaytime(game, games[i], type);
+      genres = getGenrePlaytime(game, games[i], type);
     } else {
       try {
         const appId = games[i].appid;
@@ -268,6 +247,37 @@ const saveGame = async (appId, name) => {
   return dbGame;
 }
 
+const getTagPlaytime = (dbGame, userGame, type) => {
+  const tags = {};
+  for (let i = 0; i < dbGame.tags.length; i++) {
+    if (tags.hasOwnProperty(dbGame.tags[i])) {
+      if (type === 'total') {
+        tags[dbGame.tags[i]] += userGame.playtime_forever
+      } else if (type === 'recent') {
+        tags[dbGame.tags[i]] += userGame.playtime_2weeks
+      }
+    } else {
+      tags[dbGame.tags[i]] = type === 'total' ? userGame.playtime_forever : userGame.playtime_2weeks;
+    }
+  }
+  return tags;
+}
+
+const getGenrePlaytime = (dbGame, userGame, type) => {
+  const genres = {};
+  for (let i = 0; i < dbGame.genres.length; i++) {
+    if (genres.hasOwnProperty(dbGame.genres[i])) {
+      if (type === 'total') {
+        genres[dbGame.genres[i]] += userGame.playtime_forever
+      } else if (type === 'recent') {
+        genres[dbGame.genres[i]] += userGame.playtime_2weeks
+      }
+    } else {
+      genres[dbGame.genres[i]] = type === 'total' ? userGame.playtime_forever : userGame.playtime_2weeks;
+    }
+  }
+  return genres;
+}
 module.exports = {
   getTagsAndGenres,
   rateGames,
