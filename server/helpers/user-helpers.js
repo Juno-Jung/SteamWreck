@@ -45,7 +45,7 @@ const processUserLibraryData = (libraryData) => {
   }
 
   // Adds all games owned to library object. Also adds all unplayed games that are owned to library object.
-  const games = libraryData.games;
+  const games = libraryData.games || [];
   const gamesOwned = [];
   const gamesUnplayed = [];
   const appIds = [];

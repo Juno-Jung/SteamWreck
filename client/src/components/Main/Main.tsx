@@ -19,7 +19,14 @@ const navigation = {
     { name: "Logout", to: "/logout" },
   ]
 };
-
+interface User {
+  usename:string,
+  avatarfull:string,
+  countrycode:string
+}
+interface currentstate {
+  currentuser:User
+}
 
 
 const Main: FunctionComponent = () => {
@@ -43,9 +50,8 @@ const Main: FunctionComponent = () => {
       setCountrycode(user[0].countrycode)
     })
 
-    const fakeSteamId: string = '76561198056384406';  // FIX ME - remove this.
-    serverService.getRecommendations(fakeSteamId)
-      .then( responseData =>
+    serverService.getRecommendations(steam.steamid)
+      .then( responseData =>responseData &&
         setRecommendations(responseData.recommendations.total)
       )
   }, [])
