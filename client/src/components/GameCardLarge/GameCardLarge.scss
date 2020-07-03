@@ -52,6 +52,8 @@ h1.nameLarge {
     .description {
       padding: 15px;
       font-family: $fontPlexSans;
+      height: 310px;
+      overflow: scroll;
     }
 
     .rating, .reason, .purchased, .tags {
