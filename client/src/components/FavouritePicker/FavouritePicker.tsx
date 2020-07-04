@@ -1,15 +1,18 @@
 import React, { FunctionComponent  } from 'react';
+import Recommendation from '../../Recommendation';
 
 interface Props {
-  appId: number
-  addRemoveFav: Function
+  //appId: number;
+  recGame: Recommendation;
+  addRemoveFav: Function;
 };
 
 const FavouritePicker: FunctionComponent<Props> = (props) => {
-  return <div onClick={() => {props.addRemoveFav(true, props.appId)}}>{props.appId}</div>;
+  return <div onClick={() => {props.addRemoveFav(props.recGame)}}>{props.recGame.appid}</div>;
 
-  // image here
-  // click handler on image
+  // image here..
+
+  // click handler on image...
 
 
 

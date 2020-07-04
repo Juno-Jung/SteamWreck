@@ -8,6 +8,7 @@ import serverService from "../../services/ServerService";
 import Welcome from "../Welcome/Welcome"
 import hash from "../../hash";
 import Recommendation from "../../Recommendation";
+import Game from '../../Game';
 
 type MainProps = {
   setIsAuth: any;
@@ -49,40 +50,40 @@ const Main: FunctionComponent<MainProps> = (props) => {
 
     serverService
       .getRecommendations(steam.steamid)
-      .then(
-        (responseData) =>
+      .then((responseData) =>
           responseData && setRecommendations(responseData.recommendations.total)
-      ).then(
-        // Map the favs onto their game object
-        () => recommendations.forEach((rec: Recommendation) => {
-          if (favs.includes(rec.appid)) rec.isFav = true;
-          else rec.isFav = false;
-        })
-      );
+      )
   }, []);
 
   useEffect(() => {
-    console.log(recommendations);
+    // Map the favs onto their game object
+    recommendations.forEach((rec: Recommendation) => {
+      if (favs.includes(rec.appid)) rec.isFav = true;
+      else rec.isFav = false;
+    })
   }, [recommendations]);
 
   const { company, links } = navigation;
 
-  function addRemoveFav(addRemoveFlag: boolean, appId: number): void {
-    // Add the passed appId (string) into array, or remove
-    console.log('main.tsx() addRemoveFav(): will..');
-    // add
-    if (addRemoveFlag) {
-      console.log('add:', appId);
+  function addRemoveFav(recGame: Recommendation): void {
+    // (i) Update the favs - server - TBD
+
+    // (ii) Update the favourites number array
+    const appid: number = recGame.appid;
+    // add game's appid to array (when isFav is false)
+    if (!recGame.isFav) {
       setFavs( currentFavs => {
-        return [...currentFavs, appId];
+        return [...currentFavs, appid];
       })
     } else {
       // remove
-      console.log('remove:', appId);
       setFavs( currentFavs => {
-        return currentFavs.filter( (ele) => { return ele !== appId })
+        return currentFavs.filter( (ele) => { return ele !== appid })
       })
     }
+
+    // (iii) Toggle the isFav flag on game:
+    recGame.isFav = (recGame.isFav) ? false : true;
   }
 
   return (

@@ -30,7 +30,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
           <GameDescription description={props.recGame.description}/>
 
           <GameTags tags={props.recGame.tags}/>
-          <FavouritePicker appId={props.recGame.appid} addRemoveFav={props.addRemoveFav}/>
+          <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
         </div>
       </div>
     </div>
