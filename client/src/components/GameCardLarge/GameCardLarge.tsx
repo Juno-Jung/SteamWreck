@@ -1,14 +1,16 @@
 import React, { FunctionComponent  } from 'react';
-import RecommendationReason from '../RecommendationReason'
-import GameTags from '../GameTags'
-import GameDescription from '../GameDescription'
+import RecommendationReason from '../RecommendationReason';
+import GameTags from '../GameTags';
+import GameDescription from '../GameDescription';
+import FavouritePicker from '../FavouritePicker';
 
-import './GameCardLarge.scss'
-import Game from './../../Game'
+import './GameCardLarge.scss';
+import Game from '../../Game';
 
 interface Props {
   // Top Recommended Game.
-  recGame: Game
+  recGame: Game;
+  addRemoveFav: Function;
 }
 
 const GameCardLarge: FunctionComponent<Props> = (props) => {
@@ -28,6 +30,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
           <GameDescription description={props.recGame.description}/>
 
           <GameTags tags={props.recGame.tags}/>
+          <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
         </div>
       </div>
     </div>

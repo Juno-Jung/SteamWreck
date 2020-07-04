@@ -7,6 +7,9 @@ import RecommendationList from "../RecommendationList/RecommendationList";
 import serverService from "../../services/ServerService";
 import Welcome from "../Welcome/Welcome"
 import hash from "../../hash";
+import Recommendation from "../../Recommendation";
+import Game from '../../Game';
+
 type MainProps = {
   setIsAuth: any;
   isAuth: boolean;
@@ -29,6 +32,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [avatarfull, setAvatarfull] = useState("");
   const [countrycode, setCountrycode] = useState("");
   const [recommendations, setRecommendations] = useState([]);
+  const [favs, setFavs] = useState<Array<number>>([]);
 
   useEffect(() => {
     let steam: any = hash;
@@ -40,30 +44,53 @@ const Main: FunctionComponent<MainProps> = (props) => {
         setUsername(user[0].personaname);
         setAvatarfull(user[0].avatarfull);
         setCountrycode(user[0].countrycode);
+          setFavs(user.favourites);
         }
       });
 
     serverService
       .getRecommendations(steam.steamid)
-      .then(
-        (responseData) =>
+      .then((responseData) =>
           responseData && setRecommendations(responseData.recommendations.total)
-      );
+      )
   }, []);
 
   useEffect(() => {
-    console.log(recommendations);
+    // Map the favs onto their game object
+    recommendations.forEach((rec: Recommendation) => {
+      if (favs.includes(rec.appid)) rec.isFav = true;
+      else rec.isFav = false;
+    })
   }, [recommendations]);
 
   const { company, links } = navigation;
+
+  function addRemoveFav(recGame: Recommendation): void {
+    // (i) Update the favs - server - TBD
+
+    // (ii) Update the favourites number array
+    const appid: number = recGame.appid;
+    // add game's appid to array (when isFav is false)
+    if (!recGame.isFav) {
+      setFavs( currentFavs => {
+        return [...currentFavs, appid];
+      })
+    } else {
+      // remove
+      setFavs( currentFavs => {
+        return currentFavs.filter( (ele) => { return ele !== appid })
+      })
+    }
+
+    // (iii) Toggle the isFav flag on game:
+    recGame.isFav = (recGame.isFav) ? false : true;
+  }
+
   return (
     <div className="Main">
-
         <Sticky>
           <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
         </Sticky>
-
-
 
       {props.isAuth && (
         <UserSummary
@@ -75,7 +102,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
             {!props.isAuth && (
  <Welcome></Welcome>
       )}
-      {props.isAuth && <RecommendationList recommendations={recommendations} />}
+      {props.isAuth && <RecommendationList recommendations={recommendations} addRemoveFav={addRemoveFav}/>}
     </div>
   );
 };
