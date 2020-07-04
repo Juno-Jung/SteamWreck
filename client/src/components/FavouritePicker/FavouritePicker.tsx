@@ -6,7 +6,7 @@ interface Props {
 };
 
 const FavouritePicker: FunctionComponent<Props> = (props) => {
-  return <div>{props.appId}</div>;
+  return <div onClick={() => {props.addRemoveFav(true, props.appId)}}>{props.appId}</div>;
 
   // image here
   // click handler on image

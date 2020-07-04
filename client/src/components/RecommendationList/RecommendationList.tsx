@@ -22,11 +22,11 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
       :
         <>
           <div>
-            <GameCardLarge recGame={firstRecGame} addRemoveFav={addRemoveFav}/>
+            <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav}/>
           </div>
           <div>
             {allOtherRecGames.map( (game) => {
-              return <GameCardMedium recGame={game} addRemoveFav={addRemoveFav}/>
+              return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav}/>
             })}
           </div>
         </>

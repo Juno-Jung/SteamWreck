@@ -7,6 +7,7 @@ import RecommendationList from "../RecommendationList/RecommendationList";
 import serverService from "../../services/ServerService";
 import Welcome from "../Welcome/Welcome"
 import hash from "../../hash";
+import Recommendation from "../../Recommendation";
 
 type MainProps = {
   setIsAuth: any;
@@ -51,6 +52,12 @@ const Main: FunctionComponent<MainProps> = (props) => {
       .then(
         (responseData) =>
           responseData && setRecommendations(responseData.recommendations.total)
+      ).then(
+        // Map the favs onto their game object
+        () => recommendations.forEach((rec: Recommendation) => {
+          if (favs.includes(rec.appid)) rec.isFav = true;
+          else rec.isFav = false;
+        })
       );
   }, []);
 

@@ -6,6 +6,7 @@ interface Game {
   rating: number;
   rating_reason: string;
   tags: [string];
+  isFav: boolean;
 };
 
 export default Game;
