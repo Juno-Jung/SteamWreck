@@ -6,10 +6,7 @@ require('dotenv').config({ path: path.join(__dirname, './../.env') });
 const UserModel = require('../models/user');
 const GameModel = require('./../models/game');
 
-const { saveGame } = require('./../helpers/steam-api-helpers');
-
-// Uncomment the line before and run this file to update games immediately.
-// updateGames();
+const { saveGame } = require('./../helpers/recommendations-helpers');
 
 const updateGames = async () => {
   try {
@@ -47,9 +44,13 @@ const updateGames = async () => {
     console.log('DB Updater: All games updated!');
     process.exit(-1);
   } catch (error) {
-    console.error(`Error: Problems saving games to database.`);
+    console.error(`Error: Problems saving games to database. ${error}`);
+    process.exit(-1);
   }
 }
+
+// Uncomment the line before and run this file to update games immediately.
+// updateGames();
 
 module.exports = {
   updateGames,

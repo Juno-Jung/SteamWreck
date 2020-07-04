@@ -190,7 +190,10 @@ const saveGame = async (appId, name) => {
   const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').replace(/!/g, '').toLowerCase();
   const game = await rawgApi.getGameDetails(gameStub)
   const steamRes = await steamApi.getGameDetails(appId);
-  const steamGame = steamRes[appId].success ? steamRes[appId].data : null;
+  let steamGame;
+  if (steamRes) {
+    steamGame = steamRes[appId].success ? steamRes[appId].data : null;
+  }
 
   let dbGame = {};
   if (game && game.tags && game.genres && steamGame && steamGame.detailed_description && steamGame.short_description && steamGame.about_the_game && steamGame.screenshots) {
