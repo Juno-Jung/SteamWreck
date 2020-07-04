@@ -175,6 +175,7 @@ const rateGame = (game, tags, genres, ratingType) => {
     description_short: game.description_short,
     description_steam: game.description_steam,
     description_about: game.description_about,
+    screenshots: game.screenshots,
     background_image: game.background_image,
     rating,
     rating_reason,
@@ -192,7 +193,7 @@ const saveGame = async (appId, name) => {
   const steamGame = steamRes[appId].success ? steamRes[appId].data : null;
 
   let dbGame = {};
-  if (game && game.tags && game.genres && steamGame && steamGame.detailed_description && steamGame.short_description && steamGame.about_the_game) {
+  if (game && game.tags && game.genres && steamGame && steamGame.detailed_description && steamGame.short_description && steamGame.about_the_game && steamGame.screenshots) {
     const gameTags = [];
     const gameGenres = [];
     const gameMetacritic = game.metacritic
@@ -215,6 +216,7 @@ const saveGame = async (appId, name) => {
     dbGame.description_steam = steamGame.detailed_description;
     dbGame.description_short = steamGame.short_description;
     dbGame.description_about = steamGame.about_the_game;
+    dbGame.screenshots = steamGame.screenshots;
     dbGame.genres = gameGenres;
     dbGame.tags = gameTags;
     dbGame.ratings = {
@@ -222,16 +224,21 @@ const saveGame = async (appId, name) => {
     };
 
   } else if (game && game.tags && game.genres) {
+    // Flag that the game has no Steam information.
     dbGame.appid = appId;
     dbGame.rawg = true;
     dbGame.steam = false;
-  } else if (steamGame && steamGame.detailed_description && steamGame.short_description && steamGame.about_the_game) {
+  } else if (steamGame && steamGame.detailed_description && steamGame.short_description && steamGame.about_the_game && steamGame.screenshots) {
     // Flag that the game has no rawg information.
     dbGame.appid = appId;
     dbGame.rawg = false;
     dbGame.steam = true;
+  } else {
+    // Flag games that have neither Steam nor rawg information.
+    dbGame.appid = appId;
+    dbGame.rawg = false;
+    dbGame.steam = false;
   }
-
 
   await GameModel.replaceOne({
     appid: appId,
