@@ -66,7 +66,8 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const { company, links } = navigation;
 
   function addRemoveFav(recGame: Recommendation): void {
-    // (i) Update the favs - server - TBD
+    // (i) Update the favs
+    serverService.setUserFavourites(favs, steamid);
 
     // (ii) Update the favourites number array
     const appid: number = recGame.appid;
