@@ -9,6 +9,10 @@ const userSchema = new Schema({
     required: true,
   },
   personaname: String,
+  friends: {
+    type: [Number],
+    required: false,
+  },
   avatar: String,
   avatarmedium: String,
   avatarfull: String,

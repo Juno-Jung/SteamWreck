@@ -40,21 +40,28 @@ const getGameRecommendations = async (user, type, max = 3) => {
 };
 
 const createUserProfile = async (steamId) => {
-  const userSummaryData = await steamApi.getUserSummary(steamId);
-  const user = processUserData(userSummaryData.response.players[0]);
-  const userLibraryData = await steamApi.getUserLibrary(steamId);
-  const userGames = processUserLibraryData(userLibraryData.response);
+  try {
+    const userSummaryData = await steamApi.getUserSummary(steamId);
+    const user = processUserData(userSummaryData.response.players[0]);
+    const userLibraryData = await steamApi.getUserLibrary(steamId);
+    const userGames = processUserLibraryData(userLibraryData.response);
+    const userFriendsData = await steamApi.getUserFriends(steamId);
+    const userFriends = processUserFriendsData(userFriendsData.friendslist.friends);
 
-  user.owned = userGames;
+    user.friends = userFriends;
+    user.owned = userGames;
 
-  await UserModel.replaceOne({
-    steamid: steamId,
-  },
-    user, {
-    upsert: true,
-  });
+    await UserModel.replaceOne({
+      steamid: steamId,
+    },
+      user, {
+      upsert: true,
+    });
 
-  return [user];
+    return [user];
+  } catch (error) {
+    // console.error(error);
+  }
 };
 
 // Takes in Steam User Summary API Data for the first user returned from the call (ideally the only user) and returns an object that follows User Schema.
@@ -123,9 +130,16 @@ const processUserLibraryData = (libraryData) => {
   }
 };
 
+const processUserFriendsData = (friendsData) => {
+  return friendsData.map((friend) => {
+    return friend.steamid;
+  });
+};
+
 module.exports = {
   getGameRecommendations,
   createUserProfile,
   processUserData,
   processUserLibraryData,
+  processUserFriendsData,
 }
