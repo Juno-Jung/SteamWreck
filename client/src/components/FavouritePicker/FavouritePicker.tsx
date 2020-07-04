@@ -1,11 +1,17 @@
 import React, { FunctionComponent  } from 'react';
 
-type FavouritePickerProps = {
-  //
+interface Props {
+  appId: number,
 };
 
-const FavouritePicker: FunctionComponent = () => {
-  return <div>FavouritePicker</div>;
+const FavouritePicker: FunctionComponent<Props> = (props) => {
+  return <div>{props.appId}</div>;
+
+  // image here
+  // click handler on image
+
+
+
 };
 
 export default FavouritePicker;
