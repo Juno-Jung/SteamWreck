@@ -5,7 +5,8 @@ import Recommendation from './../../Recommendation'
 
 // Use an Interface (named Props) to define the props this component will take.
 interface Props {
-  recommendations: Array<Recommendation>
+  recommendations: Array<Recommendation>;
+  addRemoveFav: Function;
 }
 
 // FIX ME- we need a global spinner component & use below in "loading data"
@@ -21,11 +22,11 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
       :
         <>
           <div>
-            <GameCardLarge recGame={firstRecGame}/>
+            <GameCardLarge recGame={firstRecGame} addRemoveFav={addRemoveFav}/>
           </div>
           <div>
             {allOtherRecGames.map( (game) => {
-              return <GameCardMedium recGame={game}/>
+              return <GameCardMedium recGame={game} addRemoveFav={addRemoveFav}/>
             })}
           </div>
         </>

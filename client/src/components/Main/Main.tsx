@@ -7,6 +7,7 @@ import RecommendationList from "../RecommendationList/RecommendationList";
 import serverService from "../../services/ServerService";
 import Welcome from "../Welcome/Welcome"
 import hash from "../../hash";
+
 type MainProps = {
   setIsAuth: any;
   isAuth: boolean;
@@ -29,6 +30,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [avatarfull, setAvatarfull] = useState("");
   const [countrycode, setCountrycode] = useState("");
   const [recommendations, setRecommendations] = useState([]);
+  const [favs, setFavs] = useState<Array<number>>([]);
 
   useEffect(() => {
     let steam: any = hash;
@@ -40,6 +42,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
         setUsername(user[0].personaname);
         setAvatarfull(user[0].avatarfull);
         setCountrycode(user[0].countrycode);
+          setFavs(user.favourites);
         }
       });
 
@@ -56,14 +59,30 @@ const Main: FunctionComponent<MainProps> = (props) => {
   }, [recommendations]);
 
   const { company, links } = navigation;
+
+  function addRemoveFav(addRemoveFlag: boolean, appId: number): void {
+    // Add the passed appId (string) into array, or remove
+    console.log('main.tsx() addRemoveFav(): will..');
+    // add
+    if (addRemoveFlag) {
+      console.log('add:', appId);
+      setFavs( currentFavs => {
+        return [...currentFavs, appId];
+      })
+    } else {
+      // remove
+      console.log('remove:', appId);
+      setFavs( currentFavs => {
+        return currentFavs.filter( (ele) => { return ele !== appId })
+      })
+    }
+  }
+
   return (
     <div className="Main">
-
         <Sticky>
           <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
         </Sticky>
-
-
 
       {props.isAuth && (
         <UserSummary
@@ -75,7 +94,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
             {!props.isAuth && (
  <Welcome></Welcome>
       )}
-      {props.isAuth && <RecommendationList recommendations={recommendations} />}
+      {props.isAuth && <RecommendationList recommendations={recommendations} addRemoveFav={addRemoveFav}/>}
     </div>
   );
 };

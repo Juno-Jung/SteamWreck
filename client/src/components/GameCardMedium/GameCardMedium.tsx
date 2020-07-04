@@ -4,10 +4,11 @@ import GameTags from '../GameTags'
 import GameDescription from '../GameDescription'
 
 import './GameCardMedium.scss'
-import Game from './../../Game'
+import Game from '../../Game'
 
 interface Props {
-  recGame: Game
+  recGame: Game;
+  addRemoveFav: Function;
 }
 
 const GameCardMedium: FunctionComponent<Props> = (props) => {

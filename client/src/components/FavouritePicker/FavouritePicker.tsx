@@ -1,7 +1,8 @@
 import React, { FunctionComponent  } from 'react';
 
 interface Props {
-  appId: number,
+  appId: number
+  addRemoveFav: Function
 };
 
 const FavouritePicker: FunctionComponent<Props> = (props) => {

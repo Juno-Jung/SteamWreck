@@ -5,11 +5,12 @@ import GameDescription from '../GameDescription';
 import FavouritePicker from '../FavouritePicker';
 
 import './GameCardLarge.scss';
-import Game from './../../Game';
+import Game from '../../Game';
 
 interface Props {
   // Top Recommended Game.
-  recGame: Game
+  recGame: Game;
+  addRemoveFav: Function;
 }
 
 const GameCardLarge: FunctionComponent<Props> = (props) => {
@@ -29,7 +30,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
           <GameDescription description={props.recGame.description}/>
 
           <GameTags tags={props.recGame.tags}/>
-          <FavouritePicker appId={props.recGame.appid}/>
+          <FavouritePicker appId={props.recGame.appid} addRemoveFav={props.addRemoveFav}/>
         </div>
       </div>
     </div>
