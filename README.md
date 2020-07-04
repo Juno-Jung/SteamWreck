@@ -6,17 +6,17 @@ Create an application that will authenticate a Steam user, and respond with feat
 
 ### Front End
 
-React-Redux
-SASS
-Jest
+React-Redux\
+SASS\
+Jest\
 TypeScript
 
 ### Back End
 
-Express
-Mocha
-Chai
-MongoDB
+Express\
+Mocha\
+Chai\
+MongoDB\
 Mongoose
 
 ## Installation
@@ -42,3 +42,12 @@ Create an .env file in the server folder with the following variables:
     TAG_WEIGHT=YOUR_TAG_WEIGHT_FOR_RATING_GAMES
     GENRE_WEIGHT=YOUR_GENRE_WEIGHT_FOR_RATING_GAMES
     METACRITIC_WEIGHT=YOUR_METACRITIC_WEIGHT_FOR_RATING_GAMES
+
+## Populate your database
+
+In order to reduce loading times when asking for game information, we want to have the details of a game stored in our database instead of making an API call. The app avoids storing all user games into the database and only does so for the necessary ones in order to reduce loading times. We use a background worker to store the game details of all other user games during off hours to speed up loading times in the future.
+
+1. Set a time for the background worker to run in schedule.js of background_workers. Hour is based off of a 24 hour cycle.
+2. Run schedule.js.
+
+Alternatively, you can uncomment line 52 of update-db.js and run the file to update the database with games immediately. Remember to comment the line afterwards if you plan to use the schedule to update the database afterwards.

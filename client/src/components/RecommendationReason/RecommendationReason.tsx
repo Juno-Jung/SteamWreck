@@ -1,11 +1,13 @@
 import React, { FunctionComponent  } from 'react';
 
-type RecommendationReasonProps = {
-  //
-};
+interface Props {
+  reasoning: string;
+}
 
-const RecommendationReason: FunctionComponent = () => {
-  return <div>RecommendationReason</div>;
+const RecommendationReason: FunctionComponent<Props> = (props) => {
+  return (
+    <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.reasoning}</span></div>
+  )
 };
 
 export default RecommendationReason;

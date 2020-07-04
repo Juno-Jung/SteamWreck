@@ -1,12 +1,18 @@
-import React, { FunctionComponent ,useEffect, useState} from 'react';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import Sticky from 'react-sticky-el';
 
-import Navbar from '../Navbar/Navbar';
-import UserSummary from '../UserSummary/UserSummary';
-import RecommendationList from '../RecommendationList/RecommendationList';
-import serverService from '../../services/ServerService'
-import hash from '../../hash'
+import Navbar from "../Navbar/Navbar";
+import UserSummary from "../UserSummary/UserSummary";
+import RecommendationList from "../RecommendationList/RecommendationList";
+import serverService from "../../services/ServerService";
+import Welcome from "../Welcome/Welcome"
+import hash from "../../hash";
+import Recommendation from "../../Recommendation";
+import Game from '../../Game';
+
 type MainProps = {
-  //
+  setIsAuth: any;
+  isAuth: boolean;
 };
 
 const navigation = {
@@ -17,51 +23,89 @@ const navigation = {
     { name: "FaveWreck", to: "/favourite" },
     { name: "WorstWreck", to: "/worst" },
     { name: "Logout", to: "/logout" },
-  ]
+  ],
 };
 
-
-
-const Main: FunctionComponent = () => {
-  const [steamid,setSteamid]= useState('')
-  const [username,setUsername] = useState('')
-  const [avatarfull,setAvatarfull]=useState('')
-  const [countrycode,setCountrycode]=useState('')
-
-  const [ recommendations, setRecommendations ] = useState([]);
+const Main: FunctionComponent<MainProps> = (props) => {
+  const [steamid, setSteamid] = useState("");
+  const [username, setUsername] = useState("");
+  const [avatarfull, setAvatarfull] = useState("");
+  const [countrycode, setCountrycode] = useState("");
+  const [recommendations, setRecommendations] = useState([]);
+  const [favs, setFavs] = useState<Array<number>>([]);
 
   useEffect(() => {
-    let steam:any = hash
-    console.log(hash)
-    setSteamid(steam.steamid)
+    let steam: any = hash;
+    console.log(hash);
+    setSteamid(steam.steamid);
+      serverService.getUserInfo(steam.steamid).then((user) => {
+        props.setIsAuth(true);
+        if(user[0]){
+        setUsername(user[0].personaname);
+        setAvatarfull(user[0].avatarfull);
+        setCountrycode(user[0].countrycode);
+          setFavs(user.favourites);
+        }
+      });
 
-
-
-    serverService.getUserInfo(steam.steamid).then(user=>{
-      setUsername(user[0].personaname)
-      setAvatarfull(user[0].avatarfull)
-      setCountrycode(user[0].countrycode)
-    })
-
-    const fakeSteamId: string = '76561198056384406';  // FIX ME - remove this.
-    serverService.getRecommendations(fakeSteamId)
-      .then( responseData =>
-        setRecommendations(responseData.recommendations.total)
+    serverService
+      .getRecommendations(steam.steamid)
+      .then((responseData) =>
+          responseData && setRecommendations(responseData.recommendations.total)
       )
-  }, [])
+  }, []);
 
+  useEffect(() => {
+    // Map the favs onto their game object
+    recommendations.forEach((rec: Recommendation) => {
+      if (favs.includes(rec.appid)) rec.isFav = true;
+      else rec.isFav = false;
+    })
+  }, [recommendations]);
 
-  useEffect(() => {console.log(recommendations)}, [recommendations]);
+  const { company, links } = navigation;
 
+  function addRemoveFav(recGame: Recommendation): void {
+    // (i) Update the favs
+    serverService.setUserFavourites(favs, steamid);
 
-    const { company, links } = navigation;
-    return (
-      <div className="Main">
-        <Navbar company={company} links={links} />
-        <UserSummary  username={username} avatarfull={avatarfull} countrycode={countrycode} />
-        <RecommendationList recommendations={recommendations} />
-      </div>
-    )
+    // (ii) Update the favourites number array
+    const appid: number = recGame.appid;
+    // add game's appid to array (when isFav is false)
+    if (!recGame.isFav) {
+      setFavs( currentFavs => {
+        return [...currentFavs, appid];
+      })
+    } else {
+      // remove
+      setFavs( currentFavs => {
+        return currentFavs.filter( (ele) => { return ele !== appid })
+      })
+    }
+
+    // (iii) Toggle the isFav flag on game:
+    recGame.isFav = (recGame.isFav) ? false : true;
+  }
+
+  return (
+    <div className="Main">
+        <Sticky>
+          <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
+        </Sticky>
+
+      {props.isAuth && (
+        <UserSummary
+          username={username}
+          avatarfull={avatarfull}
+          countrycode={countrycode}
+        />
+      )}
+            {!props.isAuth && (
+ <Welcome></Welcome>
+      )}
+      {props.isAuth && <RecommendationList recommendations={recommendations} addRemoveFav={addRemoveFav}/>}
+    </div>
+  );
 };
 
 export default Main;

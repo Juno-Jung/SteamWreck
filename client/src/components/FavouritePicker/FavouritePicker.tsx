@@ -1,11 +1,21 @@
 import React, { FunctionComponent  } from 'react';
+import Recommendation from '../../Recommendation';
 
-type FavouritePickerProps = {
-  //
+interface Props {
+  //appId: number;
+  recGame: Recommendation;
+  addRemoveFav: Function;
 };
 
-const FavouritePicker: FunctionComponent = () => {
-  return <div>FavouritePicker</div>;
+const FavouritePicker: FunctionComponent<Props> = (props) => {
+  return <div onClick={() => {props.addRemoveFav(props.recGame)}}>{props.recGame.appid}</div>;
+
+  // image here..
+
+  // click handler on image...
+
+
+
 };
 
 export default FavouritePicker;
