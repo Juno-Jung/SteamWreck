@@ -3,6 +3,42 @@
 const steamApi = require('../services/steam-api');
 const UserModel = require('../models/user');
 
+const { getTagsAndGenres, rateGames } = require('./recommendations-helpers');
+
+const getGameRecommendations = async (user, type, max = 3) => {
+  try {
+    let userGames;
+
+    if (type === 'total') {
+      // For logging purposes        
+      console.log('\n', 'Recommendation Type: Total');
+      // Sort games by total playtime from increasing to decreasing
+      userGames = user.owned.games_owned.slice().sort((a, b) => {
+        return b.playtime_forever - a.playtime_forever;
+      });
+    } else if (type === 'recent') {
+      // For logging purposes
+      console.log('\n', 'Recommendation Type: Recent');
+      // Sort games by recent playtime from increasing to decreasing
+      userGames = user.owned.games_owned.filter((game) => game.playtime_2weeks)
+        .sort((a, b) => {
+          return b.playtime_2weeks - a.playtime_2weeks;
+        });
+    }
+
+    // Gets all tags and genres of top three games as objects. topTagsAndGenres returns an array with two entries, first is an object of tag/playtime pairs, second is an object of genre/playtime pairs.
+    const [tags, genres] = await getTagsAndGenres(userGames.slice(0, 3), user.owned.game_ids, type);
+
+    // Rates unplayed games by recommendation algorithm. Returns array of unplayed games in the order of the highest rating to lowest rating. (Rating is not added to objects);
+    const ratedUnplayed = await rateGames(user.owned.games_unplayed, tags, genres, user.owned.game_unplayed_ids);
+
+    // Returns top three recommendations
+    return ratedUnplayed.slice(0, max);
+  } catch (error) {
+    // console.error(error);
+  }
+};
+
 const createUserProfile = async (steamId) => {
   const userSummaryData = await steamApi.getUserSummary(steamId);
   const user = processUserData(userSummaryData.response.players[0]);
@@ -88,6 +124,7 @@ const processUserLibraryData = (libraryData) => {
 };
 
 module.exports = {
+  getGameRecommendations,
   createUserProfile,
   processUserData,
   processUserLibraryData,

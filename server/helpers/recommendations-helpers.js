@@ -1,6 +1,7 @@
 'use strict';
 
 const rawgApi = require('../services/rawg-api');
+const steamApi = require('../services/steam-api');
 const GameModel = require('../models/game');
 const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
 
@@ -25,7 +26,7 @@ const getTagsAndGenres = async (games, appIds, type) => {
         const appId = games[i].appid;
         // Saves a game object into our db if details can be found from Rawg API call since it did not already exist in our db.
         const dbGame = await saveGame(appId, games[i].name);
-        if (dbGame.rawg) {
+        if (dbGame.rawg && dbGame.steam) {
           tags = getTagPlaytime(tags, dbGame, games[i], type);
           genres = getGenrePlaytime(genres, dbGame, games[i], type);
         }
@@ -49,7 +50,7 @@ const rateGames = async (games, tags, genres, appIds, ratingType = 'similarity')
     const game = dbGames.filter((dbGame) => dbGame.appid === games[i].appid)[0];
 
     // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
-    if (game && game.rawg) {
+    if (game && game.rawg && game.steam) {
       const ratedGame = rateGame(game, tags, genres, ratingType);
       ratedGames.push(ratedGame);
     } else if (!game) {
@@ -171,6 +172,9 @@ const rateGame = (game, tags, genres, ratingType) => {
     appid: game.appid,
     name: game.name,
     description: game.description,
+    description_short: game.description_short,
+    description_steam: game.description_steam,
+    description_about: game.description_about,
     background_image: game.background_image,
     rating,
     rating_reason,
@@ -184,9 +188,11 @@ const rateGame = (game, tags, genres, ratingType) => {
 const saveGame = async (appId, name) => {
   const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').replace(/!/g, '').toLowerCase();
   const game = await rawgApi.getGameDetails(gameStub)
+  const steamRes = await steamApi.getGameDetails(appId);
+  const steamGame = steamRes[appId].success ? steamRes[appId].data : null;
 
   let dbGame = {};
-  if (game && game.tags && game.genres) {
+  if (game && game.tags && game.genres && steamGame && steamGame.detailed_description && steamGame.short_description && steamGame.about_the_game) {
     const gameTags = [];
     const gameGenres = [];
     const gameMetacritic = game.metacritic
@@ -202,20 +208,30 @@ const saveGame = async (appId, name) => {
     // Save game properties
     dbGame.appid = appId;
     dbGame.rawg = true;
+    dbGame.steam = true;
     dbGame.name = game.name;
     dbGame.background_image = game.background_image;
     dbGame.description = game.description;
+    dbGame.description_steam = steamGame.detailed_description;
+    dbGame.description_short = steamGame.short_description;
+    dbGame.description_about = steamGame.about_the_game;
     dbGame.genres = gameGenres;
     dbGame.tags = gameTags;
     dbGame.ratings = {
       metacritic: gameMetacritic,
     };
 
-  } else {
+  } else if (game && game.tags && game.genres) {
+    dbGame.appid = appId;
+    dbGame.rawg = true;
+    dbGame.steam = false;
+  } else if (steamGame && steamGame.detailed_description && steamGame.short_description && steamGame.about_the_game) {
     // Flag that the game has no rawg information.
     dbGame.appid = appId;
     dbGame.rawg = false;
+    dbGame.steam = true;
   }
+
 
   await GameModel.replaceOne({
     appid: appId,
