@@ -3,7 +3,7 @@
 const rawgApi = require('../services/rawg-api');
 const steamApi = require('../services/steam-api');
 const GameModel = require('../models/game');
-const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT } = require('../config');
+const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT, FRIEND_WEIGHT } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
 const getTagsAndGenres = async (games, appIds, type) => {
@@ -38,7 +38,7 @@ const getTagsAndGenres = async (games, appIds, type) => {
   return [tags, genres];
 };
 
-const rateGames = async (games, tags, genres, appIds, ratingType = 'similarity') => {
+const rateGames = async (games, tags, genres, appIds, friends, friendsLibrary, ratingType) => {
   const ratedGames = [];
 
   // Query DB for games by user game_ids array.
@@ -51,7 +51,7 @@ const rateGames = async (games, tags, genres, appIds, ratingType = 'similarity')
 
     // If the game is in dbGames, then apply the rating algorithm to the game and push it to ratedGames.
     if (game && game.rawg && game.steam) {
-      const ratedGame = rateGame(game, tags, genres, ratingType);
+      const ratedGame = rateGame(game, tags, genres, ratingType, friends, friendsLibrary);
       ratedGames.push(ratedGame);
     } else if (!game) {
       try {
@@ -61,7 +61,7 @@ const rateGames = async (games, tags, genres, appIds, ratingType = 'similarity')
         const dbGame = await saveGame(appId, games[i].name);
 
         if (dbGame.rawg) {
-          const ratedGame = rateGame(dbGame, tags, genres, ratingType);
+          const ratedGame = rateGame(dbGame, tags, genres, ratingType, friends, friendsLibrary);
 
           ratedGames.push(ratedGame);
         }
@@ -78,7 +78,7 @@ const rateGames = async (games, tags, genres, appIds, ratingType = 'similarity')
 };
 
 // Rating type switches between different rating styles. 
-const rateGame = (game, tags, genres, ratingType) => {
+const rateGame = (game, tags, genres, ratingType, friends, friendsLibrary) => {
   if (!game.name) {
     throw new Error(`Error: ${game.appid} does not have the correct data.`);
   }
@@ -114,6 +114,18 @@ const rateGame = (game, tags, genres, ratingType) => {
     totalGenreTime += tags[genreNames[i]];
   }
 
+  // Find an array of friends that also own the game.
+  const friendsHaveGame = friendsLibrary
+    .map((games) => {
+      return games.includes(game.appid);
+    })
+    .reduce((friendsHaveGame, hasGame, index) => {
+      if (hasGame) {
+        friendsHaveGame.push(friends[index]);
+      }
+      return friendsHaveGame;
+    }, []);
+
   let rating;
   let rating_reason;
 
@@ -122,10 +134,16 @@ const rateGame = (game, tags, genres, ratingType) => {
     const tag_score = overlappingTags / game.tags.length ? overlappingTags / game.tags.length : 0;
     const genre_score = overlappingGenres / game.genres.length ? overlappingGenres / game.genres.length : 0;
     const metacritic_score = game.ratings.metacritic / 100;
+    const friend_score = Math.min(3, friendsHaveGame.length) / 3;
 
     // If the metacritic score is null/0, exclude it from the score.
-    if (metacritic_score) {
-      rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT);
+
+    if (metacritic_score && friends.length) {
+      rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT);
+    } else if (metacritic_score) {
+      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(METACRITIC_WEIGHT));
+    } else if (friends.length) {
+      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(FRIEND_WEIGHT));
     } else {
       rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
     }

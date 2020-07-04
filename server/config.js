@@ -14,6 +14,7 @@ module.exports = {
   TAG_WEIGHT: process.env.TAG_WEIGHT,
   GENRE_WEIGHT: process.env.GENRE_WEIGHT,
   METACRITIC_WEIGHT: process.env.METACRITIC_WEIGHT,
+  FRIEND_WEIGHT: process.env.FRIEND_WEIGHT,
   DB_URI: process.env.DB_URI,
   DB_CONFIG: {
     useNewUrlParser: true,
