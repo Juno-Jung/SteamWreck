@@ -50,4 +50,4 @@ In order to reduce loading times when asking for game information, we want to ha
 1. Set a time for the background worker to run in schedule.js of background_workers. Hour is based off of a 24 hour cycle.
 2. Run schedule.js.
 
-Alternatively, you can uncomment line 12 of update-db.js and run the file to update the database with games immediately. Remember to comment the line afterwards if you plan to use the schedule to update the database afterwards.
+Alternatively, you can uncomment line 52 of update-db.js and run the file to update the database with games immediately. Remember to comment the line afterwards if you plan to use the schedule to update the database afterwards.

@@ -1,8 +1,7 @@
 'use strict';
 
 const UserModel = require('../models/user');
-const steamApi = require('../services/steam-api');
-const { createUserProfile } = require('../helpers/user-helpers');
+const { createUserProfile, getGameRecommendations } = require('../helpers/user-helpers');
 
 const getUsers = async (req, res) => {
   try {
@@ -25,7 +24,7 @@ const getUserSummary = async (req, res) => {
       user = await createUserProfile(steamId);
     }
 
-    res.status(200).json(user);
+    res.status(200).json(user[0]);
   } catch (error) {
     console.error(error);
     res.status(500);
@@ -41,8 +40,8 @@ const getRecommendations = async (req, res) => {
     });
 
     const recommendations = {
-      total: await steamApi.getRecommendations(user[0], 'total', max),
-      recent: await steamApi.getRecommendations(user[0], 'recent', max),
+      total: await getGameRecommendations(user[0], 'total', max),
+      recent: await getGameRecommendations(user[0], 'recent', max),
     };
 
     // Returns updated document with new recommendations
