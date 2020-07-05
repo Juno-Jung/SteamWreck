@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState, } from "react";
 import Sticky from 'react-sticky-el';
 
 import Navbar from "../Navbar/Navbar";
@@ -39,11 +39,17 @@ const Main: FunctionComponent<MainProps> = (props) => {
     console.log(hash);
     setSteamid(steam.steamid);
       serverService.getUserInfo(steam.steamid).then((user) => {
+        console.log(user);
         props.setIsAuth(true);
-        if(user[0]){
-        setUsername(user[0].personaname);
-        setAvatarfull(user[0].avatarfull);
-        setCountrycode(user[0].countrycode);
+        if (user) {
+          setUsername(user.personaname);
+          setAvatarfull(user.avatarfull);
+          setCountrycode(user.countrycode);
+          console.log(`user =${user}`)
+
+
+          console.log(`user favs =${user.favourites}`)
+          console.log(`user[0] favs=${user.favourites}`)
           setFavs(user.favourites);
         }
       });
@@ -58,26 +64,36 @@ const Main: FunctionComponent<MainProps> = (props) => {
   useEffect(() => {
     // Map the favs onto their game object
     recommendations.forEach((rec: Recommendation) => {
-      if (favs.includes(rec.appid)) rec.isFav = true;
-      else rec.isFav = false;
+      if (favs.includes(rec.appid)) {
+        console.log(`APP() setting app= ${rec.appid} fav flag to true.`);
+        rec.isFav = true
+      }
+      else {
+        rec.isFav = false;
+        console.log(`APP() setting app= ${rec.appid} fav flag to false.`);
+      }
     })
   }, [recommendations]);
 
   const { company, links } = navigation;
 
   function addRemoveFav(recGame: Recommendation): void {
-    // (i) Update the favs
-    serverService.setUserFavourites(favs, steamid);
+
 
     // (ii) Update the favourites number array
     const appid: number = recGame.appid;
     // add game's appid to array (when isFav is false)
     if (!recGame.isFav) {
+      console.log("Main() adding to favs arr; game=", appid);
+
       setFavs( currentFavs => {
         return [...currentFavs, appid];
       })
+
     } else {
       // remove
+      console.log("Main() removing to favs arr; game=", appid);
+
       setFavs( currentFavs => {
         return currentFavs.filter( (ele) => { return ele !== appid })
       })
@@ -85,7 +101,22 @@ const Main: FunctionComponent<MainProps> = (props) => {
 
     // (iii) Toggle the isFav flag on game:
     recGame.isFav = (recGame.isFav) ? false : true;
+
+    // (i) Update the favs
+
+
   }
+
+  useEffect(() => {
+    console.log("Main() useEffect[favs] called, where favs =", favs);
+    // Update user favourites in DB - only if steamid is set
+    if (steamid) serverService.setUserFavourites(favs, steamid);
+  }, [favs])
+
+
+  // function updateFavs (favs: [number], appid: number) {
+  //   serverService.setUserFavourites(favs, steamid);
+  // }
 
   return (
     <div className="Main">
