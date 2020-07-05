@@ -40,10 +40,10 @@ const Main: FunctionComponent<MainProps> = (props) => {
     setSteamid(steam.steamid);
       serverService.getUserInfo(steam.steamid).then((user) => {
         props.setIsAuth(true);
-        if(user[0]){
-        setUsername(user[0].personaname);
-        setAvatarfull(user[0].avatarfull);
-        setCountrycode(user[0].countrycode);
+        if(user){
+        setUsername(user.personaname);
+        setAvatarfull(user.avatarfull);
+        setCountrycode(user.countrycode);
           setFavs(user.favourites);
         }
       });
