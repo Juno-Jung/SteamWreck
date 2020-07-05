@@ -1,0 +1,12 @@
+@import "../../_variables";
+
+.favouritePicker {
+  display: flex;
+  flex-direction: row;
+
+  .favouritePicker__label {
+    text-transform: uppercase;
+    font-family: $fontOrbiton;
+  }
+}
+
