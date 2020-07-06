@@ -2,8 +2,8 @@ const BASE_URL = 'http://localhost:3001'
 
 export default {
 
-  getUserInfo: async (id) => {
-    return  await fetchRequest(`user/${id}`);
+  getUserInfo:  (id) => {
+    return  fetchRequest(`user/${id}`);
   },
   getRecommendations: (id) => {
     return fetchRequest(`recommendations/${id}`);
@@ -19,7 +19,7 @@ export default {
         'Content-Type': 'application/json'
       },
       method: "PUT",
-      body: JSON.stringify(favs)
+      body: JSON.stringify({favourites: favs})
     }
     return fetchRequest(`user/favourites/${id}`, headers);
   }
@@ -27,7 +27,6 @@ export default {
 };
 
 const fetchRequest = (url, headers) => {
-  console.log(`INFO: (serverService)::: Running URL =${BASE_URL}/${url}` );
   return fetch(`${BASE_URL}/${url}`, headers)
     .then(res => res.status <= 400 ? res : Promise.reject(res))
     .then(res => res.json())

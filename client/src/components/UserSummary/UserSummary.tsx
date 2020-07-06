@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { } from "react";
 import "./UserSummary.scss";
 
 const WORLD_FLAGS_URL: string =
@@ -14,11 +14,12 @@ const UserSummary: React.FC<UserSummaryProps> = (props) => {
   return (
     <div className="container">
       {props.avatarfull && (
-        <img className="avatarFull" src={props.avatarfull} />
+        <img alt="userAvatar" className="avatarFull" src={props.avatarfull} />
       )}
       {props.username && <div className="personaName">{props.username}</div>}
       {props.countrycode && (
         <img
+          alt={`${props.countrycode}-flag`}
           className="countryFlag"
           src={`${WORLD_FLAGS_URL}/${props.countrycode}/shiny/32.png`}
         ></img>

@@ -7,6 +7,7 @@ import Recommendation from './../../Recommendation'
 interface Props {
   recommendations: Array<Recommendation>;
   addRemoveFav: Function;
+  dataFetched: boolean;
 }
 
 // FIX ME- we need a global spinner component & use below in "loading data"
@@ -17,7 +18,7 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      {(!props.recommendations.length)
+      {(!props.dataFetched)
       ? <div>Loading data....</div>
       :
         <>
@@ -26,7 +27,7 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
           </div>
           <div>
             {allOtherRecGames.map( (game) => {
-              return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav}/>
+              return <GameCardMedium key={game.appid} recGame={game} addRemoveFav={props.addRemoveFav}/>
             })}
           </div>
         </>

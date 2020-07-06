@@ -42,13 +42,6 @@ app.use(morgan('tiny'));
 app.use(express.json());
 app.use(cors());
 
-app.use(session({
-  secret: 'your secret',
-  name: 'name of session id',
-  resave: true,
-  saveUninitialized: true
-}));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -56,7 +49,7 @@ app.use(router);
 
 app.listen(PORT, (err) => {
   if (err) console.error(err);
-  console.log(`SteamWreck (v0.125) listening on http://${HOST}:${PORT}`);
+  console.log(`SteamWreck (v0.133) listening on http://${HOST}:${PORT}`);
 });
 
 module.exports = {
