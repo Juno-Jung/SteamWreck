@@ -11,12 +11,12 @@ const Login: FunctionComponent<LoginProps> = (props) => {
       <div className="">
         I already know my Steam ID:
       </div>
-    <div>
-      <a href="http://localhost:3001/auth/steam">
-        Login
-        <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_02.png"></img>
-      </a>
-    </div>
+      <div>
+        <a href="http://localhost:3001/auth/steam">
+          Login
+          <img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_02.png"></img>
+        </a>
+      </div>
     </div>
   );
 };

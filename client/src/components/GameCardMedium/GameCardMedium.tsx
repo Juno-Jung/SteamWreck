@@ -22,7 +22,9 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
         </div>
 
         <div className ="subDetailsMedium">
-          <div className="rating">Rating: <span className="ratingNumber">{props.recGame.rating * 100}</span></div>
+          <div className="rating">Rating: <span className="ratingNumber">{`${(
+            100 * props.recGame.rating
+            ).toFixed(0)} / 100`}</span></div>
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <GameDescription description={props.recGame.description}/>
           <GameTags tags={props.recGame.tags}/>

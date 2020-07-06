@@ -1,18 +1,22 @@
-import React, { FunctionComponent, useEffect, useState, } from "react";
-import Sticky from 'react-sticky-el';
+import React, { FunctionComponent, useEffect, useState } from "react";
+import Sticky from "react-sticky-el";
+import {Redirect} from 'react-router-dom'
 
 import Navbar from "../Navbar/Navbar";
 import UserSummary from "../UserSummary/UserSummary";
 import RecommendationList from "../RecommendationList/RecommendationList";
 import serverService from "../../services/ServerService";
-import Welcome from "../Welcome/Welcome"
+import Welcome from "../Welcome/Welcome";
 import hash from "../../hash";
+import params from "../../params";
+
 import Recommendation from "../../Recommendation";
-import Game from '../../Game';
+import Game from "../../Game";
 
 type MainProps = {
   setIsAuth: any;
   isAuth: boolean;
+  history: any
 };
 
 const navigation = {
@@ -27,6 +31,7 @@ const navigation = {
 };
 
 const Main: FunctionComponent<MainProps> = (props) => {
+  const [testid,setTestid] = useState("")
   const [steamid, setSteamid] = useState("");
   const [username, setUsername] = useState("");
   const [avatarfull, setAvatarfull] = useState("");
@@ -36,19 +41,27 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {
-    let steam: any = hash;
-    setSteamid(steam.steamid);
+    if(localStorage.getItem("steamid")) {props.history.push('#steamid='+localStorage.getItem("steamid"))}
+    let steam: any = params();
+    setSteamid(steam.steamid); 
 
     // Fetch User and Recommendations using a Promise All:: set dataFetched to true at the end.
     Promise.all([serverService.getUserInfo(steam.steamid), serverService.getRecommendations(steam.steamid)]).then( (values) => {
+      // Handle getUserInfo promise
       const user = values[0];
-      props.setIsAuth(true);
+
+      if(steam.steamid) {
+        localStorage.setItem("steamid", steam.steamid)
+        props.setIsAuth(true); 
+      }   
+      
       if (user) {
         setUsername(user.personaname);
         setAvatarfull(user.avatarfull);
         setCountrycode(user.countrycode);
         setFavs(user.favourites);
       }
+      // Handle getRecommendations promise
       const userData = values[1];
       if (userData) setRecommendations(userData.recommendations.total);
       setDataFetched(true);
@@ -60,7 +73,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
     recommendations.forEach((rec: Recommendation) => {
       if (favs && favs.includes(rec.appid)) rec.isFav = true
       else rec.isFav = false;
-    })
+    });
   }, [recommendations]);
 
   const { company, links } = navigation;
@@ -79,12 +92,14 @@ const Main: FunctionComponent<MainProps> = (props) => {
         })
     } else {
       // remove
-      setFavs( currentFavs => {
-        return currentFavs.filter( (ele) => { return ele !== appid })
-      })
+      setFavs((currentFavs) => {
+        return currentFavs.filter((ele) => {
+          return ele !== appid;
+        });
+      });
     }
 
-    // (i) Toggle the isFav flag on game:
+    // (ii) Toggle the isFav flag on game:
     recGame.isFav = (recGame.isFav) ? false : true;
 
     // (iii) Update the favs [This has moved to a useEffect]
@@ -98,7 +113,12 @@ const Main: FunctionComponent<MainProps> = (props) => {
   return (
     <div className="Main">
       <Sticky>
-        <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
+        <Navbar
+          steamid={steamid}
+          isAuth={props.isAuth}
+          company={company}
+          links={links}
+        />
       </Sticky>
 
       {props.isAuth && (
@@ -108,12 +128,14 @@ const Main: FunctionComponent<MainProps> = (props) => {
           countrycode={countrycode}
         />
       )}
-      {!props.isAuth && (
-        <Welcome></Welcome>
+
+      {!props.isAuth && <Welcome></Welcome>}
+      {props.isAuth && (
+        <RecommendationList
+          recommendations={recommendations}
+          addRemoveFav={addRemoveFav}
+        />
       )}
-      {props.isAuth &&
-        <RecommendationList recommendations={recommendations} addRemoveFav={addRemoveFav}/>
-      }
     </div>
   );
 };
