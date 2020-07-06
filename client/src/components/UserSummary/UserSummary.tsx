@@ -11,6 +11,7 @@ type UserSummaryProps = {
 };
 
 const UserSummary: React.FC<UserSummaryProps> = (props) => {
+  console.log(props)
   return (
     <div className="container">
       {props.avatarfull && (

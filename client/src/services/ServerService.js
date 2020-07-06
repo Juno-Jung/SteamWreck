@@ -2,8 +2,8 @@ const BASE_URL = 'http://localhost:3001'
 
 export default {
 
-  getUserInfo: async (id) => {
-    return  await fetchRequest(`user/${id}`);
+  getUserInfo:  (id) => {
+    return  fetchRequest(`user/${id}`);
   },
   getRecommendations: (id) => {
     return fetchRequest(`recommendations/${id}`);
