@@ -6,7 +6,6 @@ type Welcome = {
 };
 
 const Welcome: FunctionComponent = () => {
-  //const videoSource = "https://vimeo.com/user118858358/review/435027108/56242f510b"
 
   return <div className="Container" >
 
@@ -24,8 +23,8 @@ const Welcome: FunctionComponent = () => {
     </div>
 
     <div className="SigninButton">
-      <a href="http://localhost:3001/auth/steam"><img src="https://lh3.googleusercontent.com/proxy/FXM9QUG4FHIxo2KK5VfB_enVMGUI4vPT8Pqn9lOYDw8yRaQ42stnLjFxKpUYnnzYQKbGbdIJbDl3Et5WTA"
-      title="White flower" alt="Login with Steam" />
+      <a href="http://localhost:3001/auth/steam"><img src="https://lh3.googleusercontent.com/proxy/dJAZlLjlMtrtUuHnwohakTlHzOaqgJXqlX4YN9zDNSd11c_eTEhnEcvDotW6pzH6hRnaB4xqHThtgKFacFHdd0c98nU3a04E7ftN8GRSSK-RDP27OerXoUk1i5CfEwvwFa2114E"
+      title="SteamSigninButton" alt="Login with Steam" />
       </a>
     </div>
 
