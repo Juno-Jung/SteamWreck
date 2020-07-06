@@ -34,6 +34,7 @@ const userSchema = new Schema({
         background_image: String,
         rating: Number,
         rating_reason: String,
+        metacritic_url: String,
         tags: [String],
         genres: [String]
       }],
@@ -55,6 +56,7 @@ const userSchema = new Schema({
         background_image: String,
         rating: Number,
         rating_reason: String,
+        metacritic_url: String,
         tags: [String],
         genres: [String]
       }],
@@ -76,6 +78,7 @@ const userSchema = new Schema({
         background_image: String,
         rating: Number,
         rating_reason: String,
+        metacritic_url: String,
         tags: [String],
         genres: [String]
       }],

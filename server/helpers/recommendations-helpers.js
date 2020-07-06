@@ -3,7 +3,7 @@
 const rawgApi = require('../services/rawg-api');
 const steamApi = require('../services/steam-api');
 const GameModel = require('../models/game');
-const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT, FRIEND_WEIGHT } = require('../config');
+const { TAG_WEIGHT, GENRE_WEIGHT, METACRITIC_WEIGHT, FRIEND_WEIGHT, BASE_METACRITIC_URL } = require('../config');
 
 // Takes an array of games and returns an array whose first index is a set of tags, and the second index is a set of genres.
 const getTagsAndGenres = async (games, appIds, type) => {
@@ -118,6 +118,7 @@ const rateGame = (game, tags, genres, ratingType, friends, friendsLibrary) => {
     background_image: game.background_image,
     rating,
     rating_reason,
+    metacritic_url: game.ratings.metacritic.url,
     tags: game.tags,
     genres: game.genres,
   };
@@ -173,14 +174,14 @@ const scoreRatingAndReason = (game, tagsAndGenres, friends, friendsHaveGame, isM
   if (ratingType === 'similarity') {
     tag_score = overlappingTags / game.tags.length ? overlappingTags / game.tags.length : 0;
     genre_score = overlappingGenres / game.genres.length ? overlappingGenres / game.genres.length : 0;
-    metacritic_score = game.ratings.metacritic / 100;
+    metacritic_score = game.ratings.metacritic.rating / 100;
     friend_score = Math.min(3, friendsHaveGame.length) / 3; // 1 friend = 0.5 score, 2 friend = 0.6 score, 3 friends = 1 score. Use a function to output this eventually.
 
     // This rating style emphasizes the amount of time you spent on a particular tag or genre type, weighting more heavily played tags and genres higher.
   } else if (ratingType === 'timespent') {
     tag_score = tagTime / totalTagTime ? tagTime / totalTagTime : 0;
     genre_score = genreTime / totalGenreTime ? genreTime / totalGenreTime : 0;
-    metacritic_score = game.ratings.metacritic / 100;
+    metacritic_score = game.ratings.metacritic.rating / 100;
     friend_score = Math.min(3, friendsHaveGame.length) / 3; // 1 friend = 0.5 score, 2 friend = 0.6 score, 3 friends = 1 score. Use a function to output this eventually.
   }
 
@@ -230,6 +231,7 @@ const saveGame = async (appId, name) => {
   const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').replace(/!/g, '').toLowerCase();
   const game = await rawgApi.getGameDetails(gameStub)
   const steamRes = await steamApi.getGameDetails(appId);
+
   let steamGame;
   if (steamRes) {
     steamGame = steamRes[appId].success ? steamRes[appId].data : null;
@@ -263,7 +265,10 @@ const saveGame = async (appId, name) => {
     dbGame.genres = gameGenres;
     dbGame.tags = gameTags;
     dbGame.ratings = {
-      metacritic: gameMetacritic,
+      metacritic: {
+        rating: gameMetacritic,
+        url: `${BASE_METACRITIC_URL}/game/pc/${gameStub}`,
+      },
     };
 
   } else if (game && game.tags && game.genres) {
