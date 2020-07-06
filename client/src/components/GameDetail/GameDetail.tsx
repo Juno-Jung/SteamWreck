@@ -2,7 +2,7 @@ import React, { FunctionComponent  } from 'react';
 import Gallereact from 'gallereact';
 import Game from '../../Game';
 import './GameDetail.scss'
-const STEAM_STORE_BASE_URL = 'https://store.steampowered.com/app';
+const BASE_URL = 'https://store.steampowered.com/app';
 
 interface Props {
   location: any // not sure what type this is??
@@ -11,16 +11,17 @@ interface Props {
 const GameDetail: FunctionComponent<any> = (props) => {
   const game: Game = props.location.state;
 
-  const screenshots = game.screenshots.map( screenshot => {
-    // add an image prop to each screenshot object.
-    return {...screenshot, image : screenshot.path_full}
+  const screenshots = game.screenshots.map( srnShot => {
+    // add an image prop to each screenshot
+    return {...srnShot, image : srnShot.path_full}
   });
 
-  const steamGameLink = `${STEAM_STORE_BASE_URL}/${game.appid}`;
+  const steamGameLink = `${BASE_URL}/${game.appid}`;
   const htmlDesc = { __html: game.description_steam};
 
   return (
     <div className="gameDetail">
+
       <h1 className="gameDetail__name">{game.name}</h1>
       <div className="gameDetail__screenshots">
         <Gallereact images={screenshots} displayPreview={true} />
