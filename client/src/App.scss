@@ -2,6 +2,11 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .App {
   text-align: center;
   font-family: 'Orbitron', sans-serif;
