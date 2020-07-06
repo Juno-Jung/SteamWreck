@@ -1,13 +1,14 @@
 import React, { FunctionComponent } from 'react';
+import Game from '../../Game'
 const htmlToText = require("html-to-text");
 
 interface Props {
-  description: string,
+  recGame: Game;
 }
 
 const GameDescription: FunctionComponent<Props> = (props) => {
   return (
-    <div className="description">{htmlToText.fromString(props.description)}</div>
+    <div className="description">{htmlToText.fromString(props.recGame.description_short)}</div>
   )
 };
 

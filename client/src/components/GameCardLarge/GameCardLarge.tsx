@@ -29,7 +29,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
             100 * props.recGame.rating
             ).toFixed(0)} / 100`}</span></div>
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
-          <GameDescription description={props.recGame.description}/>
+          <GameDescription recGame={props.recGame}/>
 
           <GameTags tags={props.recGame.tags}/>
           <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
