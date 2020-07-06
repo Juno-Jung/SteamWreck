@@ -1,4 +1,5 @@
 const mocks = {
+  isMultiplayer: true,
   ratingType: 'similarity',
   tags: {
     'Cross-Platform Multiplayer': 22,

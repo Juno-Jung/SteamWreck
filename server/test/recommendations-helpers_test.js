@@ -139,20 +139,67 @@ describe('Helper functions for getGameRecommendations', () => {
   });
 
   describe('scoreRatingAndReason', () => {
-    it('returns an array with two entries', () => { });
+    beforeEach(() => {
+      const tagsAndGenres = extractTagAndGenreTimes(mocks.dbGame, mocks.tags, mocks.genres);
 
-    it('returns a rating (number) as the first entry', () => { });
+      const friendsHaveGame = mocks.friendsLibrary
+        .map((games) => {
+          return games.includes(mocks.dbGame.appid);
+        })
+        .reduce((friendsHaveGame, hasGame, index) => {
+          if (hasGame) {
+            friendsHaveGame.push(friends[index]);
+          }
+          return friendsHaveGame;
+        }, []);
 
-    it('returns a rating_reason (string) as the second entry', () => { });
+      this.result = scoreRatingAndReason(mocks.dbGame, tagsAndGenres, mocks.friends, friendsHaveGame, mocks.isMultiplayer, mocks.ratingType);
+    });
+
+    it('returns an array with two entries', () => {
+      expect(this.result).to.be.an('array');
+    });
+
+    it('returns a rating (number) as the first entry', () => {
+      expect(this.result[0]).to.be.an('number');
+    });
+
+    it('returns a rating_reason (string) as the second entry', () => {
+      expect(this.result[1]).to.be.an('string');
+    });
   });
 
   describe('findGameRating', () => {
-    it('returns a number between 0 and 1', () => { });
+    before(() => {
+      this.result = findGameRating(Math.random(), Math.random(), Math.random(), Math.random(), mocks.friends, mocks.isMultiplayer)
+    });
+
+    it('returns a number between 0 and 1', () => {
+      expect(this.result).to.be.least(0);
+      expect(this.result).to.be.below(1);
+    });
   });
 
   describe('findGameRatingReason', () => {
-    it('returns a string that describes a reason for a rating', () => { });
+    before(() => {
+      this.result = findGameRatingReason(Math.random(), Math.random(), Math.random(), Math.random())
+    });
 
-    it('returns a string that is determined by the maximum of the four inputs given', () => { });
+    it('returns a string that describes a reason for a rating', () => {
+      expect(this.result).to.be.a('string');
+    });
+
+    it('returns a string that is determined by the maximum of the four inputs given', () => {
+      const tagReason = findGameRatingReason(1, 0.5, 0.6, 0.9);
+      const metacriticReason = findGameRatingReason(0, 0.5, 1, 0.9);
+      const genreReason = findGameRatingReason(0, 1, 0.6, 0.9);
+      const friendReason = findGameRatingReason(0, 0.5, 0.6, 1);
+
+
+      expect(tagReason).to.equal('This game has similar tags to games that you have already played before.');
+      expect(metacriticReason).to.equal('The metacritic score for this game is high among similar games that you have enjoyed.');
+      expect(genreReason).to.equal('The genre of this game is similar to other genres you have played in the past.');
+      expect(friendReason).to.equal('This multiplayer game is owned by a friend, or several friends.');
+    });
   });
 });
