@@ -13,7 +13,6 @@ export default {
   },
 
   setUserFavourites: (favs, id) => {
-    console.log("API() just before PUT call: favs =", favs);
     const headers = {
       headers: {
         'Accept': 'application/json',
@@ -28,7 +27,6 @@ export default {
 };
 
 const fetchRequest = (url, headers) => {
-  console.log(`INFO: (serverService)::: Running URL =${BASE_URL}/${url}` );
   return fetch(`${BASE_URL}/${url}`, headers)
     .then(res => res.status <= 400 ? res : Promise.reject(res))
     .then(res => res.json())

@@ -18,7 +18,7 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
       <h1 className="nameMedium">{props.recGame.name}</h1>
       <div className ="allDetailsMedium">
         <div className="mainDetailsMedium">
-          <img className="gameImg" src={`${props.recGame.background_image}`}></img>
+          <img alt="gameImage" className="gameImg" src={`${props.recGame.background_image}`}></img>
         </div>
 
         <div className ="subDetailsMedium">

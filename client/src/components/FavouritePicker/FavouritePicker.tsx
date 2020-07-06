@@ -16,7 +16,6 @@ const FavouritePicker: FunctionComponent<Props> = (props) => {
   return (
 
     <div className="favouritePicker">
-      {console.log('INFO: favouritePicker() Hi - rendering...')}
       <div className="favouritePicker__label">Add to favorites:</div>
       <img
         src={selectorImageToUse}

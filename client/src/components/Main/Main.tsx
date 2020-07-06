@@ -32,6 +32,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [countrycode, setCountrycode] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [favs, setFavs] = useState<Array<number>>([]);
+  const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {
     if(localStorage.getItem("steamid")) {props.history.push('#steamid='+localStorage.getItem("steamid"))}
@@ -57,6 +58,8 @@ const Main: FunctionComponent<MainProps> = (props) => {
       // Handle getRecommendations promise
       const userData = values[1];
       if (userData) setRecommendations(userData.recommendations.total);
+      setDataFetched(true);
+
     }).catch( err => { console.error(`ERROR Main.txs:: useEffect() PromiseAll fetching data has error = ${err}`); });
   }, []);
 
@@ -64,7 +67,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
     // Map the favs onto their game object
     recommendations.forEach((rec: Recommendation) => {
       if (favs && favs.includes(rec.appid)) rec.isFav = true
-      else rec.isFav = false;
+        else rec.isFav = false;
     });
   }, [recommendations]);
 
@@ -124,6 +127,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
       {!props.isAuth && <Welcome></Welcome>}
       {props.isAuth && (
         <RecommendationList
+          dataFetched={dataFetched}
           recommendations={recommendations}
           addRemoveFav={addRemoveFav}
         />
