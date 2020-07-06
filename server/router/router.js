@@ -10,6 +10,7 @@ const UserController = require('./../controllers/user');
 const GameController = require('./../controllers/game');
 
 router.get('/user/:steamid', UserController.getUserSummary); // Needs ensureAuthenticated - stores user in database if it doesn't exist already.
+router.put('/user/favourites/:steamid', UserController.putUserFavourites); // Needs ensureAuthenticated
 router.get('/recommendations/:steamid', UserController.getRecommendations); // Needs ensureAuthenticated
 router.get('/logout', function (req, res) {
   req.logout();

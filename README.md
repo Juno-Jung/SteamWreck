@@ -38,10 +38,13 @@ Create an .env file in the server folder with the following variables:
     STEAM_API_KEY=YOUR_STEAM_API_KEY
     STEAM_GET_USER_SUMMARY_URL=http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002
     STEAM_GET_USER_LIBRARY_URL=http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001
+    STEAM_GET_USER_FRIENDS_URL=http://api.steampowered.com/ISteamUser/GetFriendList/v0001
+    STEAM_GET_GAME_DETAILS_URL=https://store.steampowered.com/api
     RAWG_BASE_URL=https://api.rawg.io/api
     TAG_WEIGHT=YOUR_TAG_WEIGHT_FOR_RATING_GAMES
     GENRE_WEIGHT=YOUR_GENRE_WEIGHT_FOR_RATING_GAMES
     METACRITIC_WEIGHT=YOUR_METACRITIC_WEIGHT_FOR_RATING_GAMES
+    FRIEND_WEIGHT=YOUR_FRIEND_WEIGHT_FOR_RATING_GAMES
 
 ## Populate your database
 

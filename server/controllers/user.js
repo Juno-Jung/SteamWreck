@@ -1,7 +1,7 @@
 'use strict';
 
 const UserModel = require('../models/user');
-const { createUserProfile, getGameRecommendations } = require('../helpers/user-helpers');
+const { getGameRecommendations, getUserProfile } = require('../helpers/user-helpers');
 
 const getUsers = async (req, res) => {
   try {
@@ -16,15 +16,37 @@ const getUsers = async (req, res) => {
 const getUserSummary = async (req, res) => {
   try {
     const steamId = req.params.steamid;
-    let user = await UserModel.find({
-      steamid: steamId,
+
+    const user = await getUserProfile(steamId);
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+};
+
+const putUserFavourites = async (req, res) => {
+  try {
+    const steamId = req.params.steamid;
+
+    console.log(steamId);
+    const user = await UserModel.findOneAndUpdate({
+      steamid: steamId
+    },
+      {
+        $set: {
+          favourites: req.body.favourites,
+        }
+      }, {
+      new: true,
     });
 
-    if (!user.length) {
-      user = await createUserProfile(steamId);
+    if (!user) {
+      throw new Error('User cannot be found');
     }
 
-    res.status(200).json(user[0]);
+    res.status(200).json(user);
   } catch (error) {
     console.error(error);
     res.status(500);
@@ -39,9 +61,20 @@ const getRecommendations = async (req, res) => {
       steamid: steamId,
     });
 
+    // Friends is an array of user friends by steam id.
+    const friends = user[0].friends;
+    // FriendsProfile is an array of user friends by user object (indexed in the same order as friends).
+    const friendsProfiles = await Promise.all(friends.map((friendId) => {
+      return getUserProfile(friendId);
+    }));
+    // FriendsLibrary is an array, containing an array of game_ids that belong to a friend, indexed in the same order as Friends.
+    const friendsLibrary = friendsProfiles.map((friend) => {
+      return friend.owned.game_ids;
+    });
+
     const recommendations = {
-      total: await getGameRecommendations(user[0], 'total', max),
-      recent: await getGameRecommendations(user[0], 'recent', max),
+      total: await getGameRecommendations(user[0], 'total', max, friends, friendsLibrary, 'similarity'),
+      recent: await getGameRecommendations(user[0], 'recent', max, friends, friendsLibrary, 'similarity'),
     };
 
     // Returns updated document with new recommendations
@@ -63,9 +96,9 @@ const getRecommendations = async (req, res) => {
 // This function does not send - it only returns the user object.
 const putUserSummary = async (req, res) => {
   try {
-    const steamId = req.body.steamid;
+    const steamId = req.params.steamid;
 
-    const user = await createUserProfile(steamId);
+    const user = await getUserProfile(steamId);
 
     res.body = user;
     res.status(200).json(res.body);
@@ -89,6 +122,7 @@ const deleteAll = async (req, res) => {
 module.exports = {
   getUsers,
   getUserSummary,
+  putUserFavourites,
   getRecommendations,
   putUserSummary,
   deleteAll,
