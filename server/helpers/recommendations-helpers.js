@@ -189,6 +189,7 @@ const scoreRatingAndReason = (game, tagsAndGenres, friends, friendsHaveGame, isM
   const rating_reason = findGameRatingReason(tag_score, genre_score, metacritic_score, friend_score);
 
   // Service logger to give information about the game
+
   console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Friend Score: ${friend_score}, Rating: ${rating}`);
   console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
 
@@ -297,13 +298,13 @@ const getTagPlaytime = (oldTags, dbGame, userGame, type) => {
   const tags = Object.assign({}, oldTags);
   for (let i = 0; i < dbGame.tags.length; i++) {
     if (tags.hasOwnProperty(dbGame.tags[i])) {
-      if (type === 'total') {
+      if (type === 'total' || type === 'worst') {
         tags[dbGame.tags[i]] += userGame.playtime_forever
       } else if (type === 'recent') {
         tags[dbGame.tags[i]] += userGame.playtime_2weeks
       }
     } else {
-      tags[dbGame.tags[i]] = type === 'total' ? userGame.playtime_forever : userGame.playtime_2weeks;
+      tags[dbGame.tags[i]] = (type === 'total' || type === 'worst') ? userGame.playtime_forever : userGame.playtime_2weeks;
     }
   }
   return tags;
@@ -313,13 +314,13 @@ const getGenrePlaytime = (oldGenres, dbGame, userGame, type) => {
   const genres = Object.assign({}, oldGenres);
   for (let i = 0; i < dbGame.genres.length; i++) {
     if (genres.hasOwnProperty(dbGame.genres[i])) {
-      if (type === 'total') {
+      if (type === 'total' || type === 'worst') {
         genres[dbGame.genres[i]] += userGame.playtime_forever
       } else if (type === 'recent') {
         genres[dbGame.genres[i]] += userGame.playtime_2weeks
       }
     } else {
-      genres[dbGame.genres[i]] = type === 'total' ? userGame.playtime_forever : userGame.playtime_2weeks;
+      genres[dbGame.genres[i]] = (type === 'total' || type === 'worst') ? userGame.playtime_forever : userGame.playtime_2weeks;
     }
   }
   return genres;

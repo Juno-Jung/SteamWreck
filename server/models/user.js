@@ -60,6 +60,27 @@ const userSchema = new Schema({
       }],
       required: false,
     },
+    worst: {
+      type: [{
+        appid: Number,
+        name: String,
+        description: String,
+        description_short: String,
+        description_steam: String,
+        description_about: String,
+        screenshots: [{
+          id: Number,
+          path_thumbnail: String,
+          path_full: String,
+        }],
+        background_image: String,
+        rating: Number,
+        rating_reason: String,
+        tags: [String],
+        genres: [String]
+      }],
+      required: false,
+    },
     required: false,
   },
   favourites: {

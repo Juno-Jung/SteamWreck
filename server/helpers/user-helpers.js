@@ -8,6 +8,7 @@ const { getTagsAndGenres, rateGames } = require('./recommendations-helpers');
 const getGameRecommendations = async (user, type, max = 3, friends, friendsLibrary, ratingType = 'similarity') => {
   try {
     let userGames;
+    let accuracy;
 
     if (type === 'total') {
       // For logging purposes        
@@ -16,6 +17,9 @@ const getGameRecommendations = async (user, type, max = 3, friends, friendsLibra
       userGames = user.owned.games_owned.slice().sort((a, b) => {
         return b.playtime_forever - a.playtime_forever;
       });
+
+      // Sets the base number of games we compare against
+      accuracy = 3;
     } else if (type === 'recent') {
       // For logging purposes
       console.log('\n', 'Recommendation Type: Recent');
@@ -24,10 +28,26 @@ const getGameRecommendations = async (user, type, max = 3, friends, friendsLibra
         .sort((a, b) => {
           return b.playtime_2weeks - a.playtime_2weeks;
         });
+
+      // Sets the base number of games we compare against
+      accuracy = 3;
+    } else if (type === 'worst') {
+      // For logging purposes
+      console.log('\n', 'Recommendation Type: Worst');
+      // Sort games by recent playtime from increasing to decreasing
+      userGames = user.owned.games_owned.filter((game) => {
+        return ((10 < game.playtime_forever) && (game.playtime_forever < 60));
+      })
+        .sort((a, b) => {
+          return a.playtime_forever - b.playtime_forever;
+        });
+
+      // Sets the base number of games we compare against
+      accuracy = 3;
     }
 
     // Gets all tags and genres of top three games as objects. topTagsAndGenres returns an array with two entries, first is an object of tag/playtime pairs, second is an object of genre/playtime pairs.
-    const [tags, genres] = await getTagsAndGenres(userGames.slice(0, 3), user.owned.game_ids, type);
+    const [tags, genres] = await getTagsAndGenres(userGames.slice(0, accuracy), user.owned.game_ids, type);
 
     // Rates unplayed games by recommendation algorithm. Returns array of unplayed games in the order of the highest rating to lowest rating. (Rating is not added to objects);
     const ratedUnplayed = await rateGames(user.owned.games_unplayed, tags, genres, user.owned.game_unplayed_ids, friends, friendsLibrary, ratingType);
