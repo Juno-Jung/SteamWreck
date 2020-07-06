@@ -7,12 +7,35 @@ import Logout from './components/Logout';
 import UserProfile from './components/UserProfile';
 import GameDetail from './components/GameDetail';
 import About from './components/About';
+import Navbar from './components/Navbar';
+import Sticky from "react-sticky-el";
 import './App.scss';
+
+// Pat: Moved the Navbar here-although it causes the main to reload all data - to be fixed.
+const navigation = {
+  company: { name: "SteamWreck", to: "/" },
+  links: [
+    { name: "Login", to: "/login" },
+    { name: "About", to: "/about" },
+    { name: "FaveWreck", to: "/favourite" },
+    { name: "WorstWreck", to: "/worst" },
+    { name: "Logout", to: "/logout" },
+  ],
+};
 
 function App() {
   const [isAuth,setIsAuth]=useState(false)
   return (
     <BrowserRouter>
+      <Sticky>
+        <Navbar
+          steamid='' // steamid not known at this stage?
+          isAuth={isAuth}
+          company={navigation.company}
+          links={navigation.links}
+        />
+      </Sticky>
+
       <Switch>
         <Route exact path='/' render={(props) => (
           <Main history={props.history} isAuth={isAuth} setIsAuth={setIsAuth}/>
