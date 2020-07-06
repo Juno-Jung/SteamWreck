@@ -19,7 +19,10 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
   return (
     <div>
       {(!props.dataFetched)
-      ? <div>Loading data....</div>
+      ?
+        // <div>Loading data....</div>
+        // <div id="overlay"><img src="https://i.gifer.com/3F3F.gif" alt="Be patient..." /></div>
+        <div id="overlay"><img src="https://i.ya-webdesign.com/images/transparent-explosions-animated-gif-1.gif" alt="Be patient..." /></div>
       :
         <>
           <div>

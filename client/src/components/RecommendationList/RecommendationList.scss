@@ -1,0 +1,7 @@
+#overlay img { display: none; }
+
+#overlay.currently-loading img {
+  display: block;
+  width: 50%;
+  heigth: 50%;
+}

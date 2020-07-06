@@ -107,6 +107,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
 
   return (
     <div className="Main">
+      {props.isAuth && (
       <Sticky>
         <Navbar
           steamid={steamid}
@@ -115,6 +116,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
           links={links}
         />
       </Sticky>
+      )}
 
       {props.isAuth && (
         <UserSummary

@@ -20,8 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="608ba103-422f-4704-a1c6-b61527a63a91" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Main/Main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Welcome/Welcome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Welcome/Welcome.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +50,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/client/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
