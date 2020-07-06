@@ -2,6 +2,7 @@ import React, { FunctionComponent  } from 'react';
 import RecommendationReason from './../RecommendationReason'
 import GameTags from '../GameTags'
 import GameDescription from '../GameDescription'
+import FavouritePicker from '../FavouritePicker';
 
 import './GameCardMedium.scss'
 import Game from '../../Game'
@@ -27,6 +28,8 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <GameDescription description={props.recGame.description}/>
           <GameTags tags={props.recGame.tags}/>
+          <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
+
         </div>
       </div>
 

@@ -11,10 +11,12 @@ interface Props {
 
 const FavouritePicker: FunctionComponent<Props> = (props) => {
   const selectorImageToUse =
-  (props.recGame.isFav) ? addToFavsImg : removeFromFavsImg;
+  (props.recGame.isFav) ? removeFromFavsImg : addToFavsImg;
 
   return (
+
     <div className="favouritePicker">
+      {console.log('INFO: favouritePicker() Hi - rendering...')}
       <div className="favouritePicker__label">Add to favorites:</div>
       <img
         src={selectorImageToUse}

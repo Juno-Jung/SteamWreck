@@ -38,36 +38,40 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [countrycode, setCountrycode] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [favs, setFavs] = useState<Array<number>>([]);
+  const [dataFetched, setDataFetched] = useState(false);
+
   useEffect(() => {
     if(localStorage.getItem("steamid")) {props.history.push('#steamid='+localStorage.getItem("steamid"))}
     let steam: any = params();
     setSteamid(steam.steamid); 
-    serverService.getUserInfo(steam.steamid).then((user) => {
+
+    // Fetch User and Recommendations using a Promise All:: set dataFetched to true at the end.
+    Promise.all([serverService.getUserInfo(steam.steamid), serverService.getRecommendations(steam.steamid)]).then( (values) => {
+      // Handle getUserInfo promise
+      const user = values[0];
+
       if(steam.steamid) {
-      localStorage.setItem("steamid",steam.steamid)
-      props.setIsAuth(true); 
-      }     
+        localStorage.setItem("steamid", steam.steamid)
+        props.setIsAuth(true); 
+      }   
+      
       if (user) {
         setUsername(user.personaname);
         setAvatarfull(user.avatarfull);
         setCountrycode(user.countrycode);
         setFavs(user.favourites);
       }
-    });
-    
-
-    serverService
-      .getRecommendations(steam.steamid)
-      .then(
-        (responseData) =>
-          responseData && setRecommendations(responseData.recommendations.total)
-      );
-  },[]);
+      // Handle getRecommendations promise
+      const userData = values[1];
+      if (userData) setRecommendations(userData.recommendations.total);
+      setDataFetched(true);
+    }).catch( err => { console.error(`ERROR Main.txs:: useEffect() PromiseAll fetching data has error = ${err}`); });
+  }, []);
 
   useEffect(() => {
     // Map the favs onto their game object
     recommendations.forEach((rec: Recommendation) => {
-      if (favs.includes(rec.appid)) rec.isFav = true;
+      if (favs && favs.includes(rec.appid)) rec.isFav = true
       else rec.isFav = false;
     });
   }, [recommendations]);
@@ -75,16 +79,17 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const { company, links } = navigation;
 
   function addRemoveFav(recGame: Recommendation): void {
-    // (i) Update the favs
-    serverService.setUserFavourites(favs, steamid);
-
-    // (ii) Update the favourites number array
+    // (i) Update the favourites number array
     const appid: number = recGame.appid;
     // add game's appid to array (when isFav is false)
     if (!recGame.isFav) {
-      setFavs((currentFavs) => {
-        return [...currentFavs, appid];
-      });
+      if (!favs)
+        // No favs - initialise the first fav into the array
+        setFavs([appid])
+      else
+        setFavs( currentFavs => {
+          return [...currentFavs, appid];
+        })
     } else {
       // remove
       setFavs((currentFavs) => {
@@ -94,9 +99,16 @@ const Main: FunctionComponent<MainProps> = (props) => {
       });
     }
 
-    // (iii) Toggle the isFav flag on game:
-    recGame.isFav = recGame.isFav ? false : true;
+    // (ii) Toggle the isFav flag on game:
+    recGame.isFav = (recGame.isFav) ? false : true;
+
+    // (iii) Update the favs [This has moved to a useEffect]
   }
+
+  useEffect(() => {
+    // Update user favourites in DB - only if steamid is set
+    if (steamid) serverService.setUserFavourites(favs, steamid);
+  }, [favs])
 
   return (
     <div className="Main">
@@ -116,6 +128,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
           countrycode={countrycode}
         />
       )}
+
       {!props.isAuth && <Welcome></Welcome>}
       {props.isAuth && (
         <RecommendationList

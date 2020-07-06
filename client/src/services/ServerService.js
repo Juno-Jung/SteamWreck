@@ -13,13 +13,14 @@ export default {
   },
 
   setUserFavourites: (favs, id) => {
+    console.log("API() just before PUT call: favs =", favs);
     const headers = {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       method: "PUT",
-      body: JSON.stringify(favs)
+      body: JSON.stringify({favourites: favs})
     }
     return fetchRequest(`user/favourites/${id}`, headers);
   }
