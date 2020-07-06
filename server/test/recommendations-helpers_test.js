@@ -66,19 +66,76 @@ describe('Helper functions for getGameRecommendations', () => {
   });
 
   describe('extractTagAndGenreTimes', () => {
-    it('returns an array with six entries', () => { });
 
-    it('returns the number of overlapping tags from the game with the given list of tags as the first entry', () => { });
+    beforeEach(() => {
+      this.result = extractTagAndGenreTimes(mocks.dbGame, mocks.tags, mocks.genres);
+    });
 
-    it('returns the number of overlapping genres from the game with the given list of genres as the second entry', () => { });
+    it('returns an array with six entries', () => {
+      expect(extractTagAndGenreTimes(mocks.dbGame, mocks.tags, mocks.genres)).to.be.an('array');
+    });
 
-    it('returns the number of minutes spent on each tag from the given game as the third entry', () => { });
+    it('returns the number of overlapping tags from the game with the given list of tags as the first entry', () => {
+      let count = 0;
+      for (let i = 0; i < mocks.dbGame.tags.length; i++) {
+        if (mocks.tags.hasOwnProperty(mocks.dbGame.tags[i])) count++;
+      }
 
-    it('returns the number of minutes spent on each genre from the given game as the fouth entry', () => { });
+      expect(this.result[0]).to.be.an('number');
+      expect(this.result[0]).to.equal(count);
+    });
 
-    it('returns the number of minutes spent on each tag from the given list of tags as the fifth entry', () => { });
+    it('returns the number of overlapping genres from the game with the given list of genres as the second entry', () => {
+      let count = 0;
+      for (let i = 0; i < mocks.dbGame.genres.length; i++) {
+        if (mocks.genres.hasOwnProperty(mocks.dbGame.genres[i])) count++;
+      }
 
-    it('returns the number of minutes spent on each genre from the given list of genres as the sixth entry', () => { });
+      expect(this.result[1]).to.be.an('number');
+      expect(this.result[1]).to.equal(count);
+    });
+
+    it('returns the number of minutes spent on each tag from the given game as the third entry', () => {
+      let minutes = 0;
+      for (let i = 0; i < mocks.dbGame.tags.length; i++) {
+        if (mocks.tags.hasOwnProperty(mocks.dbGame.tags[i])) minutes += mocks.tags[mocks.dbGame.tags[i]];
+      }
+
+      expect(this.result[2]).to.be.an('number');
+      expect(this.result[2]).to.equal(minutes);
+    });
+
+    it('returns the number of minutes spent on each genre from the given game as the fouth entry', () => {
+      let minutes = 0;
+      for (let i = 0; i < mocks.dbGame.genres.length; i++) {
+        if (mocks.genres.hasOwnProperty(mocks.dbGame.genres[i])) minutes += mocks.genres[mocks.dbGame.genres[i]];
+      }
+
+      expect(this.result[3]).to.be.an('number');
+      expect(this.result[3]).to.equal(minutes);
+    });
+
+    it('returns the number of minutes spent on each tag from the given list of tags as the fifth entry', () => {
+      let total = 0;
+      let tagNames = Object.keys(mocks.tags);
+      for (let i = 0; i < tagNames.length; i++) {
+        if (mocks.tags.hasOwnProperty(tagNames[i])) total += mocks.tags[tagNames[i]];
+      }
+
+      expect(this.result[4]).to.be.an('number');
+      expect(this.result[4]).to.equal(total);
+    });
+
+    it('returns the number of minutes spent on each genre from the given list of genres as the sixth entry', () => {
+      let total = 0;
+      let genreNames = Object.keys(mocks.genres);
+      for (let i = 0; i < genreNames.length; i++) {
+        if (mocks.genres.hasOwnProperty(genreNames[i])) total += mocks.genres[genreNames[i]];
+      }
+
+      expect(this.result[5]).to.be.an('number');
+      expect(this.result[5]).to.equal(total);
+    });
   });
 
   describe('scoreRatingAndReason', () => {

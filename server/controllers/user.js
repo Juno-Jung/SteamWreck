@@ -120,6 +120,20 @@ const deleteAll = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    await UserModel.deleteMany({
+      steamid: req.params.steamid,
+    });
+    res.body = 'Deleted';
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+};
+
+
 module.exports = {
   getUsers,
   getUserSummary,
@@ -127,4 +141,5 @@ module.exports = {
   getRecommendations,
   putUserSummary,
   deleteAll,
+  deleteUser,
 };

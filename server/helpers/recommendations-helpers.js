@@ -154,7 +154,7 @@ const extractTagAndGenreTimes = (game, tags, genres) => {
 
   let genreNames = Object.keys(genres);
   for (let i = 0; i < genreNames.length; i++) {
-    totalGenreTime += tags[genreNames[i]];
+    totalGenreTime += genres[genreNames[i]];
   }
 
   return [overlappingTags, overlappingGenres, tagTime, genreTime, totalTagTime, totalGenreTime];

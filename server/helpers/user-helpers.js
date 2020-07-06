@@ -106,7 +106,7 @@ const processUserData = (userData) => {
 // Takes in Steam User Owned Games API Data and returns an object that follows the 'owned' property in User Schema.
 const processUserLibraryData = (libraryData) => {
   // Make sure that libraryData is not empty (or if the profile is private). If it is, it returns an empty library
-  if (!(Object.keys(libraryData).length === 0)) {
+  if (!(Object.keys(libraryData).length === 0) && !(libraryData.game_count === 0)) {
     const library = {
       game_count: libraryData.game_count
     }
