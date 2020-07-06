@@ -45,7 +45,7 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path='/' render={(props) => (
-          <Main isAuth={isAuth} setIsAuth={setIsAuth}/>
+          <Main history={props.history} isAuth={isAuth} setIsAuth={setIsAuth}/>
         )}/>
         <Route path='/login' component={Login} /> 
         <Route exact path='/profile' component={UserProfile} />
