@@ -1,0 +1,24 @@
+@import '../../_variables.scss';
+
+/* reset margin for headers here */
+h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
+.gameDetail {
+  margin: 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+  .gameDetail__name {
+    font-family: $fontOrbiton;
+    font-size: 2.5rem;
+  }
+
+  .gameDetail__longDescription {
+    margin: 50px;
+  }
+}
