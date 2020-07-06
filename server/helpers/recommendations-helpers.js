@@ -89,37 +89,9 @@ const rateGame = (game, tags, genres, ratingType, friends, friendsLibrary) => {
     return acc || tag === 'multiplayer' || tag === 'cooperative' || tag === 'online multiplayer' || tag === 'co-op';
   }, false);
 
-  let overlappingTags = 0;
-  let overlappingGenres = 0;
-  let tagTime = 0;
-  let genreTime = 0;
-  let totalTagTime = 0;
-  let totalGenreTime = 0;
-
-  // Compare game tags to given list of tags and adds up the playtime associated to each tag. Same for genre.
-  for (let j = 0; j < game.tags.length; j++) {
-    if (tags[game.tags[j]]) {
-      tagTime += tags[game.tags[j]];
-      overlappingTags++;
-    }
-  }
-  for (let j = 0; j < game.genres.length; j++) {
-    if (genres[game.genres[j]]) {
-      genreTime += genres[game.genres[j]];
-      overlappingGenres++;
-    }
-  }
-
-  // Find the total time of all game tags and genres.
-  let tagNames = Object.keys(tags);
-  for (let i = 0; i < tagNames.length; i++) {
-    totalTagTime += tags[tagNames[i]];
-  }
-
-  let genreNames = Object.keys(genres);
-  for (let i = 0; i < genreNames.length; i++) {
-    totalGenreTime += tags[genreNames[i]];
-  }
+  // Compare game tags to given list of tags and adds up the playtime associated to each tag and genre. Also find the total time of all game tags and genres.
+  // tagsAndGenres = [overlappingTags, overlappingGenres, tagTime, genreTime, totalTagTime, totalGenreTime];
+  const tagsAndGenres = extractTagAndGenreTimes(game, tags, genres);
 
   // Find an array of friends that also own the game.
   const friendsHaveGame = friendsLibrary
@@ -133,74 +105,7 @@ const rateGame = (game, tags, genres, ratingType, friends, friendsLibrary) => {
       return friendsHaveGame;
     }, []);
 
-  let rating;
-  let rating_reason;
-
-  // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
-  if (ratingType === 'similarity') {
-    const tag_score = overlappingTags / game.tags.length ? overlappingTags / game.tags.length : 0;
-    const genre_score = overlappingGenres / game.genres.length ? overlappingGenres / game.genres.length : 0;
-    const metacritic_score = game.ratings.metacritic / 100;
-    const friend_score = Math.min(3, friendsHaveGame.length) / 3;
-
-    // If the metacritic score is null/0, exclude it from the score. If the game isn't multiplayer (or the person has zero friends), exclude the friend score.
-    if (metacritic_score && friends.length && isMultiplayer) {
-      rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT);
-    } else if (metacritic_score) {
-      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(METACRITIC_WEIGHT));
-    } else if (friends.length && isMultiplayer) {
-      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(FRIEND_WEIGHT));
-    } else {
-      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
-    }
-
-    console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
-    console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
-
-    // Sets rating reason based on which category scored the highest.
-    if ((tag_score >= genre_score) && (tag_score >= metacritic_score) && (tag_score >= friend_score)) {
-      rating_reason = 'This game has similar tags to games that you have already played before.';
-    } else if ((metacritic_score >= tag_score) && (metacritic_score >= genre_score) && (metacritic_score >= friend_score)) {
-      rating_reason = 'The metacritic score for this game is high among similar games that you have enjoyed.';
-    } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score) && (genre_score >= friend_score)) {
-      rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
-    } else if ((friend_score >= tag_score) && (friend_score >= metacritic_score) && (friend_score >= genre_score)) {
-      rating_reason = 'This multiplayer game is owned by a friend, or several friends.';
-    }
-
-
-    // This rating style emphasizes the amount of time you spent on a particular tag or genre type, weighting more heavily played tags and genres higher.
-  } else if (ratingType === 'timespent') {
-    const tag_score = tagTime / totalTagTime ? tagTime / totalTagTime : 0;
-    const genre_score = genreTime / totalGenreTime ? genreTime / totalGenreTime : 0;
-    const metacritic_score = game.ratings.metacritic / 100;
-    const friend_score = Math.min(3, friendsHaveGame.length) / 3;
-
-    // If the metacritic score is null/0, exclude it from the score. If the game isn't multiplayer (or the person has zero friends), exclude the friend score.
-    if (metacritic_score && friends.length && isMultiplayer) {
-      rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT);
-    } else if (metacritic_score) {
-      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(METACRITIC_WEIGHT));
-    } else if (friends.length && isMultiplayer) {
-      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(FRIEND_WEIGHT));
-    } else {
-      rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
-    }
-
-    console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Rating: ${rating}`);
-    console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
-
-    // Sets rating reason based on which category scored the highest.
-    if ((tag_score >= genre_score) && (tag_score >= metacritic_score) && (tag_score >= friend_score)) {
-      rating_reason = 'This game has similar tags to games that you have already played before.';
-    } else if ((metacritic_score >= tag_score) && (metacritic_score >= genre_score) && (metacritic_score >= friend_score)) {
-      rating_reason = 'The metacritic score for this game is high among similar games that you have enjoyed.';
-    } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score) && (genre_score >= friend_score)) {
-      rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
-    } else if ((friend_score >= tag_score) && (friend_score >= metacritic_score) && (friend_score >= genre_score)) {
-      rating_reason = 'This multiplayer game is owned by a friend, or several friends.';
-    }
-  }
+  const [rating, rating_reason] = scoreRatingAndReason(game, tagsAndGenres, friends, friendsHaveGame, isMultiplayer, ratingType);
 
   const ratedGame = {
     appid: game.appid,
@@ -218,6 +123,107 @@ const rateGame = (game, tags, genres, ratingType, friends, friendsLibrary) => {
   };
 
   return ratedGame;
+};
+
+const extractTagAndGenreTimes = (game, tags, genres) => {
+  let overlappingTags = 0;
+  let overlappingGenres = 0;
+  let tagTime = 0;
+  let genreTime = 0;
+  let totalTagTime = 0;
+  let totalGenreTime = 0;
+
+  for (let j = 0; j < game.tags.length; j++) {
+    if (tags[game.tags[j]]) {
+      tagTime += tags[game.tags[j]];
+      overlappingTags++;
+    }
+  }
+  for (let j = 0; j < game.genres.length; j++) {
+    if (genres[game.genres[j]]) {
+      genreTime += genres[game.genres[j]];
+      overlappingGenres++;
+    }
+  }
+
+  // 
+  let tagNames = Object.keys(tags);
+  for (let i = 0; i < tagNames.length; i++) {
+    totalTagTime += tags[tagNames[i]];
+  }
+
+  let genreNames = Object.keys(genres);
+  for (let i = 0; i < genreNames.length; i++) {
+    totalGenreTime += tags[genreNames[i]];
+  }
+
+  return [overlappingTags, overlappingGenres, tagTime, genreTime, totalTagTime, totalGenreTime];
+};
+
+/* Returns the rating and rating_reason based on parameters that include tags, genres, metacritic score and how many friends have the game. 
+   This is the main algorithm that recommends a game to the user. */
+const scoreRatingAndReason = (game, tagsAndGenres, friends, friendsHaveGame, isMultiplayer, ratingType) => {
+  let tag_score;
+  let genre_score;
+  let metacritic_score;
+  let friend_score;
+
+  const [overlappingTags, overlappingGenres, tagTime, genreTime, totalTagTime, totalGenreTime] = tagsAndGenres;
+
+  // Scores based on similar tags and genres to the given set of games, and the game's metacritic score.
+  if (ratingType === 'similarity') {
+    tag_score = overlappingTags / game.tags.length ? overlappingTags / game.tags.length : 0;
+    genre_score = overlappingGenres / game.genres.length ? overlappingGenres / game.genres.length : 0;
+    metacritic_score = game.ratings.metacritic / 100;
+    friend_score = Math.min(3, friendsHaveGame.length) / 3; // 1 friend = 0.5 score, 2 friend = 0.6 score, 3 friends = 1 score. Use a function to output this eventually.
+
+    // This rating style emphasizes the amount of time you spent on a particular tag or genre type, weighting more heavily played tags and genres higher.
+  } else if (ratingType === 'timespent') {
+    tag_score = tagTime / totalTagTime ? tagTime / totalTagTime : 0;
+    genre_score = genreTime / totalGenreTime ? genreTime / totalGenreTime : 0;
+    metacritic_score = game.ratings.metacritic / 100;
+    friend_score = Math.min(3, friendsHaveGame.length) / 3; // 1 friend = 0.5 score, 2 friend = 0.6 score, 3 friends = 1 score. Use a function to output this eventually.
+  }
+
+  const rating = findGameRating(tag_score, genre_score, metacritic_score, friend_score, friends, isMultiplayer);
+  const rating_reason = findGameRatingReason(tag_score, genre_score, metacritic_score, friend_score);
+
+  // Service logger to give information about the game
+  console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Friend Score: ${friend_score}, Rating: ${rating}`);
+  console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
+
+  return [rating, rating_reason];
+};
+
+// Gives a rating which is the probability that the user will enjoy the game.
+const findGameRating = (tag_score, genre_score, metacritic_score, friend_score, friends, isMultiplayer) => {
+  let rating;
+  // If the metacritic score is null/0, exclude it from the score. If the game isn't multiplayer (or the person has zero friends), exclude the friend score.
+  if (metacritic_score && friends.length && isMultiplayer) {
+    rating = tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT);
+  } else if (metacritic_score) {
+    rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + metacritic_score * parseFloat(METACRITIC_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(METACRITIC_WEIGHT));
+  } else if (friends.length && isMultiplayer) {
+    rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT) + friend_score * parseFloat(FRIEND_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT) + parseFloat(FRIEND_WEIGHT));
+  } else {
+    rating = (tag_score * parseFloat(TAG_WEIGHT) + genre_score * parseFloat(GENRE_WEIGHT)) / (parseFloat(TAG_WEIGHT) + parseFloat(GENRE_WEIGHT));
+  }
+  return rating;
+};
+
+const findGameRatingReason = (tag_score, genre_score, metacritic_score, friend_score) => {
+  let rating_reason;
+  // Sets rating reason based on which category scored the highest.
+  if ((tag_score >= genre_score) && (tag_score >= metacritic_score) && (tag_score >= friend_score)) {
+    rating_reason = 'This game has similar tags to games that you have already played before.';
+  } else if ((metacritic_score >= tag_score) && (metacritic_score >= genre_score) && (metacritic_score >= friend_score)) {
+    rating_reason = 'The metacritic score for this game is high among similar games that you have enjoyed.';
+  } else if ((genre_score >= tag_score) && (genre_score >= metacritic_score) && (genre_score >= friend_score)) {
+    rating_reason = 'The genre of this game is similar to other genres you have played in the past.';
+  } else if ((friend_score >= tag_score) && (friend_score >= metacritic_score) && (friend_score >= genre_score)) {
+    rating_reason = 'This multiplayer game is owned by a friend, or several friends.';
+  }
+  return rating_reason;
 };
 
 const saveGame = async (appId, name) => {
