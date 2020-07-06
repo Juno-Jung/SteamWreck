@@ -1,17 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import Sticky from "react-sticky-el";
-import {Redirect} from 'react-router-dom'
-
 import Navbar from "../Navbar/Navbar";
 import UserSummary from "../UserSummary/UserSummary";
 import RecommendationList from "../RecommendationList/RecommendationList";
 import serverService from "../../services/ServerService";
 import Welcome from "../Welcome/Welcome";
-import hash from "../../hash";
 import params from "../../params";
-
 import Recommendation from "../../Recommendation";
-import Game from "../../Game";
 
 type MainProps = {
   setIsAuth: any;
@@ -31,30 +26,28 @@ const navigation = {
 };
 
 const Main: FunctionComponent<MainProps> = (props) => {
-  const [testid,setTestid] = useState("")
   const [steamid, setSteamid] = useState("");
   const [username, setUsername] = useState("");
   const [avatarfull, setAvatarfull] = useState("");
   const [countrycode, setCountrycode] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [favs, setFavs] = useState<Array<number>>([]);
-  const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {
     if(localStorage.getItem("steamid")) {props.history.push('#steamid='+localStorage.getItem("steamid"))}
     let steam: any = params();
-    setSteamid(steam.steamid); 
+    setSteamid(steam.steamid);
 
-    // Fetch User and Recommendations using a Promise All:: set dataFetched to true at the end.
+    if(steam.steamid) {
+      localStorage.setItem("steamid", steam.steamid)
+      props.setIsAuth(true);
+    }
+
+    // Fetch User and Recommendations using a Promise All
     Promise.all([serverService.getUserInfo(steam.steamid), serverService.getRecommendations(steam.steamid)]).then( (values) => {
       // Handle getUserInfo promise
       const user = values[0];
 
-      if(steam.steamid) {
-        localStorage.setItem("steamid", steam.steamid)
-        props.setIsAuth(true); 
-      }   
-      
       if (user) {
         setUsername(user.personaname);
         setAvatarfull(user.avatarfull);
@@ -64,7 +57,6 @@ const Main: FunctionComponent<MainProps> = (props) => {
       // Handle getRecommendations promise
       const userData = values[1];
       if (userData) setRecommendations(userData.recommendations.total);
-      setDataFetched(true);
     }).catch( err => { console.error(`ERROR Main.txs:: useEffect() PromiseAll fetching data has error = ${err}`); });
   }, []);
 
