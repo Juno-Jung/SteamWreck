@@ -10,6 +10,13 @@ interface Recommendation {
   rating_reason: string;
   tags: [string];
   isFav: boolean;
-}
+  metacritic_url: string;
+  screenshots: [{
+    _id : string,
+    id : string,
+    path_thumbnail : string,
+    path_full : string,
+  }]
+};
 
 export default Recommendation;

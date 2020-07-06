@@ -18,7 +18,16 @@ h1, h2, h3, h4, h5 {
     font-size: 2.5rem;
   }
 
+  .gameDetail__screenshots {
+    width: 85%;//850px;
+    height: 90vh; //800px;
+  }
+
   .gameDetail__longDescription {
     margin: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-left: 1px dotted;
+    border-right: 1px dotted;
   }
 }
