@@ -326,6 +326,13 @@ const getGenrePlaytime = (oldGenres, dbGame, userGame, type) => {
 }
 module.exports = {
   getTagsAndGenres,
+  getTagPlaytime,
   rateGames,
+  rateGame,
   saveGame,
+  extractTagAndGenreTimes,
+  scoreRatingAndReason,
+  getGenrePlaytime,
+  findGameRating,
+  findGameRatingReason,
 };

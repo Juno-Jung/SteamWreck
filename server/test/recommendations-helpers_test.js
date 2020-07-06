@@ -2,32 +2,67 @@
 
 const mocks = require('./recommendations-helpers_test.mocks');
 const expect = require('chai').expect;
+const { getTagPlaytime, getGenrePlaytime, rateGame, extractTagAndGenreTimes, scoreRatingAndReason, findGameRating, findGameRatingReason } = require('./../helpers/recommendations-helpers');
 
 describe('Helper functions for getGameRecommendations', () => {
   describe('getTagPlaytime', () => {
-    it('returns an array', () => { });
+    it('returns an object', () => {
+      expect(getTagPlaytime({}, mocks.dbGame, mocks.userGame, mocks.type)).to.be.an('object');
+    });
 
-    it('returns an array of objects', () => { })
+    it('returns an object that contains a name property and the time spent (number) as its value', () => {
+      const tags = mocks.dbGame.tags;
+      const result = getTagPlaytime({}, mocks.dbGame, mocks.userGame, mocks.type);
+      for (let i = 0; i < tags.length; i++) {
+        expect(result).to.have.property(tags[i]);
+        expect(result[tags[i]]).to.be.a('number');
+      }
+    });
+    it('returns an object of updated tags when given a set of tags as a parameter', () => {
+      const result = getTagPlaytime(mocks.oldTags, mocks.dbGame, mocks.userGame, mocks.type);
 
-    it('returns an array of tags that contain a name property and the time spent (number) as its value', () => { });
-
-    it('returns an array of updated tags when given a set of tags as a parameter', () => { });
+      if (mocks.dbGame.tags.includes('Singleplayer')) {
+        expect(result['Singleplayer']).to.equal(mocks.oldTags['Singleplayer'] + mocks.userGame.playtime_forever);
+      } else {
+        expect(result['Singleplayer']).to.equal(mocks.oldTags['Singleplayer']);
+      }
+    });
   });
 
   describe('getGenrePlaytime', () => {
-    it('returns an array', () => { });
+    it('returns an object', () => {
+      expect(getGenrePlaytime({}, mocks.dbGame, mocks.userGame, mocks.type)).to.be.an('object');
+    });
 
-    it('returns an array of objects', () => { })
+    it('returns an object that contains a name property and the time spent (number) as its value', () => {
+      const genres = mocks.dbGame.genres;
+      const result = getGenrePlaytime({}, mocks.dbGame, mocks.userGame, mocks.type);
+      for (let i = 0; i < genres.length; i++) {
+        expect(result).to.have.property(genres[i]);
+        expect(result[genres[i]]).to.be.a('number');
+      }
+    });
+    it('returns an object of updated genres when given a set of genres as a parameter', () => {
+      const result = getGenrePlaytime(mocks.oldGenres, mocks.dbGame, mocks.userGame, mocks.type);
 
-    it('returns an array of genres that contain a name property and the time spent (number) as its value', () => { });
-
-    it('returns an array of updated genres when given a set of genres as a parameter', () => { });
+      if (mocks.dbGame.genres.includes('Action')) {
+        expect(result['Action']).to.equal(mocks.oldGenres['Action'] + mocks.userGame.playtime_forever);
+      } else {
+        expect(result['Action']).to.equal(mocks.oldGenres['Action']);
+      }
+    });
   });
 
   describe('rateGame', () => {
-    it('returns an object', () => { });
+    it('returns an object', () => {
+      expect(rateGame(mocks.dbGame, mocks.tags, mocks.genres, mocks.ratingType, mocks.friends, mocks.friendsLibrary)).to.be.an('object');
+    });
 
-    it('returns an object with a rating and rating_reason property that is a number, and a string respectively', () => { });
+    it('returns an object with a rating and rating_reason property that is a number, and a string respectively', () => {
+      const result = rateGame(mocks.dbGame, mocks.tags, mocks.genres, mocks.ratingType, mocks.friends, mocks.friendsLibrary);
+      expect(result.rating).to.be.a('number');
+      expect(result.rating_reason).to.be.a('string');
+    });
   });
 
   describe('extractTagAndGenreTimes', () => {
