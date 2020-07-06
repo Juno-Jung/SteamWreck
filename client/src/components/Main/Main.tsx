@@ -107,14 +107,15 @@ const Main: FunctionComponent<MainProps> = (props) => {
 
   return (
     <div className="Main">
-      <Sticky>
-        <Navbar
-          steamid={steamid}
-          isAuth={props.isAuth}
-          company={company}
-          links={links}
-        />
-      </Sticky>
+      {props.isAuth && (
+        <Sticky>
+          <Navbar
+            steamid={steamid}
+            isAuth={props.isAuth}
+            company={company}
+            links={links} />
+        </Sticky>
+      )}
 
       {props.isAuth && (
         <UserSummary
