@@ -1,5 +1,4 @@
 import React, { FunctionComponent  } from 'react';
-import auth from '../utils/auth'
 import { Redirect } from 'react-router-dom'
 type LogoutProps = {
   setIsAuth:any,
