@@ -46,6 +46,8 @@ const getGameRecommendations = async (user, type, max = 3, friends, friendsLibra
       accuracy = 3;
     }
 
+    console.log(`Top ${accuracy} Games for ${type.toUpperCase()}: `, userGames.slice(0, accuracy));
+
     // Gets all tags and genres of top three games as objects. topTagsAndGenres returns an array with two entries, first is an object of tag/playtime pairs, second is an object of genre/playtime pairs.
     const [tags, genres] = await getTagsAndGenres(userGames.slice(0, accuracy), user.owned.game_ids, type);
 
