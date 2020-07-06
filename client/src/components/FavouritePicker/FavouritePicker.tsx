@@ -14,7 +14,9 @@ const FavouritePicker: FunctionComponent<Props> = (props) => {
   (props.recGame.isFav) ? removeFromFavsImg : addToFavsImg;
 
   return (
+
     <div className="favouritePicker">
+      {console.log('INFO: favouritePicker() Hi - rendering...')}
       <div className="favouritePicker__label">Add to favorites:</div>
       <img
         src={selectorImageToUse}

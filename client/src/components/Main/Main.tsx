@@ -33,96 +33,73 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [countrycode, setCountrycode] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [favs, setFavs] = useState<Array<number>>([]);
+  const [dataFetched, setDataFetched] = useState(false);
 
   useEffect(() => {
     let steam: any = hash;
-    console.log(hash);
     setSteamid(steam.steamid);
-      serverService.getUserInfo(steam.steamid).then((user) => {
-        console.log(user);
-        props.setIsAuth(true);
-        if (user) {
-          setUsername(user.personaname);
-          setAvatarfull(user.avatarfull);
-          setCountrycode(user.countrycode);
-          console.log(`user =${user}`)
 
-
-          console.log(`user favs =${user.favourites}`)
-          console.log(`user[0] favs=${user.favourites}`)
-          setFavs(user.favourites);
-        }
-      });
-
-    serverService
-      .getRecommendations(steam.steamid)
-      .then((responseData) =>
-          responseData && setRecommendations(responseData.recommendations.total)
-      )
+    // Fetch User and Recommendations using a Promise All:: set dataFetched to true at the end.
+    Promise.all([serverService.getUserInfo(steam.steamid), serverService.getRecommendations(steam.steamid)]).then( (values) => {
+      const user = values[0];
+      props.setIsAuth(true);
+      if (user) {
+        setUsername(user.personaname);
+        setAvatarfull(user.avatarfull);
+        setCountrycode(user.countrycode);
+        setFavs(user.favourites);
+      }
+      const userData = values[1];
+      if (userData) setRecommendations(userData.recommendations.total);
+      setDataFetched(true);
+    }).catch( err => { console.error(`ERROR Main.txs:: useEffect() PromiseAll fetching data has error = ${err}`); });
   }, []);
 
   useEffect(() => {
     // Map the favs onto their game object
     recommendations.forEach((rec: Recommendation) => {
-      if (favs.includes(rec.appid)) {
-        console.log(`APP() setting app= ${rec.appid} fav flag to true.`);
-        rec.isFav = true
-      }
-      else {
-        rec.isFav = false;
-        console.log(`APP() setting app= ${rec.appid} fav flag to false.`);
-      }
+      if (favs && favs.includes(rec.appid)) rec.isFav = true
+      else rec.isFav = false;
     })
   }, [recommendations]);
 
   const { company, links } = navigation;
 
   function addRemoveFav(recGame: Recommendation): void {
-
-
-    // (ii) Update the favourites number array
+    // (i) Update the favourites number array
     const appid: number = recGame.appid;
     // add game's appid to array (when isFav is false)
     if (!recGame.isFav) {
-      console.log("Main() adding to favs arr; game=", appid);
-
-      setFavs( currentFavs => {
-        return [...currentFavs, appid];
-      })
-
+      if (!favs)
+        // No favs - initialise the first fav into the array
+        setFavs([appid])
+      else
+        setFavs( currentFavs => {
+          return [...currentFavs, appid];
+        })
     } else {
       // remove
-      console.log("Main() removing to favs arr; game=", appid);
-
       setFavs( currentFavs => {
         return currentFavs.filter( (ele) => { return ele !== appid })
       })
     }
 
-    // (iii) Toggle the isFav flag on game:
+    // (i) Toggle the isFav flag on game:
     recGame.isFav = (recGame.isFav) ? false : true;
 
-    // (i) Update the favs
-
-
+    // (iii) Update the favs [This has moved to a useEffect]
   }
 
   useEffect(() => {
-    console.log("Main() useEffect[favs] called, where favs =", favs);
     // Update user favourites in DB - only if steamid is set
     if (steamid) serverService.setUserFavourites(favs, steamid);
   }, [favs])
 
-
-  // function updateFavs (favs: [number], appid: number) {
-  //   serverService.setUserFavourites(favs, steamid);
-  // }
-
   return (
     <div className="Main">
-        <Sticky>
-          <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
-        </Sticky>
+      <Sticky>
+        <Navbar steamid={steamid} isAuth={props.isAuth} company={company} links={links} />
+      </Sticky>
 
       {props.isAuth && (
         <UserSummary
@@ -131,10 +108,12 @@ const Main: FunctionComponent<MainProps> = (props) => {
           countrycode={countrycode}
         />
       )}
-            {!props.isAuth && (
- <Welcome></Welcome>
+      {!props.isAuth && (
+        <Welcome></Welcome>
       )}
-      {props.isAuth && <RecommendationList recommendations={recommendations} addRemoveFav={addRemoveFav}/>}
+      {props.isAuth &&
+        <RecommendationList recommendations={recommendations} addRemoveFav={addRemoveFav}/>
+      }
     </div>
   );
 };
