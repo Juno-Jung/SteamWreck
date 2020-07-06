@@ -146,7 +146,6 @@ const extractTagAndGenreTimes = (game, tags, genres) => {
     }
   }
 
-  // 
   let tagNames = Object.keys(tags);
   for (let i = 0; i < tagNames.length; i++) {
     totalTagTime += tags[tagNames[i]];
