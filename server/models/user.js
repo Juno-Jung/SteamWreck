@@ -18,9 +18,71 @@ const userSchema = new Schema({
   avatarfull: String,
   countrycode: String,
   recommendations: {
-    type: {
-      total: [Object],
-      recent: [Object],
+    total: {
+      type: [{
+        appid: Number,
+        name: String,
+        description: String,
+        description_short: String,
+        description_steam: String,
+        description_about: String,
+        screenshots: [{
+          id: Number,
+          path_thumbnail: String,
+          path_full: String,
+        }],
+        background_image: String,
+        rating: Number,
+        rating_reason: String,
+        metacritic_url: String,
+        tags: [String],
+        genres: [String]
+      }],
+      required: false,
+    },
+    recent: {
+      type: [{
+        appid: Number,
+        name: String,
+        description: String,
+        description_short: String,
+        description_steam: String,
+        description_about: String,
+        screenshots: [{
+          id: Number,
+          path_thumbnail: String,
+          path_full: String,
+        }],
+        background_image: String,
+        rating: Number,
+        rating_reason: String,
+        metacritic_url: String,
+        tags: [String],
+        genres: [String]
+      }],
+      required: false,
+    },
+    worst: {
+      type: [{
+        appid: Number,
+        name: String,
+        description: String,
+        description_short: String,
+        description_steam: String,
+        description_about: String,
+        screenshots: [{
+          id: Number,
+          path_thumbnail: String,
+          path_full: String,
+        }],
+        background_image: String,
+        rating: Number,
+        rating_reason: String,
+        metacritic_url: String,
+        tags: [String],
+        genres: [String]
+      }],
+      required: false,
     },
     required: false,
   },
