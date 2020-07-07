@@ -1,0 +1,11 @@
+@import "../../_variables";
+
+.rating {
+  text-transform: uppercase;
+  font-family: $fontOrbiton;
+  padding: 5px;
+
+  .ratingNumber {
+    font-weight: 900;
+  }
+}
