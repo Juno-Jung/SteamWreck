@@ -1,7 +1,8 @@
 import React, { FunctionComponent  } from 'react';
 import GameCardLarge from '../GameCardLarge/GameCardLarge';
 import GameCardMedium from '../GameCardMedium/GameCardMedium';
-import Recommendation from './../../Recommendation'
+import Recommendation from './../../Recommendation';
+import './RecommendationList.scss';
 
 // Use an Interface (named Props) to define the props this component will take.
 interface Props {
@@ -20,9 +21,9 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
     <div>
       {(!props.dataFetched)
       ?
-        // <div>Loading data....</div>
-        // <div id="overlay"><img src="https://i.gifer.com/3F3F.gif" alt="Be patient..." /></div>
-        <div id="overlay"><img src="https://i.ya-webdesign.com/images/transparent-explosions-animated-gif-1.gif" alt="Be patient..." /></div>
+        <div className="mainBackground">
+          <div className="overlay"><img src="https://workbench.tv/content/tutorials/2016-10-21_RingOfFire/assets/RingOfFire.gif" alt="Be patient..." /></div>
+        </div>
       :
         <>
           <div>

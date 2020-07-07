@@ -1,7 +1,14 @@
-#overlay img { display: none; }
 
-#overlay.currently-loading img {
-  display: block;
-  width: 50%;
-  heigth: 50%;
+.mainBackground {
+  height: 100vh;
+  width: 100vw;
 }
+
+.overlay {
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+}
+
+
+
