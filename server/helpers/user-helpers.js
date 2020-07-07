@@ -57,7 +57,7 @@ const getGameRecommendations = async (user, type, max = 3, friends, friendsLibra
     // Returns top three recommendations
     return ratedUnplayed.slice(0, max);
   } catch (error) {
-    // console.error(error);
+    console.error(error);
   }
 };
 
@@ -87,7 +87,7 @@ const createUserProfile = async (steamId) => {
 
     return [user];
   } catch (error) {
-    // console.error(error);
+    console.error(error);
   }
 };
 
