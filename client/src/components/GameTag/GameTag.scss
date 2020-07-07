@@ -1,0 +1,14 @@
+@import "../../_variables";
+
+.tag {
+  display: inline-block;
+  border: solid 1px $secondaryColor;
+  border-radius: 6%;
+  background-color: $secondaryColor;
+  padding: 2.5px;
+  font-weight: bold;
+  color: $secondaryFontColor;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 2px;
+}

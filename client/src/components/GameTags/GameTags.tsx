@@ -1,5 +1,6 @@
 import React, { FunctionComponent  } from 'react';
 import './GameTags.scss';
+import GameTag from '../GameTag'
 
 interface Props {
   tags: [string],
@@ -7,7 +8,11 @@ interface Props {
 
 const GameTags: FunctionComponent<Props> = (props) => {
   return (
-    <div className="tags">{props.tags.join('--')}</div>
+    <>
+      {props.tags.map( tag => {
+        return <GameTag tag={tag}/>
+      })}
+    </>
   )
 };
 
