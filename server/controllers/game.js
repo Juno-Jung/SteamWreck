@@ -19,7 +19,7 @@ const getGamesByAppId = async (req, res) => {
   try {
     const appids = req.query.appids;
 
-    const games = await GameModel.find({ appid: { $in: appids } });
+    const games = await GameModel.find({ appid: { $in: JSON.parse(appids) } });
 
     res.body = games;
     res.status(200).json(res.body);
