@@ -79,6 +79,7 @@ const rateGames = async (games, tags, genres, appIds, friends, friendsLibrary, r
 
 // Rating type switches between different rating styles. 
 const rateGame = (game, tags, genres, ratingType, friends, friendsLibrary) => {
+  // Service logger for game name and id. Placed here, it can narrow any errors that may occur in the rating process.
   console.log('\n', `   Steam Id: ${game.appid}, Game: ${game.name}`);
   if (!game.name) {
     throw new Error(`Error: ${game.appid} does not have the correct data.`);
