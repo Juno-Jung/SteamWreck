@@ -128,7 +128,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
       {!props.isAuth && <Welcome></Welcome>}
       {props.isAuth && (
         <RecommendationList
-          dataFetched={dataFetched}
+          // dataFetched={dataFetched}
           recommendations={recommendations}
           addRemoveFav={addRemoveFav}
         />
