@@ -75,10 +75,12 @@ const getRecommendations = async (req, res) => {
       return friend.owned.game_ids;
     });
 
+    const [totalRec, recentRec, worstRec] = await getGameRecommendations(user[0], max, friends, friendsLibrary, 'similarity');
+
     const recommendations = {
-      total: await getGameRecommendations(user[0], 'total', max, friends, friendsLibrary, 'similarity'),
-      recent: await getGameRecommendations(user[0], 'recent', max, friends, friendsLibrary, 'similarity'),
-      worst: await getGameRecommendations(user[0], 'worst', max, friends, friendsLibrary, 'similarity'),
+      total: totalRec,
+      recent: recentRec,
+      worst: worstRec,
     };
 
     // Returns updated document with new recommendations
