@@ -3,6 +3,7 @@ import Gallereact from 'gallereact';
 import Game from '../../Game';
 import './GameDetail.scss'
 import GameLinks from '../GameLinks';
+import GameTags from '../GameTags';
 
 interface Props {
   location: any // not sure what type this is??
@@ -26,8 +27,10 @@ const GameDetail: FunctionComponent<any> = (props) => {
       <div className="gameDetail__screenshots">
         <Gallereact images={screenshots} displayPreview={true} />
       </div>
-      <GameLinks game={game}/>
-
+      <div className="linksAndTags">
+        <GameLinks game={game}/>
+        <GameTags tags={game.tags}/>
+      </div>
       <div className="gameDetail__longDescription" dangerouslySetInnerHTML={htmlDesc}></div>
 
 
