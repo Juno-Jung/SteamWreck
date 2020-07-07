@@ -23,7 +23,7 @@ const Welcome: FunctionComponent = () => {
     </div>
 
     <div className="SigninButton">
-      <a href="http://localhost:3001/auth/steam"><img src="https://lh3.googleusercontent.com/proxy/dJAZlLjlMtrtUuHnwohakTlHzOaqgJXqlX4YN9zDNSd11c_eTEhnEcvDotW6pzH6hRnaB4xqHThtgKFacFHdd0c98nU3a04E7ftN8GRSSK-RDP27OerXoUk1i5CfEwvwFa2114E"
+      <a href="http://localhost:3001/auth/steam"><img src="https://lh3.googleusercontent.com/proxy/HvjWdKnQKMDgq21by3QbFrTAqaTQrowPYK-EjoZNqCK5quMmTN4LeQPwRMeSafrVcV2AGY6rY1UN8riGGJg4o3kGJLqKqa0y5xSIv7FxguO338_jRCBz9mtemSLRGQ5pgcGs7tc"
       title="SteamSigninButton" alt="Login with Steam" />
       </a>
     </div>

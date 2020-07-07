@@ -1,14 +1,7 @@
-
-.mainBackground {
-  height: 100vh;
-  width: 100vw;
+.container {
+  display: flex;
+  justify-content: center;
 }
-
-.overlay {
-  display: block;
-  margin: 0 auto;
-  width: 50%;
+.center {
+  width: 800px;
 }
-
-
-

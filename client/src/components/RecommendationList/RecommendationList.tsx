@@ -1,3 +1,4 @@
+
 import React, { FunctionComponent  } from 'react';
 import GameCardLarge from '../GameCardLarge/GameCardLarge';
 import GameCardMedium from '../GameCardMedium/GameCardMedium';
@@ -8,7 +9,6 @@ import './RecommendationList.scss';
 interface Props {
   recommendations: Array<Recommendation>;
   addRemoveFav: Function;
-  dataFetched: boolean;
 }
 
 // FIX ME- we need a global spinner component & use below in "loading data"
@@ -19,19 +19,23 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      {(!props.dataFetched)
-      ?
-        <div className="mainBackground">
-          <div className="overlay"><img src="https://workbench.tv/content/tutorials/2016-10-21_RingOfFire/assets/RingOfFire.gif" alt="Be patient..." /></div>
+<!--  {(!props.dataFetched) -->
+      {(!props.recommendations.length)
+        ?
+        <div className="container">
+          <div className="center">
+            <img src="https://workbench.tv/content/tutorials/2016-10-21_RingOfFire/assets/RingOfFire.gif"
+                 title="LoadingData" alt="Spinner" />
+          </div>
         </div>
-      :
+        :
         <>
           <div>
             <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav}/>
           </div>
           <div>
             {allOtherRecGames.map( (game) => {
-              return <GameCardMedium key={game.appid} recGame={game} addRemoveFav={props.addRemoveFav}/>
+              return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav}/>
             })}
           </div>
         </>
