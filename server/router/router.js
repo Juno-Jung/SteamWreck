@@ -17,8 +17,9 @@ router.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
-router.get('/games', GameController.getAllGames);
+router.get('/games/all', GameController.getAllGames);
 router.get('/game/:appid', GameController.getGameByAppId);
+router.get('/games', GameController.getGamesByAppId);
 router.delete('/games/delete', GameController.deleteGames); // This needs to be deleted past testing
 router.delete('/game/delete/:appid', GameController.deleteGame); // This needs to be deleted past testing
 router.get('/allusers', UserController.getUsers); // Also needs to be deleted once done testing.
