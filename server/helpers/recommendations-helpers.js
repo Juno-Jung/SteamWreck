@@ -31,7 +31,7 @@ const getTagsAndGenres = async (games, appIds, type) => {
           genres = getGenrePlaytime(genres, dbGame, games[i], type);
         }
       } catch (error) {
-        // console.error(error); // All errors are usually 404 Not Found errors.
+        console.error(error); // All errors are usually 404 Not Found errors.
       }
     }
   }
@@ -66,7 +66,7 @@ const rateGames = async (games, tags, genres, appIds, friends, friendsLibrary, r
           ratedGames.push(ratedGame);
         }
       } catch (error) {
-        // console.error(error); // All errors are usually 404 Not Found errors.
+        console.error(error); // All errors are usually 404 Not Found errors.
       }
     }
   };
@@ -189,8 +189,8 @@ const scoreRatingAndReason = (game, tagsAndGenres, friends, friendsHaveGame, isM
   const rating_reason = findGameRatingReason(tag_score, genre_score, metacritic_score, friend_score);
 
   // Service logger to give information about the game
-
-  console.log('\n', `   Game: ${game.name} - Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Friend Score: ${friend_score}, Rating: ${rating}`);
+  console.log('\n', `   Steam Id: ${game.appid}, Game: ${game.name}`);
+  console.log(`    Tag Score: ${tag_score}, Genre Score: ${genre_score}, Metacritic: ${metacritic_score}, Friend Score: ${friend_score}, Rating: ${rating}`);
   console.log(`    Tag Weight: ${TAG_WEIGHT}, Genre Weight: ${GENRE_WEIGHT}, Metacritic Weight: ${METACRITIC_WEIGHT}`);
 
   return [rating, rating_reason];
