@@ -3,7 +3,7 @@ const BASE_URL = 'http://localhost:3001'
 export default {
 
   getUserInfo:  (id) => {
-    return  fetchRequest(`user/${id}`);
+    return fetchRequest(`user/${id}`);
   },
   getRecommendations: (id) => {
     return fetchRequest(`recommendations/${id}`);
@@ -22,11 +22,20 @@ export default {
       body: JSON.stringify({favourites: favs})
     }
     return fetchRequest(`user/favourites/${id}`, headers);
-  }
+  },
+
+  // getGames:
+  // - PARAMS: array of strings - appIds
+  // - RETURN: array of game objects (from MongoDB)
+  getGames: (gameIdArray) => {
+    gameIdArray = gameIdArray.join(',');
+    return fetchRequest(`games?appids=[${gameIdArray}]`);
+  },
 
 };
 
 const fetchRequest = (url, headers) => {
+  console.log(`INFO: serverService: POST to URL: ${BASE_URL}/${url}`);
   return fetch(`${BASE_URL}/${url}`, headers)
     .then(res => res.status <= 400 ? res : Promise.reject(res))
     .then(res => res.json())
