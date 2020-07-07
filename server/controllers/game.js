@@ -4,9 +4,10 @@ const GameModel = require('../models/game');
 
 const getGameByAppId = async (req, res) => {
   try {
-    res.body = await GameModel.find({
-      appid: req.body.appid,
+    const game = await GameModel.find({
+      appid: req.params.appid,
     });
+    res.body = game[0];
     res.status(200).json(res.body);
   } catch (error) {
     console.error(error);
