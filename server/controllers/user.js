@@ -4,6 +4,7 @@ const UserModel = require('../models/user');
 const GameModel = require('../models/game');
 
 const { getGameRecommendations, getUserProfile } = require('../helpers/user-helpers');
+const { getTagsAndGenres, rateGame } = require('../helpers/recommendations-helpers');
 
 const getUsers = async (req, res) => {
   try {
@@ -19,15 +20,41 @@ const getFavouriteGames = async (req, res) => {
   try {
     const steamId = req.params.steamid;
 
-    const user = await UserModel.find({
+    const userArr = await UserModel.find({
       steamid: steamId
     });
 
-    const favourites = user[0].favourites;
-
+    const user = userArr[0];
+    const userGamesTotal = user.owned.games_owned.slice().sort((a, b) => {
+      return b.playtime_forever - a.playtime_forever;
+    });
+    const [totalTags, totalGenres] = await getTagsAndGenres(userGamesTotal.slice(0, 3), user.owned.game_ids, 'total');
+    const favourites = user.favourites;
     const favouriteGames = await GameModel.find({ appid: { $in: favourites } });
 
-    res.body = favouriteGames;
+    // Friends is an array of user friends by steam id.
+    const friends = user.friends;
+    // FriendsProfile is an array of user friends by user object (indexed in the same order as friends).
+    const friendsProfiles = await Promise.all(friends.map((friendId) => {
+      return getUserProfile(friendId);
+    }));
+    // FriendsLibrary is an array, containing an array of game_ids that belong to a friend, indexed in the same order as Friends.
+    const friendsLibrary = friendsProfiles.map((friend) => {
+      return friend.owned.game_ids;
+    });
+
+    const rated = [];
+    for (let i = 0; i < favouriteGames.length; i++) {
+      const ratedGame = rateGame(favouriteGames[i], totalTags, totalGenres, 'similarity', friends, friendsLibrary);
+      rated.push({
+        appid: ratedGame.appid,
+        rating: ratedGame.rating,
+        rating_reason: ratedGame.rating_reason,
+        metacritic_url: ratedGame.metacritic_url,
+      });
+    }
+
+    res.body = [favouriteGames, rated];
     res.status(200).json(res.body);
   } catch (error) {
     console.error(error);
