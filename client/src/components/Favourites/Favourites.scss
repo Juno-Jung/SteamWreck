@@ -1,0 +1,12 @@
+@import "../../_variables";
+
+.favouriteslist {
+  font-family: $fontOrbiton;
+  color: $primaryColor;
+
+  .favouriteslist__favs {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+}

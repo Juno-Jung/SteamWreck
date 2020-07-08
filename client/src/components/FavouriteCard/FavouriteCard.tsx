@@ -2,6 +2,7 @@ import React, { FunctionComponent  } from 'react';
 import Game from '../../Game';
 import GameRating from '../GameRating';
 import { Link } from 'react-router-dom';
+import './FavouriteCard.scss';
 
 interface Props {
   game: Game;
@@ -16,12 +17,12 @@ const FavouriteCard: FunctionComponent<Props> = (props) => {
 
   return (
     <div className="favouriteGame">
-      <Link to={linkPathAndContent}><h2 className="favouriteGame__name">{props.game.name}</h2></Link>
+      <Link to={linkPathAndContent}><h3 className="favouriteGame__name">{props.game.name}</h3></Link>
 
       <div className="favouriteGame__imageAndScore">
         <Link to={linkPathAndContent}><img className="favouriteGame__image" src={props.game.background_image} alt=""/></Link>
         <GameRating game={props.game}/>
-        <div>Date added: TBC</div>
+        <div>Bookmarked: TBC</div>
       </div>
 
     </div>

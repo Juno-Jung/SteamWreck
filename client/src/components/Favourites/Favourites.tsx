@@ -2,6 +2,8 @@ import React, { FunctionComponent, useContext } from 'react';
 import Game from '../../Game';
 import FavouriteCard from '../FavouriteCard';
 import {FavGamesContext} from '../../App';
+import Spinner from '../Spinner';
+import './Favourites.scss';
 
 interface Props {
   favGames: Array<Game>;
@@ -13,14 +15,23 @@ const Favourites: FunctionComponent<Props> = (props) => {
 
   return (
     <>
-      <div className="favouriteslist">
-      <h1 className="favouriteslist__title">Liked Wreckomendations</h1>
-      <div className="favouriteslist__favs">
-        {favGames.map( game => {
-          return <FavouriteCard game={game}/>
-        })}
+      {(!favGames.length)
+      ?
+      <div>Just loading...
+          <Spinner />
       </div>
-      </div>
+      :
+      <>
+        <div className="favouriteslist">
+          <h1 className="favouriteslist__title">{`Liked Wreckomendations (${favGames.length})`}</h1>
+          <div className="favouriteslist__favs">
+            {favGames.map( game => {
+              return <FavouriteCard game={game}/>
+            })}
+          </div>
+        </div>
+      </>
+      }
     </>
   )
 };
