@@ -19,7 +19,7 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-<!--  {(!props.dataFetched) -->
+{/*   {(!props.dataFetched)  */}
       {(!props.recommendations.length)
         ?
         <div className="container">
