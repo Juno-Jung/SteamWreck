@@ -4,19 +4,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 25px;
+  max-width: 320px;
 
   .favouriteGame__name {
     font-family: $fontOrbiton;
     color: $secondaryColor;
+    margin-bottom: 10px;
+    min-height: 50px;
+    text-align: center;
   }
 
   .favouriteGame__imageAndScore {
-
     color: $tertiaryColor;
+
     .favouriteGame__image {
       width: 25vw;
       height: 25vh;
+    }
 
+    .favouriteGame__ratingAndDate {
+      margin-top: 5px;
+      .favouriteGame__ratingAndDate__date {
+        margin-top: 2px;
+      }
+    }
+
+    .favouriteGame__recReason {
+      margin-top: 2px;
+      // overide font:
+      font-family: $fontPlexSans;
+      overflow-wrap: break-word;
+      // make slightly smaller:
+      font-size: 0.9em;
+      .reason__label{
+        font-family: $fontOrbiton;
+        font-size: 1.1em;
+      }
     }
   }
 }

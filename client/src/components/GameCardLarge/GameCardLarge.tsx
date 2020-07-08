@@ -24,10 +24,10 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
   }
   return (
     <div>
-      <Link to={linkPathAndContent}><h1 className="nameLarge">{props.recGame.name} </h1></Link>
+      <Link to={linkPathAndContent}><h1 className="nameLarge text--hover">{props.recGame.name} </h1></Link>
       <div className ="allDetailsLarge">
         <div className="mainDetailsLarge">
-          <img className="gameImg" alt="gameImage" src={`${props.recGame.background_image}`}></img>
+          <img className="gameImg box--hover" alt="gameImage" src={`${props.recGame.background_image}`}></img>
             <div className="favButtonLarge" >
               <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
             </div>

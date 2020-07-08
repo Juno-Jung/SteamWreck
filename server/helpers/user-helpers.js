@@ -7,31 +7,26 @@ const { getTagsAndGenres, rateGames } = require('./recommendations-helpers');
 
 const getGameRecommendations = async (user, max = 3, friends, friendsLibrary, ratingType = 'similarity') => {
   try {
-    let userGamesTotal;
-    let userGamesRecent;
-    let userGamesWorst;
-    let accuracy;
-
     // Sort games by total playtime from increasing to decreasing
-    userGamesTotal = user.owned.games_owned.slice().sort((a, b) => {
+    const userGamesTotal = user.owned.games_owned.slice().sort((a, b) => {
       return b.playtime_forever - a.playtime_forever;
     });
 
     // Sort games by recent playtime from increasing to decreasing
-    userGamesRecent = user.owned.games_owned.filter((game) => game.playtime_2weeks)
+    const userGamesRecent = user.owned.games_owned.filter((game) => game.playtime_2weeks)
       .sort((a, b) => {
         return b.playtime_2weeks - a.playtime_2weeks;
       });
 
     // Sort games by recent playtime from increasing to decreasing
-    userGamesWorst = user.owned.games_owned.filter((game) => {
+    const userGamesWorst = user.owned.games_owned.filter((game) => {
       return ((10 < game.playtime_forever) && (game.playtime_forever < 60));
     })
       .sort((a, b) => {
         return a.playtime_forever - b.playtime_forever;
       });
 
-    accuracy = 3;
+    const accuracy = 3;
 
     // Gets all tags and genres of top three games as objects. topTagsAndGenres returns an array with two entries, first is an object of tag/playtime pairs, second is an object of genre/playtime pairs.
     const [totalTags, totalGenres] = await getTagsAndGenres(userGamesTotal.slice(0, accuracy), user.owned.game_ids, 'total');
