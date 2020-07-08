@@ -1,11 +1,33 @@
 'use strict';
 
 const UserModel = require('../models/user');
+const GameModel = require('../models/game');
+
 const { getGameRecommendations, getUserProfile } = require('../helpers/user-helpers');
 
 const getUsers = async (req, res) => {
   try {
     res.body = await UserModel.find({});
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+};
+
+const getFavouriteGames = async (req, res) => {
+  try {
+    const steamId = req.params.steamid;
+
+    const user = await UserModel.find({
+      steamid: steamId
+    });
+
+    const favourites = user[0].favourites;
+
+    const favouriteGames = await GameModel.find({ appid: { $in: favourites } });
+
+    res.body = favouriteGames;
     res.status(200).json(res.body);
   } catch (error) {
     console.error(error);
@@ -137,6 +159,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   getUsers,
+  getFavouriteGames,
   getUserSummary,
   putUserFavourites,
   getRecommendations,

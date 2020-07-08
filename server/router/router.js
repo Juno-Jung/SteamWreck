@@ -17,6 +17,7 @@ router.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
+router.get('/favourites/:steamid', UserController.getFavouriteGames);
 router.get('/games/all', GameController.getAllGames);
 router.get('/game/:appid', GameController.getGameByAppId);
 router.get('/games', GameController.getGamesByAppId);
