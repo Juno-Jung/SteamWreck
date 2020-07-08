@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Main from './components/Main';
@@ -27,6 +27,16 @@ const navigation = {
 function App() {
   const [isAuth,setIsAuth]=useState(false)
   const [favs, setFavs] = useState<Array<number>>([]);
+  useEffect(() => {
+    if(isAuth){
+      localStorage.setItem("auth","true");
+    }
+    if(localStorage.getItem("auth")){
+      setIsAuth(true);
+      console.log('yooooooo')
+    }
+
+  }, [isAuth])
 
   return (
     <BrowserRouter>
