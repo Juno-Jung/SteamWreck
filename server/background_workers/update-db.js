@@ -10,6 +10,15 @@ const { saveGame } = require('./../helpers/recommendations-helpers');
 
 const updateGames = async () => {
   try {
+    console.log('Updating games now.');
+
+    console.log('Deleting games without sufficient data in the database');
+    await GameModel.deleteMany({
+      rawg: true,
+      steam: false,
+    })
+
+    console.log('Finding all users in database.');
     const users = await UserModel.find({});
     const userGames = [];
 
@@ -24,17 +33,20 @@ const updateGames = async () => {
       }
     }
 
+    console.log('Retrieving all games from database.');
     // Find all games in db and return an array of appids (game id from Steam).
     const dbGames = await GameModel.find({});
     const gameIds = dbGames.map((dbGame) => {
       return dbGame.appid;
     });
 
+    console.log('Determining game ids that are not in the database.');
     // From user games, find the games that are not in the db.
     const gamesMissing = userGames.filter((userGame) => {
       return !gameIds.includes(userGame.appid);
     });
 
+    console.log('Retrieving data through API calls and saving it into the database');
     // Save all games that are not in the database already.
     for (let i = 0; i < gamesMissing.length; i++) {
       const game = gamesMissing[i];
@@ -44,13 +56,13 @@ const updateGames = async () => {
     console.log('DB Updater: All games updated!');
     process.exit(-1);
   } catch (error) {
-    console.error(`Error: Problems saving games to database. ${error}`);
+    console.error(`Error: Problems saving games to database. ${error.message}`);
     process.exit(-1);
   }
 }
 
 // Uncomment the line before and run this file to update games immediately.
-// updateGames();
+updateGames();
 
 module.exports = {
   updateGames,
