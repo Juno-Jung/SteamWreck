@@ -10,6 +10,7 @@ const { saveGame } = require('./../helpers/recommendations-helpers');
 
 const updateGames = async () => {
   try {
+    console.log('Updating games now.');
     const users = await UserModel.find({});
     const userGames = [];
 
@@ -44,13 +45,13 @@ const updateGames = async () => {
     console.log('DB Updater: All games updated!');
     process.exit(-1);
   } catch (error) {
-    console.error(`Error: Problems saving games to database. ${error}`);
+    console.error(`Error: Problems saving games to database. ${error.message}`);
     process.exit(-1);
   }
 }
 
 // Uncomment the line before and run this file to update games immediately.
-// updateGames();
+updateGames();
 
 module.exports = {
   updateGames,
