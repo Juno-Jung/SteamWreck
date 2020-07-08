@@ -16,7 +16,7 @@ const FavouritePicker: FunctionComponent<Props> = (props) => {
   return (
 
     <div className="favouritePicker">
-      <div className="favouritePicker__label">Add to favorites:</div>
+      {/*<div className="favouritePicker__label">Add to favorites:</div>*/}
       <img
         src={selectorImageToUse}
         onClick={() => {props.addRemoveFav(props.recGame)}}

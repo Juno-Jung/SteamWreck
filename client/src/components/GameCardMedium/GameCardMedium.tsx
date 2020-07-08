@@ -19,6 +19,9 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
       <div className ="allDetailsMedium">
         <div className="mainDetailsMedium">
           <img alt="gameImage" className="gameImg" src={`${props.recGame.background_image}`}></img>
+          <div className="favButtonMedium" >
+            <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
+          </div>
         </div>
 
         <div className ="subDetailsMedium">
@@ -28,8 +31,6 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <GameDescription recGame={props.recGame}/>
           <GameTags tags={props.recGame.tags}/>
-          <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
-
         </div>
       </div>
 
