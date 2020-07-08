@@ -26,7 +26,7 @@ const steamApi = {
       .then((res) => (res.status !== 204 ? res.json() : res))
       .catch(
         (error) => {
-          // console.error(`Error fetching [${options ? options.method : `GET`}]: ${error}`)
+          console.error(`Error fetching [${options ? options.method : `GET`}]: ${error}`)
         }
       );
   },

@@ -78,6 +78,7 @@ const getRecommendations = async (req, res) => {
     const recommendations = {
       total: await getGameRecommendations(user[0], 'total', max, friends, friendsLibrary, 'similarity'),
       recent: await getGameRecommendations(user[0], 'recent', max, friends, friendsLibrary, 'similarity'),
+      worst: await getGameRecommendations(user[0], 'worst', max, friends, friendsLibrary, 'similarity'),
     };
 
     // Returns updated document with new recommendations
@@ -122,6 +123,20 @@ const deleteAll = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    await UserModel.deleteMany({
+      steamid: req.params.steamid,
+    });
+    res.body = 'Deleted';
+    res.status(200).json(res.body);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+};
+
+
 module.exports = {
   getUsers,
   getUserSummary,
@@ -129,4 +144,5 @@ module.exports = {
   getRecommendations,
   putUserSummary,
   deleteAll,
+  deleteUser,
 };

@@ -1,4 +1,5 @@
-import React, { FunctionComponent  } from 'react';
+import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 import RecommendationReason from './../RecommendationReason'
 import GameTags from '../GameTags'
 import GameDescription from '../GameDescription'
@@ -13,9 +14,16 @@ interface Props {
 }
 
 const GameCardMedium: FunctionComponent<Props> = (props) => {
+
+  const linkContent = {
+    pathname: `/game/${props.recGame.appid}`,
+    // pass the game as state for the link
+    state: props.recGame
+  }
+
   return (
     <div>
-      <h1 className="nameMedium">{props.recGame.name}</h1>
+      <Link to={linkContent}><h1 className="nameMedium">{props.recGame.name} </h1></Link>
       <div className ="allDetailsMedium">
         <div className="mainDetailsMedium">
           <img alt="gameImage" className="gameImg" src={`${props.recGame.background_image}`}></img>

@@ -15,7 +15,7 @@ const rawgApi = {
       .then((res) => (res.status !== 204 ? res.json() : res))
       .catch(
         (err) => {
-          // console.error(`Error fetching [${options ? options.method : `GET`}]: ${err}`)
+          console.error(`Error fetching [${options ? options.method : `GET`}]: ${err}`)
         }
       );
   },
