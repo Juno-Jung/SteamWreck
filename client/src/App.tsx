@@ -13,6 +13,7 @@ import serverService from "./services/ServerService";
 import Game from './Game';
 import './App.scss';
 export const FavGamesContext = createContext<Array<Game>>([]);
+let dataCollected = false;
 
 // Pat: Moved the Navbar here-although it causes the main to reload all data - to be fixed.
 const navigation = {
@@ -46,11 +47,17 @@ function App() {
     if (localStorage.getItem("steamid")) {
       steamid = localStorage.getItem("steamid");
     }
-    // console.log("app.tsx: The User id =", steamid);
 
     serverService.getFavouriteGames(steamid)
     .then( (data) => {
-      setFavGames(data);
+      // loop over first array - merge objects from 1st & 2nd arrays and push into new array.
+      let gameArr = [];
+      for (let i = 0; i < data[0].length; i++) {
+        const obj1 = data[0][i];
+        const obj2 = data[1][i];
+        gameArr.push({...obj1, ...obj2})
+      }
+      setFavGames(gameArr);
     })
   }, []);
 
