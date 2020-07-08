@@ -54,6 +54,19 @@ const putGame = async (req, res) => {
   }
 };
 
+const deleteCorruptedGames = async (req, res) => {
+  try {
+    await GameModel.deleteMany({
+      rawg: true,
+      steam: false,
+    })
+    res.status(200).json('Corrupted Games Deleted');
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+}
+
 const deleteGames = async (req, res) => {
   try {
     await GameModel.deleteMany({});
@@ -81,6 +94,7 @@ module.exports = {
   getGamesByAppId,
   getAllGames,
   putGame,
+  deleteCorruptedGames,
   deleteGames,
   deleteGame
 };
