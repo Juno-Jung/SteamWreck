@@ -236,6 +236,8 @@ const saveGame = async (appId, name) => {
   let steamGame;
   if (steamRes) {
     steamGame = steamRes[appId].success ? steamRes[appId].data : null;
+  } else {
+    throw new Error('Steam API is throttled, games cannot be saved for 5 minutes until the limit is lifted.');
   }
 
   let dbGame = {};

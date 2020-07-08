@@ -30,7 +30,6 @@ const putUserFavourites = async (req, res) => {
   try {
     const steamId = req.params.steamid;
 
-    console.log(steamId);
     const user = await UserModel.findOneAndUpdate({
       steamid: steamId
     },
