@@ -21,11 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="608ba103-422f-4704-a1c6-b61527a63a91" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Main/Main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Main/Main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/RecommendationList/RecommendationList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Welcome/Welcome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Welcome/Welcome.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/FavouritePicker/FavouritePicker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/FavouritePicker/FavouritePicker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/GameCardLarge/GameCardLarge.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/GameCardLarge/GameCardLarge.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/GameCardLarge/GameCardLarge.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/GameCardLarge/GameCardLarge.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/GameCardMedium/GameCardMedium.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/GameCardMedium/GameCardMedium.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/GameCardMedium/GameCardMedium.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/GameCardMedium/GameCardMedium.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +55,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/images" />
       <recent name="$PROJECT_DIR$/server" />
       <recent name="$PROJECT_DIR$/client/src/components/Welcome" />
       <recent name="$PROJECT_DIR$/client/public/video" />
@@ -74,7 +75,7 @@
       <workItem from="1593612854676" duration="15981000" />
       <workItem from="1593716492769" duration="17230000" />
       <workItem from="1594023563401" duration="2487000" />
-      <workItem from="1594132273021" duration="1816000" />
+      <workItem from="1594132273021" duration="14239000" />
     </task>
     <servers />
   </component>
@@ -118,5 +119,9 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="226" y="125" key="SettingsEditor/0.23.1440.828@0.23.1440.828" timestamp="1593687722480" />
+    <state x="328" y="175" width="670" height="676" key="search.everywhere.popup" timestamp="1594207584553">
+      <screen x="0" y="23" width="1440" height="828" />
+    </state>
+    <state x="328" y="175" width="670" height="676" key="search.everywhere.popup/0.23.1440.828@0.23.1440.828" timestamp="1594207584553" />
   </component>
 </project>
