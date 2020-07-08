@@ -19,7 +19,7 @@ const updateGames = async () => {
     })
 
     console.log('Finding all users in database.');
-    const users = await UserModel.find({});
+    const users = await UserModel.find({}, 'owned.games_owned');
     const userGames = [];
 
     // Extract all games from users and store them in userGames as a set (without repeated games)
@@ -35,7 +35,7 @@ const updateGames = async () => {
 
     console.log('Retrieving all games from database.');
     // Find all games in db and return an array of appids (game id from Steam).
-    const dbGames = await GameModel.find({});
+    const dbGames = await GameModel.find({}, 'appid');
     const gameIds = dbGames.map((dbGame) => {
       return dbGame.appid;
     });
