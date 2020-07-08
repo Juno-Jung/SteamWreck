@@ -11,7 +11,9 @@ import Recommendation from "../../Recommendation";
 type MainProps = {
   setIsAuth: any;
   isAuth: boolean;
-  history: any
+  history: any;
+  setFavs: React.Dispatch<React.SetStateAction<number[]>>;
+  favs:number[];
 };
 
 const navigation = {
@@ -31,8 +33,8 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [avatarfull, setAvatarfull] = useState("");
   const [countrycode, setCountrycode] = useState("");
   const [recommendations, setRecommendations] = useState([]);
-  const [favs, setFavs] = useState<Array<number>>([]);
   const [dataFetched, setDataFetched] = useState(false);
+  const {favs, setFavs}=props;
 
   useEffect(() => {
     if(localStorage.getItem("steamid")) {props.history.push('#steamid='+localStorage.getItem("steamid"))}

@@ -25,6 +25,8 @@ const navigation = {
 
 function App() {
   const [isAuth,setIsAuth]=useState(false)
+  const [favs, setFavs] = useState<Array<number>>([]);
+
   return (
     <BrowserRouter>
       <Sticky>
@@ -38,7 +40,7 @@ function App() {
 
       <Switch>
         <Route exact path='/' render={(props) => (
-          <Main history={props.history} isAuth={isAuth} setIsAuth={setIsAuth}/>
+          <Main favs={favs} setFavs={setFavs} history={props.history} isAuth={isAuth} setIsAuth={setIsAuth}/>
         )}/>
         <Route path='/login' component={Login} />
         <Route exact path='/profile' component={UserProfile} />
