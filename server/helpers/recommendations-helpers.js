@@ -230,7 +230,7 @@ const findGameRatingReason = (tag_score, genre_score, metacritic_score, friend_s
 
 const saveGame = async (appId, name) => {
   const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').replace(/!/g, '').toLowerCase();
-  const game = await rawgApi.getGameDetails(gameStub)
+  const game = await rawgApi.getGameDetails(gameStub);
   const steamRes = await steamApi.getGameDetails(appId);
 
   let steamGame;
