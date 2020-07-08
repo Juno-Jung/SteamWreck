@@ -4,6 +4,7 @@ import RecommendationReason from './../RecommendationReason'
 import GameTags from '../GameTags'
 import GameDescription from '../GameDescription'
 import FavouritePicker from '../FavouritePicker';
+import GameRating from '../GameRating';
 
 import './GameCardMedium.scss'
 import Game from '../../Game'
@@ -30,9 +31,7 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
         </div>
 
         <div className ="subDetailsMedium">
-          <div className="rating">Rating: <span className="ratingNumber">{`${(
-            100 * props.recGame.rating
-            ).toFixed(0)} / 100`}</span></div>
+          <GameRating game={props.recGame}/>
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <GameDescription recGame={props.recGame}/>
           <GameTags tags={props.recGame.tags}/>

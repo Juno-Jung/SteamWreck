@@ -7,6 +7,7 @@ import Logout from './components/Logout';
 import UserProfile from './components/UserProfile';
 import GameDetail from './components/GameDetail';
 import About from './components/About';
+import Favourites from './components/Favourites';
 import Navbar from './components/Navbar';
 import Sticky from "react-sticky-el";
 import './App.scss';
@@ -46,6 +47,8 @@ function App() {
         <Route exact path='/profile' component={UserProfile} />
         <Route path='/game/:gameId' component={GameDetail} />
         <Route exact path='/about' component={About} />
+        <Route exact path='/favourite' component={Favourites} />
+
         <Route exact path='/logout' render={(props) => (
           <Logout  setIsAuth={setIsAuth}/>
         )}/>

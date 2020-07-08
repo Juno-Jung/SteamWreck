@@ -3,6 +3,8 @@ import RecommendationReason from '../RecommendationReason';
 import GameTags from '../GameTags';
 import GameDescription from '../GameDescription';
 import FavouritePicker from '../FavouritePicker';
+import GameRating from '../GameRating';
+
 import { Link } from 'react-router-dom';
 
 import './GameCardLarge.scss';
@@ -15,14 +17,14 @@ interface Props {
 }
 
 const GameCardLarge: FunctionComponent<Props> = (props) => {
-  const linkContent = {
+  const linkPathAndContent = {
     pathname: `/game/${props.recGame.appid}`,
     // pass the game as state for the link
     state: props.recGame
   }
   return (
     <div>
-      <Link to={linkContent}><h1 className="nameLarge">{props.recGame.name} </h1></Link>
+      <Link to={linkPathAndContent}><h1 className="nameLarge">{props.recGame.name} </h1></Link>
       <div className ="allDetailsLarge">
         <div className="mainDetailsLarge">
           <img alt="gameImage" className="gameImg" src={`${props.recGame.background_image}`}>
@@ -31,9 +33,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
         </div>
 
         <div className ="subDetailsLarge">
-          <div className="rating">Rating: <span className="ratingNumber">{`${(
-            100 * props.recGame.rating
-            ).toFixed(0)} / 100`}</span></div>
+          <GameRating game={props.recGame}/>
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <GameDescription recGame={props.recGame}/>
 
