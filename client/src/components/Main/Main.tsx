@@ -8,12 +8,14 @@ import Welcome from "../Welcome/Welcome";
 import params from "../../params";
 import Recommendation from "../../Recommendation";
 import User from "../../../types/User";
+import Game from '../../Game';
+
 type MainProps = {
   setIsAuth: any;
   isAuth: boolean;
   history: any;
-  setFavs: React.Dispatch<React.SetStateAction<number[]>>;
-  favs: number[];
+  setFavGames: React.Dispatch<React.SetStateAction<Game[]>>;
+  favGames: Array<Game>;
 };
 
 const navigation = {
@@ -38,7 +40,8 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [steamid, setSteamid] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
-  const { favs, setFavs } = props;
+  const [favs, setFavs] = useState<Array<number>>([]);
+  const { favGames, setFavGames } = props;
 
   useEffect(() => {
     if (localStorage.getItem("steamid")) {
@@ -71,7 +74,6 @@ const Main: FunctionComponent<MainProps> = (props) => {
             countrycode: user.countrycode,
           });
         }
-
 
         // Handle getRecommendations promise
         const userData = values[1];

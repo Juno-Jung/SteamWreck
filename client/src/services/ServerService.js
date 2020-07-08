@@ -31,6 +31,14 @@ export default {
     const jsonGameIdArray = JSON.stringify(gameIdArray);
     return fetchRequest(`games?appids=${jsonGameIdArray}`);
   },
+
+  // getFavouriteGames:
+  // - PARAMS: steam id
+  // - RETURN: array of game objects (from MongoDB)
+  getFavouriteGames: (steamid) => {
+    return fetchRequest(`favourites/${steamid}`);
+  },
+
 };
 
 const fetchRequest = (url, headers) => {

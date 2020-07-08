@@ -230,12 +230,14 @@ const findGameRatingReason = (tag_score, genre_score, metacritic_score, friend_s
 
 const saveGame = async (appId, name) => {
   const gameStub = name.replace(/\s+/g, '-').replace(/:/g, '').replace(/!/g, '').toLowerCase();
-  const game = await rawgApi.getGameDetails(gameStub)
+  const game = await rawgApi.getGameDetails(gameStub);
   const steamRes = await steamApi.getGameDetails(appId);
 
   let steamGame;
   if (steamRes) {
     steamGame = steamRes[appId].success ? steamRes[appId].data : null;
+  } else {
+    throw new Error('Steam API is throttled, games cannot be saved for 5 minutes until the limit is lifted.');
   }
 
   let dbGame = {};
