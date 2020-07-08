@@ -4,19 +4,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  margin-top: 25px;
   .favouriteGame__name {
     font-family: $fontOrbiton;
     color: $secondaryColor;
+    margin-bottom: 10px;
   }
 
   .favouriteGame__imageAndScore {
-
     color: $tertiaryColor;
     .favouriteGame__image {
       width: 25vw;
       height: 25vh;
-
+    }
+    .favouriteGame__ratingAndDate {
+      margin-top: 5px;
     }
   }
 }

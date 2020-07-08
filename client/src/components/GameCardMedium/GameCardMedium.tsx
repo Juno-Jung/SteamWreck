@@ -24,10 +24,10 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      <Link to={linkContent}><h1 className="nameMedium">{props.recGame.name} </h1></Link>
+      <Link to={linkContent}><h1 className="nameMedium text--hover">{props.recGame.name} </h1></Link>
       <div className ="allDetailsMedium">
         <div className="mainDetailsMedium">
-          <img alt="gameImage" className="gameImg" src={`${props.recGame.background_image}`}></img>
+          <img alt="gameImage" className="gameImg box--hover" src={`${props.recGame.background_image}`}></img>
           <div className="favButtonMedium" >
             <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
           </div>
