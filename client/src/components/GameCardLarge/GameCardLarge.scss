@@ -73,6 +73,7 @@ h1.nameLarge {
 
 /* Make the image responsive */
 .mainDetailsLarge img {
+  z-index:0;
   //width: 100%;
   height: auto;
 }
