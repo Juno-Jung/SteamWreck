@@ -22,6 +22,7 @@ h1, h2, h3, h4, h5 {
   .gameDetail__screenshots {
     width: 85%;//850px;
     height: 90vh; //800px;
+    z-index: -1;
   }
 
   .gameDetail__longDescription {
