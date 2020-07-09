@@ -1,20 +1,49 @@
+@import "../../_variables";
+
 .gamelinks {
   display: flex;
+  align-items: center;
+  //border: 1px dotted $tertiaryColor;
+  border-radius: 1%;
+  color: $secondaryColor;
+
+  -webkit-box-shadow: 0 0 15px #A09D9D;   /* this adds the "card" effect */
+  box-shadow: 0 0 15px #A09D9D;
+  background-color: #2B2828;
+  padding: 16px;
+  // margin-left: 20px;
+  // margin-right: 20px;
+
+  .gamelinks__label {
+    font-family: $fontOrbiton;
+    margin-right: 35px;
+    font-size: 1.5em;
+    //font-weight: bold;
+    padding-left: 15px;
+  }
 
   .gamelinks__metacriticlink, .gamelinks__steamlink {
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 5%;
-    border: 1px dotted grey;
+    border: 1px dotted $tertiaryColor;
     padding: 8px;
     margin: 5px;
+    margin-right: 25px;
+    min-width: 167px;
+    font-family: $fontOrbiton;
+    font-size: 1.1em;
+
+
 
     .gamelinks__metacriticlink__img, .gamelinks__steamlink__img {
       width: 60px;
       height: 60px;
       padding-top: 6px;
     }
+
+
   }
 
 

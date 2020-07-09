@@ -15,8 +15,7 @@ h1, h2, h3, h4, h5 {
   .gameDetail__name {
     font-family: $fontOrbiton;
     font-size: 2.5rem;
-    margin-bottom: 40px;
-    margin-top: 20px;
+    color: rgb(155, 148, 148);
   }
 
   .gameDetail__screenshots {
@@ -25,11 +24,63 @@ h1, h2, h3, h4, h5 {
     z-index: -1;
   }
 
-  .gameDetail__longDescription {
-    margin: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-left: 1px dotted;
-    border-right: 1px dotted;
+  .gameDetail__links {
+    width: 97%;
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .gameDetail__tags {
+    width: 92%;
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 1%;
+
+    -webkit-box-shadow: 0 0 15px #A09D9D;   /* this adds the "card" effect */
+    box-shadow: 0 0 15px #A09D9D;
+    background-color: #2B2828;
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    .gameDetail__tags__title {
+      font-family: $fontOrbiton;
+      color: $secondaryColor;
+      margin-bottom: 10px;
+      font-size: 1.5em;
+    }
+  }
+
+  .gameDetail__description {
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0px;
+
+    padding-left: 11px;
+    padding-right: 11px;
+    // replaced left-right border with full border.
+    // border-left: 1px dotted $tertiaryColor;
+    // border-right: 1px dotted $tertiaryColor;
+    //border: 1px solid $tertiaryColor;
+    border-radius: 1%;
+
+    -webkit-box-shadow: 0 0 15px #A09D9D;   /* this adds the "card" effect */
+    box-shadow: 0 0 15px #A09D9D;
+    background-color: #2B2828;
+    padding: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    .gameDetail__description__title {
+      font-family: $fontOrbiton;
+      font-size: 2rem;
+      color: $secondaryColor;
+      margin-bottom: 10px;
+    }
+
+    .gameDetail__longDescription {
+    }
   }
 }

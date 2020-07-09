@@ -17,22 +17,28 @@ const GameDetail: FunctionComponent<any> = (props) => {
     return {...srnShot, image : srnShot.path_full}
   });
 
-
   const htmlDesc = { __html: game.description_steam};
 
   return (
     <div className="gameDetail">
-
       <h1 className="gameDetail__name">{game.name}</h1>
       <div className="gameDetail__screenshots">
-        <Gallereact images={screenshots} displayPreview={true} />
+        <Gallereact images={screenshots} autoPlay={true} duration={3000}/>
       </div>
-      <div className="linksAndTags">
+      <div className="gameDetail__links">
         <GameLinks game={game}/>
-        <GameTags tags={game.tags}/>
       </div>
-      <div className="gameDetail__longDescription" dangerouslySetInnerHTML={htmlDesc}></div>
 
+     <div className="gameDetail__tags">
+      <div className="gameDetail__tags__title">Tags</div>
+      <GameTags tags={game.tags}/>
+     </div>
+
+      <div className="gameDetail__description">
+        <div className="gameDetail__description__title">Description</div>
+        <div className="gameDetail__longDescription" dangerouslySetInnerHTML={htmlDesc}></div>
+
+      </div>
 
     </div>
   )
