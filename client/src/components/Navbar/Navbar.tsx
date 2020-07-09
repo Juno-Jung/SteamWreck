@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components';
-import steamWreakLogo from '../../image/SteamWrecked.png'
+import steamwrecked from './steamwrecked.png';
 
 const Navbar = (props: {
   steamid:string,
@@ -16,7 +16,10 @@ const Navbar = (props: {
   return (
     <div>
       <NavbarMenu>
+        <div className="logo">
+          <Logo src={steamwrecked} alt="Logo"/>
           <Company href={company.to+((props.steamid) ? `#steamid=${props.steamid}` : '')}>{company.name}</Company>
+        </div>
         <Ul>
           <NavLinks />
         </Ul>
@@ -39,6 +42,15 @@ const Theme = {
   }
 }
 
+
+const Logo = styled.img`
+  max-width: 100px;
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+`;
+
+
 const NavbarMenu = styled.nav`
   background: ${Theme.colors.dark};
   font-family: ${Theme.fonts.heading};
@@ -50,9 +62,10 @@ const NavbarMenu = styled.nav`
 
   const Company = styled.a`
   font-weight: bold;
-  font-style: italic;
   margin-left: 1rem;
-  padding-right: 1rem;`;
+  padding-right: 1rem;
+  align-items: center;
+  `;
 
   const Ul = styled.ul`
   overflow-x:hidden;
