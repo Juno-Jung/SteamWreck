@@ -31,11 +31,12 @@ h1.nameLarge {
 
     .purchased {
     }
+  }
 
-    .gameImg {
-      height: 500px; /* FIX ME : make this maintain ratio */
-      border-radius: 2%;
-    }
+  .gameImg {
+    height: 500px; /* FIX ME : make this maintain ratio */
+    border-radius: 2%;
+    cursor: pointer;
   }
 
   .subDetailsLarge {
