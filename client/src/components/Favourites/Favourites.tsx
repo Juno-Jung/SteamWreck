@@ -17,7 +17,7 @@ const Favourites: FunctionComponent<Props> = (props) => {
     <>
       {(!favGames.length)
       ?
-      <div>Just loading...
+      <div>
           <Spinner />
       </div>
       :
@@ -26,7 +26,9 @@ const Favourites: FunctionComponent<Props> = (props) => {
           <h1 className="favouriteslist__title">{`Liked Wreckomendations (${favGames.length})`}</h1>
           <div className="favouriteslist__favs">
             {favGames.map( game => {
-              return <FavouriteCard game={game}/>
+              return <div className="cardFave">
+                <FavouriteCard game={game}/>
+              </div>
             })}
           </div>
         </div>

@@ -2,11 +2,28 @@
 
 .favouriteslist {
   font-family: $fontOrbiton;
-  color: $primaryColor;
+  //color: $primaryColor;
+
+  .favouriteslist__title {
+    margin-left: 15px;
+    margin-bottom: 40px;
+    margin-top: 20px;
+  }
 
   .favouriteslist__favs {
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;
+    border-radius: 1.5%;
+    -webkit-box-shadow: 0 0 15px #A09D9D;   /* this adds the "card" effect */
+    box-shadow: 0 0 15px #A09D9D;
+    background-color: #2B2828;
+    padding: 16px;
+    margin-left: 20px;
+    margin-right: 20px;
+    //width: 1000px;
+    //flex-wrap: wrap;
   }
+
 }
+
+
