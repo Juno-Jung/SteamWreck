@@ -28,7 +28,7 @@ const navigation = {
 };
 
 function App() {
-  const [isAuth,setIsAuth]=useState(false)
+  const [isAuth, setIsAuth] = useState(false)
   const [favGames, setFavGames] = useState<Array<Game>>([]);
 
   useEffect(() => {
@@ -64,15 +64,16 @@ function App() {
   return (
     <FavGamesContext.Provider value={favGames}>
       <BrowserRouter>
-        <Sticky>
-          <Navbar
-            steamid='' // steamid not known at this stage?
-            isAuth={isAuth}
-            company={navigation.company}
-            links={navigation.links}
-          />
-        </Sticky>
-
+        {(isAuth) &&
+          <Sticky>
+            <Navbar
+              steamid='' // steamid not known at this stage?
+              isAuth={isAuth}
+              company={navigation.company}
+              links={navigation.links}
+            />
+          </Sticky>
+        }
         <Switch>
           <Route exact path='/' render={(props) => (
             <Main favGames={favGames} setFavGames={setFavGames} history={props.history} isAuth={isAuth} setIsAuth={setIsAuth}/>
