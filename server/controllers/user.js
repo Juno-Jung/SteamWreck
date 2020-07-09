@@ -97,9 +97,6 @@ const putUserFavourites = async (req, res) => {
     if (!user) {
       throw new Error('User cannot be found');
     }
-    console.log('USER FAVS::: ->' ,user);
-    //
-    console.log("putUserFavourites -> req.body.favourites", req.body.favourites)
 
     res.status(200).json(user);
   } catch (error) {
