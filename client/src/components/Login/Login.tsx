@@ -13,7 +13,7 @@ const Login: FunctionComponent<LoginProps> = (props) => {
       <div>
         <a href="http://localhost:3001/auth/steam">
           Login
-          <img alt="loginButtonLink" src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_02.png"></img>
+          <img alt="loginButtonLink" src="./steam_button.png"></img>
         </a>
       </div>
     </div>

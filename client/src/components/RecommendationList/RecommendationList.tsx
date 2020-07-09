@@ -19,7 +19,6 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-{/*   {(!props.dataFetched)  */}
       {(!props.recommendations.length)
         ?
         <div className="container">
@@ -31,13 +30,28 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
         :
         <>
           <div>
-            <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav}/>
+            <div className="bestWreck">
+              Our Best Wreck
+            </div>
+            <div className="cardLarge">
+              <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav}/>
+            </div>
           </div>
+          <br/>
+          <br/>
+          <br/>
           <div>
-            {allOtherRecGames.map( (game) => {
-              return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav}/>
-            })}
+            <div className="otherWrecks">
+              Other Good (enough) Wrecks
+            </div>
+            <div className="cardMedium">
+              {allOtherRecGames.map( (game) => {
+                return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav}/>
+              })}
+            </div>
           </div>
+          <br/>
+          <br/>
         </>
       }
     </div>

@@ -1,7 +1,52 @@
+@import "../../_variables";
+
 .container {
   display: flex;
   justify-content: center;
 }
 .center {
   width: 800px;
+}
+
+/* Style the game cards */
+.cardLarge {
+  padding: 16px;
+  text-align: center;
+  background-color: #393636;
+  width: 1100px;
+  justify-content: center;
+  margin: auto;
+  border-radius: 1.5%;
+  -webkit-box-shadow: 0 0 15px #A09D9D;   /* this adds the "card" effect */
+  box-shadow: 0 0 15px #A09D9D;
+}
+
+.cardMedium {
+  padding: 16px;
+  //text-align: center;
+  background-color: #393636;
+  width: 900px;
+  //justify-content: center;
+  margin: auto;
+  border-radius: 1.5%;
+  -webkit-box-shadow: 0 0 15px #A09D9D;   /* this adds the "card" effect */
+  box-shadow: 0 0 15px #A09D9D;
+}
+
+.bestWreck {
+  font-family: $fontOrbiton;
+  //color: $primaryColor;
+  margin-bottom: 20px;
+  margin-left: 40px;
+  font-weight: bolder;
+  font-size: large;
+}
+
+.otherWrecks {
+  font-family: $fontOrbiton;
+  //color: $primaryColor;
+  margin-bottom: 20px;
+  margin-left: 140px;
+  font-weight: bolder;
+  font-size: large;
 }
