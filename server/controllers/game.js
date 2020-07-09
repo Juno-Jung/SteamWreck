@@ -4,9 +4,10 @@ const GameModel = require('../models/game');
 
 const getGameByAppId = async (req, res) => {
   try {
-    res.body = await GameModel.find({
-      appid: req.body.appid,
+    const game = await GameModel.find({
+      appid: req.params.appid,
     });
+    res.body = game[0];
     res.status(200).json(res.body);
   } catch (error) {
     console.error(error);
@@ -16,9 +17,9 @@ const getGameByAppId = async (req, res) => {
 
 const getGamesByAppId = async (req, res) => {
   try {
-    const appids = req.body.appids;
+    const appids = req.query.appids;
 
-    const games = await GameModel.find({ appid: { $in: appids } });
+    const games = await GameModel.find({ appid: { $in: JSON.parse(appids) } });
 
     res.body = games;
     res.status(200).json(res.body);
@@ -53,6 +54,19 @@ const putGame = async (req, res) => {
   }
 };
 
+const deleteCorruptedGames = async (req, res) => {
+  try {
+    await GameModel.deleteMany({
+      rawg: true,
+      steam: false,
+    })
+    res.status(200).json('Corrupted Games Deleted');
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+  }
+}
+
 const deleteGames = async (req, res) => {
   try {
     await GameModel.deleteMany({});
@@ -80,6 +94,7 @@ module.exports = {
   getGamesByAppId,
   getAllGames,
   putGame,
+  deleteCorruptedGames,
   deleteGames,
   deleteGame
 };
