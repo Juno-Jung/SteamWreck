@@ -38,9 +38,19 @@ h1.nameMedium {
   }
 
   .subDetailsMedium {
-
+    .description::-webkit-scrollbar-thumb {
+      background-color: $primaryColor;
+      border-radius: 20px;
+      border: 2px solid $secondaryColor;
+    }
+    .description::-webkit-scrollbar-track {
+      background: $secondaryColor;
+      border-radius:2em;
+    }
+    .description::-webkit-scrollbar {
+      width: 12px;
+    }
     .description {
-
       padding: 15px;
       font-family: $fontPlexSans;
       height: 80px;
