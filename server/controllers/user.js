@@ -30,8 +30,8 @@ const getFavouriteGames = async (req, res) => {
     });
     const [totalTags, totalGenres] = await getTagsAndGenres(userGamesTotal.slice(0, 3), user.owned.game_ids, 'total');
     const favourites = user.favourites;
-    const favouriteIds = favourites.map((favGame) => favGame.appid);
-    const favouriteGames = await GameModel.find({ appid: { $in: favouriteIds } });
+    // const favouriteIds = favourites.map((favGame) => favGame.appid);
+    const favouriteGames = await GameModel.find({ appid: { $in: favourites } });
 
     // Friends is an array of user friends by steam id.
     const friends = user.friends;
@@ -47,10 +47,8 @@ const getFavouriteGames = async (req, res) => {
     const rated = [];
     for (let i = 0; i < favouriteGames.length; i++) {
       const ratedGame = rateGame(favouriteGames[i], totalTags, totalGenres, 'similarity', friends, friendsLibrary);
-      const dateAdded = favourites.filter((favGame) => favGame.appid === ratedGame.appid)[0].dateAdded;
       rated.push({
         appid: ratedGame.appid,
-        dateAdded: dateAdded,
         rating: ratedGame.rating,
         rating_reason: ratedGame.rating_reason,
         metacritic_url: ratedGame.metacritic_url,
