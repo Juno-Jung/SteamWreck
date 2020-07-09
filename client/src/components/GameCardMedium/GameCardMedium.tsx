@@ -27,7 +27,7 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
       <div className ="allDetailsMedium">
         <div className="mainDetailsMedium">
           <img alt="gameImage" className="gameImg" src={`${props.recGame.background_image}`}></img>
-          <div className="favButtonMedium" >
+          <div className="favButtonMedium" title="Add To Favourite">
             <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
           </div>
         </div>

@@ -26,7 +26,7 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
       <div className ="allDetailsLarge">
         <div className="mainDetailsLarge">
           <img className="gameImg" alt="gameImage" src={`${props.recGame.background_image}`}></img>
-            <div className="favButtonLarge" >
+            <div className="favButtonLarge" title="Add To Favourite">
               <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
             </div>
         </div>
