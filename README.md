@@ -35,6 +35,7 @@ Create an .env file in the server folder with the following variables:
     HOST=localhost
     PORT=3001
     DB_URI=MONGODB_URI
+    BASE_METACRITIC_URL=https://www.metacritic.com
     STEAM_API_KEY=YOUR_STEAM_API_KEY
     STEAM_GET_USER_SUMMARY_URL=http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002
     STEAM_GET_USER_LIBRARY_URL=http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001

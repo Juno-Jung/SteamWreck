@@ -62,7 +62,7 @@ const updateGames = async () => {
 }
 
 // Uncomment the line before and run this file to update games immediately.
-updateGames();
+// updateGames();
 
 module.exports = {
   updateGames,
