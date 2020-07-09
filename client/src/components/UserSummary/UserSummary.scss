@@ -1,7 +1,4 @@
-/*
-  @import "../../_variables";
-  This doesn't work yet- but found out how to use variables
-*/
+@import "../../_variables";
 
 $imgSmallDim: 35px;
 $imgMediumDim: 45px;
@@ -24,6 +21,8 @@ $imgLargeDim: 100px;
   .personaName {
     font-size: 1.5em;
     margin: 15px;
+    font-family: $fontOrbiton;
+    font-size: 2rem;
   }
 
   .countryFlag {

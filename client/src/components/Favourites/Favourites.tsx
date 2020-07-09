@@ -23,7 +23,9 @@ const Favourites: FunctionComponent<Props> = (props) => {
       :
       <>
         <div className="favouriteslist">
-          <h1 className="favouriteslist__title">{`Liked Wreckomendations (${favGames.length})`}</h1>
+
+          <h2 className="favouriteslist__title">{`Favourite Wreckomendations (${favGames.length})`}</h2>
+
           <div className="favouriteslist__favs">
             {favGames.map( game => {
               return <div className="cardFave">

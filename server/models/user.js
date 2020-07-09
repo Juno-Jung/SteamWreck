@@ -87,8 +87,10 @@ const userSchema = new Schema({
     required: false,
   },
   favourites: {
-    type: [Number], // Appid
-    default: null,
+    type: [{
+      appid: Number,
+      dateAdded: Date,
+    }],
     required: false,
   },
   owned: {
