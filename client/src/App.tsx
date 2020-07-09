@@ -17,7 +17,7 @@ let dataCollected = false;
 
 // Pat: Moved the Navbar here-although it causes the main to reload all data - to be fixed.
 const navigation = {
-  company: { name: "SteamWreck", to: "/" },
+  company: { name: "", to: "/" },
   links: [
     { name: "Login", to: "/login" },
     { name: "About", to: "/about" },
@@ -32,16 +32,16 @@ function App() {
   const [favGames, setFavGames] = useState<Array<Game>>([]);
 
   useEffect(() => {
-    if(isAuth){
-      localStorage.setItem("auth","true");
+    if (isAuth) {
+      localStorage.setItem("auth", "true");
     }
-    if(localStorage.getItem("auth")){
+    if (localStorage.getItem("auth")) {
       setIsAuth(true);
     }
   }, [isAuth])
 
   // Fetch User Fav Games
-  useEffect( () => {
+  useEffect(() => {
     // Get user id
     let steamid;
     if (localStorage.getItem("steamid")) {
@@ -49,16 +49,16 @@ function App() {
     }
 
     serverService.getFavouriteGames(steamid)
-    .then( (data) => {
-      // loop over first array - merge objects from 1st & 2nd arrays and push into new array.
-      let gameArr = [];
-      for (let i = 0; i < data[0].length; i++) {
-        const obj1 = data[0][i];
-        const obj2 = data[1][i];
-        gameArr.push({...obj1, ...obj2})
-      }
-      setFavGames(gameArr);
-    })
+      .then((data) => {
+        // loop over first array - merge objects from 1st & 2nd arrays and push into new array.
+        let gameArr = [];
+        for (let i = 0; i < data[0].length; i++) {
+          const obj1 = data[0][i];
+          const obj2 = data[1][i];
+          gameArr.push({ ...obj1, ...obj2 })
+        }
+        setFavGames(gameArr);
+      })
   }, []);
 
   return (
@@ -76,8 +76,8 @@ function App() {
         }
         <Switch>
           <Route exact path='/' render={(props) => (
-            <Main favGames={favGames} setFavGames={setFavGames} history={props.history} isAuth={isAuth} setIsAuth={setIsAuth}/>
-          )}/>
+            <Main favGames={favGames} setFavGames={setFavGames} history={props.history} isAuth={isAuth} setIsAuth={setIsAuth} />
+          )} />
           <Route path='/login' component={Login} />
           <Route exact path='/profile' component={UserProfile} />
           <Route path='/game/:gameId' component={GameDetail} />
@@ -85,8 +85,8 @@ function App() {
           <Route exact path='/favourite' component={Favourites} />
 
           <Route exact path='/logout' render={(props) => (
-            <Logout  setIsAuth={setIsAuth}/>
-          )}/>
+            <Logout setIsAuth={setIsAuth} />
+          )} />
         </Switch>
       </BrowserRouter>
     </FavGamesContext.Provider>
