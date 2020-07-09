@@ -82,7 +82,7 @@ const putUserFavourites = async (req, res) => {
   try {
     const steamId = req.params.steamid;
 
-    const user = await UserModel.replaceOne({
+    const user = await UserModel.findOneAndUpdate({
       steamid: steamId
     },
       {
