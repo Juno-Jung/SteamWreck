@@ -9,6 +9,7 @@ import params from "../../params";
 import Recommendation from "../../Recommendation";
 import User from "../../../types/User";
 import Game from '../../Game';
+import Favourite from '../../Favourite';
 
 type MainProps = {
   setIsAuth: any;
@@ -40,7 +41,8 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [steamid, setSteamid] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
-  const [favs, setFavs] = useState<Array<number>>([]);
+  // const [favs, setFavs] = useState<Array<number>>([]);
+  const [favs, setFavs] = useState<Array<Favourite>>([]);
   const { favGames, setFavGames } = props;
 
   useEffect(() => {
@@ -90,8 +92,14 @@ const Main: FunctionComponent<MainProps> = (props) => {
   useEffect(() => {
     // Map the favs onto their game object
     recommendations.forEach((rec: Recommendation) => {
-      if (favs && favs.includes(rec.appid)) rec.isFav = true;
-      else rec.isFav = false;
+      if (favs) {
+        for (let i = 0; i < favs.length; i++) {
+          const element = favs[i];
+          if (element.appid == rec.appid) rec.isFav = true;
+        }
+      } else {
+        rec.isFav = false;
+      }
     });
   }, [recommendations]);
 
@@ -100,20 +108,22 @@ const Main: FunctionComponent<MainProps> = (props) => {
   function addRemoveFav(recGame: Recommendation): void {
     // (i) Update the favourites number array
     const appid: number = recGame.appid;
+    const nowDate = new Date();
     // add game's appid to array (when isFav is false)
     if (!recGame.isFav) {
+      const newFav = {appid: appid, dateAdded: nowDate};
       if (!favs)
         // No favs - initialise the first fav into the array
-        setFavs([appid]);
+        setFavs([newFav]);
       else
         setFavs((currentFavs) => {
-          return [...currentFavs, appid];
+          return [...currentFavs, newFav];
         });
     } else {
       // remove
       setFavs((currentFavs) => {
         return currentFavs.filter((ele) => {
-          return ele !== appid;
+          return ele.appid !== appid;
         });
       });
     }

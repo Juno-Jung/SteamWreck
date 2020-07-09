@@ -2,8 +2,11 @@
 
 .favouriteslist {
   font-family: $fontOrbiton;
-  color: $primaryColor;
+  color: grey;
 
+  .favouriteslist__title {
+    margin: 15px;
+  }
   .favouriteslist__favs {
     display: flex;
     justify-content: space-evenly;

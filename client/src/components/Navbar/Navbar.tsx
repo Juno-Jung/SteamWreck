@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components';
+import steamWreakLogo from '../../image/SteamWrecked.png'
 
 const Navbar = (props: {
   steamid:string,
