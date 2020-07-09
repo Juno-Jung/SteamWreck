@@ -41,8 +41,8 @@ const Main: FunctionComponent<MainProps> = (props) => {
   const [steamid, setSteamid] = useState("");
   const [recommendations, setRecommendations] = useState([]);
   const [dataFetched, setDataFetched] = useState(false);
-  // const [favs, setFavs] = useState<Array<number>>([]);
   const [favs, setFavs] = useState<Array<Favourite>>([]);
+
   const { favGames, setFavGames } = props;
 
   useEffect(() => {

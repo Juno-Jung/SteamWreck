@@ -16,6 +16,7 @@ const FavouriteCard: FunctionComponent<Props> = (props) => {
     // pass the game as state for the link
     state: props.game
   }
+
   const favDate = props.game.dateAdded;
   const longDate = moment(favDate).format('MMMM Do YYYY, h:mm:ss a');
   const dayOfMonth = moment(favDate).format("Do");
