@@ -18,7 +18,7 @@ const Navbar = (props: {
       <NavbarMenu>
         <div className="logo">
           <Logo src={steamwrecked} alt="Logo"/>
-          <Company href={company.to+((props.steamid) ? `#steamid=${props.steamid}` : '')}>{company.name}</Company>
+          <Company href={company.to+((props.steamid) ? `#steamid=${props.steamid}` : '')}></Company>
         </div>
         <Ul>
           <NavLinks />

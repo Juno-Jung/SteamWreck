@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="608ba103-422f-4704-a1c6-b61527a63a91" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +71,7 @@
       <workItem from="1593612854676" duration="15981000" />
       <workItem from="1593716492769" duration="17230000" />
       <workItem from="1594023563401" duration="2487000" />
-      <workItem from="1594132273021" duration="35795000" />
+      <workItem from="1594132273021" duration="37648000" />
     </task>
     <servers />
   </component>
@@ -126,7 +125,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/components/Navbar/Navbar.tsx</url>
-          <line>61</line>
+          <line>63</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
