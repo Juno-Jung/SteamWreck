@@ -5,8 +5,12 @@
   flex-direction: row;
 
   .favouritePicker__label {
+    margin:20px;
     text-transform: uppercase;
     font-family: $fontOrbiton;
+  }
+  .favouritePicker__favIcon{
+    width:40px;
   }
 }
 
