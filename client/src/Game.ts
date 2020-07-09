@@ -10,6 +10,14 @@ interface Game {
   rating_reason: string;
   tags: [string];
   isFav: boolean;
+  metacritic_url: string;
+  screenshots: [{
+    _id : string,
+    id : string,
+    path_thumbnail : string,
+    path_full : string,
+  }];
+  dateAdded: Date;
 };
 
 export default Game;

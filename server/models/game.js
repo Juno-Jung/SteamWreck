@@ -33,12 +33,30 @@ const gameSchema = new Schema({
   tags: [String],
   ratings: {
     type: {
-      gamespot: Number,
-      ign: Number,
-      metacritic: Number,
+      gamespot: {
+        type: {
+          rating: Number,
+          url: String,
+        },
+        required: false,
+      },
+      ign: {
+        type: {
+          rating: Number,
+          url: String,
+        },
+        required: false,
+      },
+      metacritic: {
+        type: {
+          rating: Number,
+          url: String,
+        },
+        required: false,
+      },
     },
     required: false,
-  }
+  },
 });
 
 const GameModel = mongoose.model('Games', gameSchema);

@@ -65,3 +65,32 @@ h1.nameMedium {
     }
   }
 }
+
+
+/* Container needed to position the button. Adjust the width as needed */
+.mainDetailsMedium {
+  position: relative;
+  width: 50%;
+}
+
+/* Make the image responsive */
+.mainDetailsMedium img {
+  //width: 100%;
+  height: auto;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.mainDetailsMedium .favButtonMedium {
+  position: absolute;
+  top: 15%;
+  left: 94%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  //background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  //cursor: pointer;
+  border-radius: 60%;
+}

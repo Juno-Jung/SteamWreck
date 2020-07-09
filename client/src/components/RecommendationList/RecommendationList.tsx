@@ -1,13 +1,14 @@
+
 import React, { FunctionComponent  } from 'react';
 import GameCardLarge from '../GameCardLarge/GameCardLarge';
 import GameCardMedium from '../GameCardMedium/GameCardMedium';
-import Recommendation from './../../Recommendation'
+import Recommendation from './../../Recommendation';
+import './RecommendationList.scss';
 
 // Use an Interface (named Props) to define the props this component will take.
 interface Props {
   recommendations: Array<Recommendation>;
   addRemoveFav: Function;
-  dataFetched: boolean;
 }
 
 // FIX ME- we need a global spinner component & use below in "loading data"
@@ -18,18 +19,39 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      {(!props.dataFetched)
-      ? <div>Loading data....</div>
-      :
+      {(!props.recommendations.length)
+        ?
+        <div className="container">
+          <div className="center">
+            <img src="https://workbench.tv/content/tutorials/2016-10-21_RingOfFire/assets/RingOfFire.gif"
+                 title="LoadingData" alt="Spinner" />
+          </div>
+        </div>
+        :
         <>
           <div>
-            <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav}/>
+            <div className="bestWreck">
+              Our Best Wreck
+            </div>
+            <div className="cardLarge">
+              <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav}/>
+            </div>
           </div>
+          <br/>
+          <br/>
+          <br/>
           <div>
-            {allOtherRecGames.map( (game) => {
-              return <GameCardMedium key={game.appid} recGame={game} addRemoveFav={props.addRemoveFav}/>
-            })}
+            <div className="otherWrecks">
+              Other Good (enough) Wrecks
+            </div>
+            <div className="cardMedium">
+              {allOtherRecGames.map( (game) => {
+                return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav}/>
+              })}
+            </div>
           </div>
+          <br/>
+          <br/>
         </>
       }
     </div>

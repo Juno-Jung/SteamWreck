@@ -1,5 +1,6 @@
 import React, { FunctionComponent  } from 'react';
 import './Welcome.scss';
+import steamLoginImage from '../../images/steam_button.png';
 
 type Welcome = {
   //
@@ -23,7 +24,7 @@ const Welcome: FunctionComponent = () => {
     </div>
 
     <div className="SigninButton">
-      <a href="http://localhost:3001/auth/steam"><img src="https://lh3.googleusercontent.com/proxy/dJAZlLjlMtrtUuHnwohakTlHzOaqgJXqlX4YN9zDNSd11c_eTEhnEcvDotW6pzH6hRnaB4xqHThtgKFacFHdd0c98nU3a04E7ftN8GRSSK-RDP27OerXoUk1i5CfEwvwFa2114E"
+      <a href="http://localhost:3001/auth/steam"><img src={steamLoginImage}
       title="SteamSigninButton" alt="Login with Steam" />
       </a>
     </div>

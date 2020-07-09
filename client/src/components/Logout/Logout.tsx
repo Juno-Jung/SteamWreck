@@ -8,6 +8,7 @@ const Logout: FunctionComponent<LogoutProps> = (props) => {
 
   props.setIsAuth(false)
   localStorage.removeItem("steamid")
+  localStorage.removeItem("auth")
   return <div><Redirect to='/'></Redirect></div>;
 };
 

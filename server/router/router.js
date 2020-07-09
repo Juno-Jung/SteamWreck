@@ -17,12 +17,16 @@ router.get('/logout', function (req, res) {
   res.redirect('/');
 });
 
-router.get('/games', GameController.getAllGames);
+router.get('/favourites/:steamid', UserController.getFavouriteGames);
+router.get('/games/all', GameController.getAllGames);
 router.get('/game/:appid', GameController.getGameByAppId);
+router.get('/games', GameController.getGamesByAppId);
+router.delete('/games/corrupted/delete', GameController.deleteCorruptedGames);
 router.delete('/games/delete', GameController.deleteGames); // This needs to be deleted past testing
 router.delete('/game/delete/:appid', GameController.deleteGame); // This needs to be deleted past testing
 router.get('/allusers', UserController.getUsers); // Also needs to be deleted once done testing.
 router.delete('/users/delete', UserController.deleteAll); // This needs to be deleted at some point past testing.
+router.delete('/user/delete/:steamid', UserController.deleteUser); // This needs to be deleted at some point past testing.
 router.put('/user/store/:steamid', UserController.putUserSummary); // This should have ensureAuthenticated/for testing
 
 router.get('/auth/steam',

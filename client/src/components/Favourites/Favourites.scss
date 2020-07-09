@@ -1,0 +1,15 @@
+@import "../../_variables";
+
+.favouriteslist {
+  font-family: $fontOrbiton;
+  color: grey;
+
+  .favouriteslist__title {
+    margin: 15px;
+  }
+  .favouriteslist__favs {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+}
