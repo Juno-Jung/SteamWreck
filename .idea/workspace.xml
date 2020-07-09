@@ -21,11 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="608ba103-422f-4704-a1c6-b61527a63a91" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Favourites/Favourites.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Favourites/Favourites.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Favourites/Favourites.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Favourites/Favourites.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Spinner/Spinner.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Spinner/Spinner.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Spinner/Spinner.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Spinner/Spinner.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Welcome/Welcome.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Welcome/Welcome.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar/Navbar.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,11 +52,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/src/components/Navbar" />
       <recent name="$PROJECT_DIR$/client/src/components/Login" />
       <recent name="$PROJECT_DIR$/client/src/images" />
       <recent name="$PROJECT_DIR$/server" />
       <recent name="$PROJECT_DIR$/client/src/components/Welcome" />
-      <recent name="$PROJECT_DIR$/client/public/video" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -75,7 +72,7 @@
       <workItem from="1593612854676" duration="15981000" />
       <workItem from="1593716492769" duration="17230000" />
       <workItem from="1594023563401" duration="2487000" />
-      <workItem from="1594132273021" duration="30666000" />
+      <workItem from="1594132273021" duration="35795000" />
     </task>
     <servers />
   </component>
@@ -123,5 +120,17 @@
       <screen x="0" y="23" width="1440" height="828" />
     </state>
     <state x="239" y="142" width="670" height="676" key="search.everywhere.popup/0.23.1440.828@0.23.1440.828" timestamp="1594267906011" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/components/Navbar/Navbar.tsx</url>
+          <line>61</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
