@@ -4,6 +4,7 @@ import RecommendationReason from './../RecommendationReason'
 import GameTags from '../GameTags'
 import GameDescription from '../GameDescription'
 import FavouritePicker from '../FavouritePicker';
+import GameRating from '../GameRating';
 
 import './GameCardMedium.scss'
 import Game from '../../Game'
@@ -23,19 +24,17 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
 
   return (
     <div>
-      <Link to={linkContent}><h1 className="nameMedium">{props.recGame.name} </h1></Link>
+      <Link to={linkContent}><h1 className="nameMedium text--hover">{props.recGame.name} </h1></Link>
       <div className ="allDetailsMedium">
         <div className="mainDetailsMedium">
-          <img alt="gameImage" className="gameImg" src={`${props.recGame.background_image}`}></img>
+          <img alt="gameImage" className="gameImg box--hover" src={`${props.recGame.background_image}`}></img>
           <div className="favButtonMedium" title="Add To Favourite">
             <FavouritePicker recGame={props.recGame} addRemoveFav={props.addRemoveFav}/>
           </div>
         </div>
 
         <div className ="subDetailsMedium">
-          <div className="rating">Rating: <span className="ratingNumber">{`${(
-            100 * props.recGame.rating
-            ).toFixed(0)} / 100`}</span></div>
+          <GameRating game={props.recGame}/>
           <RecommendationReason reasoning={props.recGame.rating_reason}/>
           <GameDescription recGame={props.recGame}/>
           <GameTags tags={props.recGame.tags}/>

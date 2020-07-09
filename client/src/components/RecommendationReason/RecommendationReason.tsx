@@ -6,7 +6,7 @@ interface Props {
 
 const RecommendationReason: FunctionComponent<Props> = (props) => {
   return (
-    <div className="reason">Wreck Reasoning: <span className="reasonTxt">{props.reasoning}</span></div>
+    <div className="reason"><span className="reason__label">Wreck Reasoning:</span> <span className="reasonTxt">{props.reasoning}</span></div>
   )
 };
 
