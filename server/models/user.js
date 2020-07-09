@@ -91,7 +91,6 @@ const userSchema = new Schema({
       appid: Number,
       dateAdded: Date,
     }],
-    default: null,
     required: false,
   },
   owned: {
