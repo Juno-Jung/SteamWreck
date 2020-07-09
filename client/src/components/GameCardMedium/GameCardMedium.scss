@@ -32,7 +32,7 @@ h1.nameMedium {
     }
 
     .gameImg {
-      height: 200px; /* FIX ME : make this maintain ratio */
+      max-width:400px;
       border-radius: 8%;
     }
   }
