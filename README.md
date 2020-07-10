@@ -23,7 +23,7 @@ Chai\
 MongoDB\
 Mongoose
 Steam API\
-Rawg API\
+Rawg API
 
 ## Installation
 
