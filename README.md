@@ -2,6 +2,10 @@
 
 Create an application that will authenticate a Steam user, and respond with features based on their user data. These features include recommendations on what game they should play next, what they should buy, what games to avoid, etc. There will also be a list/graph/chart of generic recommendations and reviews on the front page. The application will be responsive for all devices.
 
+![SteamWreck Home Page](/assets/StreamWreck-Front.png?raw=true "Optional Title")
+![SteamWreck Favourites](/assets/StreamWreck-Fave.png?raw=true "Optional Title")
+![SteamWreck Game Details](/assets/StreamWreck-Details.png?raw=true "Optional Title")
+
 ## Tech Stack
 
 ### Front End
@@ -18,13 +22,17 @@ Mocha\
 Chai\
 MongoDB\
 Mongoose
+Steam API\
+Rawg API\
 
 ## Installation
 
 1. Clone the repository https://github.com/Juno-Jung/SteamWreck onto your local computer.
-2. Run npm install in the server folder.
-3. Create an .env file in your server root folder with the environment variables shown below.
-4. Run nodemon in the server root folder.
+2. Run npm install in the client folder.
+3. Run npm install in the server folder.
+4. Create an .env file in your server root folder with the environment variables shown below.
+5. Run nodemon in the server root folder.
+6. Run npm start in the client folder.
 
 ## Set up your server environment
 
@@ -46,6 +54,15 @@ Create an .env file in the server folder with the following variables:
     GENRE_WEIGHT=YOUR_GENRE_WEIGHT_FOR_RATING_GAMES
     METACRITIC_WEIGHT=YOUR_METACRITIC_WEIGHT_FOR_RATING_GAMES
     FRIEND_WEIGHT=YOUR_FRIEND_WEIGHT_FOR_RATING_GAMES
+
+## Weight Variables
+
+The environment variables TAG_WEIGHT, GENRE_WEIGHT, etc. are numbers that add up to one that determine the rating a game receives for a particular user. The default values we used are shown before, but you may modify them to see different results.
+
+    TAG_WEIGHT=0.5
+    GENRE_WEIGHT=0.15
+    METACRITIC_WEIGHT=0.25
+    FRIEND_WEIGHT=0.1
 
 ## Populate your database
 
