@@ -3,14 +3,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Main from './components/Main';
 import Login from './components/Login';
 import Logout from './components/Logout';
-import UserProfile from './components/UserProfile';
 import GameDetail from './components/GameDetail';
 import About from './components/About';
 import Favourites from './components/Favourites';
 import Navbar from './components/Navbar';
 import Sticky from "react-sticky-el";
 import serverService from "./services/ServerService";
-import Game from './Game';
+import Game from '../types/Game';
 import './App.scss';
 export const FavGamesContext = createContext<Array<Game>>([]);
 let dataCollected = false;
@@ -79,7 +78,6 @@ function App() {
             <Main favGames={favGames} setFavGames={setFavGames} history={props.history} isAuth={isAuth} setIsAuth={setIsAuth} />
           )} />
           <Route path='/login' component={Login} />
-          <Route exact path='/profile' component={UserProfile} />
           <Route path='/game/:gameId' component={GameDetail} />
           <Route exact path='/about' component={About} />
           <Route exact path='/favourite' component={Favourites} />

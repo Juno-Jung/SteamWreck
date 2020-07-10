@@ -6,10 +6,10 @@ import RecommendationList from "../RecommendationList/RecommendationList";
 import serverService from "../../services/ServerService";
 import Welcome from "../Welcome/Welcome";
 import params from "../../params";
-import Recommendation from "../../Recommendation";
+import Recommendation from '../../../types/Recommendation';
 import User from "../../../types/User";
-import Game from '../../Game';
-import Favourite from '../../Favourite';
+import Game from '../../../types/Game';
+import Favourite from '../../../types/Favourite';
 
 type MainProps = {
   setIsAuth: any;
@@ -94,7 +94,7 @@ const Main: FunctionComponent<MainProps> = (props) => {
     recommendations.forEach((rec: Recommendation) => {
       if (favs && favs.includes(rec.appid)) rec.isFav = true;
       else rec.isFav = false;
-      });
+    });
   }, [recommendations]);
 
   const { company, links } = navigation;

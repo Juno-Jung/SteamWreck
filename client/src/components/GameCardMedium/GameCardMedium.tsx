@@ -1,4 +1,4 @@
-import React, { FunctionComponent , useState} from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecommendationReason from './../RecommendationReason'
 import GameTags from '../GameTags'
@@ -9,7 +9,7 @@ import { useSpring, animated as a, interpolate } from "react-spring";
 import GameRating from '../GameRating';
 
 import './GameCardMedium.scss'
-import Game from '../../Game'
+import Game from '../../../types/Game'
 
 interface Props {
   recGame: Game;
@@ -33,18 +33,18 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
   return (
     <div>
       <Link to={linkContent}><h1 className="nameMedium text--hover">{props.recGame.name} </h1></Link>
-      <div className ="allDetailsMedium">
+      <div className="allDetailsMedium">
         <div className="mainDetailsMedium">
-        <a.img
-              src={props.recGame.background_image}
-              class="gameImg"
-              style={{
-                opacity: 1,
-                transform: transform,
-              }}
-            />
+          <a.img
+            src={props.recGame.background_image}
+            class="gameImg"
+            style={{
+              opacity: 1,
+              transform: transform,
+            }}
+          />
 
-                <div onClick={() => set((state) => !state)}>
+          <div onClick={() => set((state) => !state)}>
             <a.div>
               <FavouritePicker
                 recGame={props.recGame}
@@ -54,11 +54,11 @@ const GameCardMedium: FunctionComponent<Props> = (props) => {
           </div>
         </div>
 
-        <div className ="subDetailsMedium">
-          <GameRating game={props.recGame}/>
-          <RecommendationReason reasoning={props.recGame.rating_reason}/>
-          <GameDescription recGame={props.recGame}/>
-          <GameTags tags={props.recGame.tags}/>
+        <div className="subDetailsMedium">
+          <GameRating game={props.recGame} />
+          <RecommendationReason reasoning={props.recGame.rating_reason} />
+          <GameDescription recGame={props.recGame} />
+          <GameTags tags={props.recGame.tags} />
         </div>
       </div>
 

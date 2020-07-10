@@ -1,4 +1,4 @@
-interface Game {
+interface Recommendation {
   appid: number;
   name: string;
   description: string;
@@ -12,12 +12,13 @@ interface Game {
   isFav: boolean;
   metacritic_url: string;
   screenshots: [{
-    _id : string,
-    id : string,
-    path_thumbnail : string,
-    path_full : string,
+    _id: string,
+    id: string,
+    path_thumbnail: string,
+    path_full: string,
   }];
   dateAdded: Date;
+
 };
 
-export default Game;
+export default Recommendation;

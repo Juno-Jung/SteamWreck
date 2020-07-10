@@ -1,5 +1,5 @@
-import React, { FunctionComponent  } from 'react';
-import Recommendation from '../../Recommendation';
+import React, { FunctionComponent } from 'react';
+import Recommendation from '../../../types/Recommendation';
 import addToFavsImg from '../../images/btn-add.svg';
 import removeFromFavsImg from '../../images/btn-added.svg';
 import './FavouritePicker.scss'
@@ -11,7 +11,7 @@ interface Props {
 
 const FavouritePicker: FunctionComponent<Props> = (props) => {
   const selectorImageToUse =
-  (props.recGame.isFav) ? removeFromFavsImg : addToFavsImg;
+    (props.recGame.isFav) ? removeFromFavsImg : addToFavsImg;
 
   return (
 
@@ -19,9 +19,9 @@ const FavouritePicker: FunctionComponent<Props> = (props) => {
       <div className="favouritePicker__label">Add to favorites:</div>
       <img
         src={selectorImageToUse}
-        onClick={() => {props.addRemoveFav(props.recGame)}}
+        onClick={() => { props.addRemoveFav(props.recGame) }}
         className='favouritePicker__favIcon'
-        alt={'game-favourite-pick-toggle'}/>
+        alt={'game-favourite-pick-toggle'} />
     </div>
   )
 };

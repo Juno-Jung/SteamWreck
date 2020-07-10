@@ -9,7 +9,7 @@ import GameRating from '../GameRating';
 import { Link } from 'react-router-dom';
 
 import "./GameCardLarge.scss";
-import Game from "../../Game";
+import Game from "../../../types/Game";
 import { Z_FIXED } from "zlib";
 
 interface Props {
@@ -37,16 +37,16 @@ const GameCardLarge: FunctionComponent<Props> = (props) => {
       </Link>
       <div className="allDetailsLarge">
         <div className="mainDetailsLarge">
-            <a.img
-              src={props.recGame.background_image}
-              class="gameImg"
-              style={{
-                opacity: 1,
-                transform: transform,
-              }}
-            />
+          <a.img
+            src={props.recGame.background_image}
+            class="gameImg"
+            style={{
+              opacity: 1,
+              transform: transform,
+            }}
+          />
 
-                <div onClick={() => set((state) => !state)}>
+          <div onClick={() => set((state) => !state)}>
             <a.div>
               <FavouritePicker
                 recGame={props.recGame}

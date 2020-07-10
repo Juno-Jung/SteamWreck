@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import Game from '../../Game';
+import Game from '../../../types/Game';
 
 interface Props {
   game: Game;
@@ -10,7 +10,7 @@ const GameRating: FunctionComponent<Props> = (props) => {
     <>
       <div className="rating">Rating: <span className="ratingNumber">{`${(
         100 * props.game.rating
-        ).toFixed(0)} / 100`}</span></div>
+      ).toFixed(0)} / 100`}</span></div>
     </>
   )
 };

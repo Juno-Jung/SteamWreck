@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import Game from '../../Game'
+import Game from '../../../types/Game'
 const htmlToText = require("html-to-text");
 
 interface Props {

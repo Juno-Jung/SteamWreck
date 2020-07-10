@@ -1,8 +1,8 @@
 
-import React, { FunctionComponent  } from 'react';
+import React, { FunctionComponent } from 'react';
 import GameCardLarge from '../GameCardLarge/GameCardLarge';
 import GameCardMedium from '../GameCardMedium/GameCardMedium';
-import Recommendation from './../../Recommendation';
+import Recommendation from './../../../types/Recommendation';
 import './RecommendationList.scss';
 
 // Use an Interface (named Props) to define the props this component will take.
@@ -24,7 +24,7 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
         <div className="container">
           <div className="center">
             <img src="https://workbench.tv/content/tutorials/2016-10-21_RingOfFire/assets/RingOfFire.gif"
-                 title="LoadingData" alt="Spinner" />
+              title="LoadingData" alt="Spinner" />
           </div>
         </div>
         :
@@ -34,24 +34,24 @@ const RecommendationList: FunctionComponent<Props> = (props) => {
               Our Best Wreck
             </div>
             <div className="cardLarge">
-              <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav}/>
+              <GameCardLarge recGame={firstRecGame} addRemoveFav={props.addRemoveFav} />
             </div>
           </div>
-          <br/>
-          <br/>
-          <br/>
+          <br />
+          <br />
+          <br />
           <div>
             <div className="otherWrecks">
               Other Good (enough) Wrecks
             </div>
             <div className="cardMedium">
-              {allOtherRecGames.map( (game) => {
-                return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav}/>
+              {allOtherRecGames.map((game) => {
+                return <GameCardMedium recGame={game} addRemoveFav={props.addRemoveFav} />
               })}
             </div>
           </div>
-          <br/>
-          <br/>
+          <br />
+          <br />
         </>
       }
     </div>
