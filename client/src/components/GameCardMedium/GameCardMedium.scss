@@ -32,15 +32,25 @@ h1.nameMedium {
     }
 
     .gameImg {
-      height: 200px; /* FIX ME : make this maintain ratio */
+      max-width:400px;
       border-radius: 8%;
     }
   }
 
   .subDetailsMedium {
-
+    .description::-webkit-scrollbar-thumb {
+      background-color: $primaryColor;
+      border-radius: 20px;
+      border: 2px solid $secondaryColor;
+    }
+    .description::-webkit-scrollbar-track {
+      background: $secondaryColor;
+      border-radius:2em;
+    }
+    .description::-webkit-scrollbar {
+      width: 12px;
+    }
     .description {
-
       padding: 15px;
       font-family: $fontPlexSans;
       height: 80px;

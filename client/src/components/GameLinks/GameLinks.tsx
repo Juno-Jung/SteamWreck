@@ -15,15 +15,16 @@ const GameLinks: FunctionComponent<Props> = (props) => {
   return (
 
     <div className="gamelinks">
+        <div className="gamelinks__label">Links</div>
         <a href={props.game.metacritic_url} target="_blank">
           <div className="gamelinks__metacriticlink">
-            <h3>Metacritic Review</h3>
+            <div>Metacritic</div>
             <img className="gamelinks__metacriticlink__img" src={metacriticLogo} alt=""/>
           </div>
         </a>
         <a href={steamGameLink} target="_blank">
           <div className="gamelinks__steamlink">
-            <h3>Game on Steam</h3>
+            <div>Steam</div>
             <img className="gamelinks__steamlink__img" src={steamLogo} alt=""/>
           </div>
         </a>

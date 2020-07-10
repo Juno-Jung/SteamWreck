@@ -18,6 +18,7 @@ interface Recommendation {
     path_full : string,
   }];
   dateAdded: Date;
+
 };
 
 export default Recommendation;

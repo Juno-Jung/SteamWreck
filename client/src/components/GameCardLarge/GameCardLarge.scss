@@ -12,12 +12,14 @@ h1.nameLarge {
 }
 
 .allDetailsLarge {
+  
   display: flex;
   margin-left: 15px;
   margin-right: 15px;
   flex-direction: row;
 
   .mainDetailsLarge {
+    
     width: 60%;
     font-family: $fontOrbiton;
     display: flex;
@@ -34,18 +36,31 @@ h1.nameLarge {
   }
 
   .gameImg {
+    z-index:1;
     height: 500px; /* FIX ME : make this maintain ratio */
     border-radius: 2%;
     cursor: pointer;
   }
 
   .subDetailsLarge {
-
+    .description::-webkit-scrollbar-thumb {
+      background-color: $primaryColor;
+      border-radius: 20px;
+      border: 3px solid $secondaryColor;
+    }
+    .description::-webkit-scrollbar-track {
+      background: $secondaryColor;
+      border-radius:2em;
+    }
+    .description::-webkit-scrollbar {
+      width: 12px;
+    }
     .description {
+
       padding: 15px;
       font-family: $fontPlexSans;
       height: 310px;
-      overflow: scroll;
+      overflow-y: scroll;
     }
 
     .rating, .reason, .purchased {
@@ -73,6 +88,7 @@ h1.nameLarge {
 
 /* Make the image responsive */
 .mainDetailsLarge img {
+  z-index:0;
   //width: 100%;
   height: auto;
 }
