@@ -26,7 +26,7 @@ Express\
 Mocha\
 Chai\
 MongoDB\
-Mongoose
+Mongoose\
 Steam API\
 Rawg API
 
