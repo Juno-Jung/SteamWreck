@@ -2,9 +2,9 @@
 
 Create an application that will authenticate a Steam user, and respond with features based on their user data. These features include recommendations on what game they should play next, what they should buy, what games to avoid, etc. There will also be a list/graph/chart of generic recommendations and reviews on the front page. The application will be responsive for all devices.
 
-![SteamWreck Home Page](/assets/StreamWreck-Front.png?raw=true "Optional Title")
-![SteamWreck Favourites](/assets/StreamWreck-Fave.png?raw=true "Optional Title")
-![SteamWreck Game Details](/assets/StreamWreck-Details.png?raw=true "Optional Title")
+![SteamWreck Home Page](/assets/SteamWreck-Front.png?raw=true "SteamWreck Home Page")
+![SteamWreck Favourites](/assets/SteamWreck-Fave.png?raw=true "SteamWreck Favourites")
+![SteamWreck Game Details](/assets/SteamWreck-Details.png?raw=true "SteamWreck Game Details")
 
 ## Tech Stack
 
