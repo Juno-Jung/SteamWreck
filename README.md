@@ -1,6 +1,8 @@
 # SteamWreck
 
-Create an application that will authenticate a Steam user, and respond with features based on their user data. These features include recommendations on what game they should play next, what they should buy, what games to avoid, etc. There will also be a list/graph/chart of generic recommendations and reviews on the front page. The application will be responsive for all devices.
+SteamWreck is an application that uses the public profile data of a Steam user and responds with game recommendations from their unplayed games. Other features include additional details on the games themselves, as well as links to their associated Steam page, Metacritic page and Discord should they be provided. The recommendation is determined by an algorithm that relies on information about the tags, genres and metacritic score of a game, as well as how many friends also have the game if it is multiplayer. We hope that you enjoy your wreckomendations!
+
+Created by: Ali Gazitepe, Juno Jung, Lena Deorditsa, Pat Rivet.
 
 ![SteamWreck Home Page](/assets/SteamWreck-Front.png?raw=true "SteamWreck Home Page")
 ![SteamWreck Favourites](/assets/SteamWreck-Fave.png?raw=true "SteamWreck Favourites")
