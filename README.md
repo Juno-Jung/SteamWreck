@@ -4,6 +4,8 @@ SteamWreck is an application that uses the public profile data of a Steam user a
 
 Created by: Ali Gazitepe, Juno Jung, Lena Deorditsa, Pat Rivet.
 
+## Screenshots
+
 ![SteamWreck Home Page](/assets/SteamWreck-Front.png?raw=true "SteamWreck Home Page")
 ![SteamWreck Favourites](/assets/SteamWreck-Fave.png?raw=true "SteamWreck Favourites")
 ![SteamWreck Game Details](/assets/SteamWreck-Details.png?raw=true "SteamWreck Game Details")
