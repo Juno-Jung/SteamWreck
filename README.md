@@ -6,6 +6,7 @@ Created by: Ali Gazitepe, Juno Jung, Lena Deorditsa, Pat Rivet.
 
 ## Screenshots
 
+![SteamWreck Logo](/assets/SteamWreck.png?raw=true "SteamWreck Logo")
 ![SteamWreck Home Page](/assets/SteamWreck-Front.png?raw=true "SteamWreck Home Page")
 ![SteamWreck Favourites](/assets/SteamWreck-Fave.png?raw=true "SteamWreck Favourites")
 ![SteamWreck Game Details](/assets/SteamWreck-Details.png?raw=true "SteamWreck Game Details")
