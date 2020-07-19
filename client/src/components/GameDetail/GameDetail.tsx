@@ -4,6 +4,7 @@ import Game from '../../../types/Game';
 import './GameDetail.scss'
 import GameLinks from '../GameLinks';
 import GameTags from '../GameTags';
+import ReactHtmlParser from 'react-html-parser';
 
 interface Props {
   location: any // not sure what type this is??
@@ -17,7 +18,6 @@ const GameDetail: FunctionComponent<any> = (props) => {
     return { ...srnShot, image: srnShot.path_full }
   });
 
-  const htmlDesc = { __html: game.description_steam };
 
   return (
     <div className="gameDetail">
@@ -36,8 +36,7 @@ const GameDetail: FunctionComponent<any> = (props) => {
 
       <div className="gameDetail__description">
         <div className="gameDetail__description__title">Description</div>
-        <div className="gameDetail__longDescription" dangerouslySetInnerHTML={htmlDesc}></div>
-
+        <div className="gameDetail__longDescription"> { ReactHtmlParser(game.description_steam) }</div>
       </div>
 
     </div>
