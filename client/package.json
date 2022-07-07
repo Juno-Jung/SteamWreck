@@ -16,7 +16,7 @@
     "gallereact": "^1.1.2",
     "html-to-formatted-text": "^2.7.0",
     "html-to-text": "^5.1.1",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
